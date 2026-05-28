@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Electrical Machine CBT Mock Test</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#eef2f7;
+color:#222;
+}
+
+/* START SCREEN FIXED */
+
+#startScreen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100vh;
+overflow-y:auto;
+padding:15px;
+background:#eef2f7;
+display:flex;
+justify-content:center;
+align-items:flex-start;
+z-index:5000;
+}
+
+header{
+background:#0f172a;
+color:#fff;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.container{
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:260px;
+background:#fff;
+padding:15px;
+overflow-y:auto;
+border-right:1px solid #ccc;
+}
+
+.palette{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+}
+
+.palette button{
+padding:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#d1d5db;
+font-weight:bold;
+}
+
+.palette .attempted{
+background:#22c55e;
+color:#fff;
+}
+
+.palette .current{
+background:#2563eb;
+color:#fff;
+}
+
+.main{
+flex:1;
+padding:20px;
+}
+
+.question-box{
+background:#fff;
+padding:20px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.option{
+padding:14px;
+border:1px solid #ccc;
+border-radius:10px;
+margin-top:12px;
+cursor:pointer;
+transition:.2s;
+font-size:15px;
+}
+
+.option:hover{
+background:#f1f5f9;
+}
+
+.controls{
+margin-top:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.controls button{
+padding:12px 18px;
+border:none;
+border-radius:10px;
+background:#0f172a;
+color:#fff;
+cursor:pointer;
+font-size:15px;
+}
+
+.progress{
+margin-top:15px;
+height:10px;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:#22c55e;
+}
+
+.result-card{
+background:#fff;
+padding:25px;
+border-radius:12px;
+margin-top:20px;
+}
+
+.correct{
+background:#bbf7d0 !important;
+}
+
+.wrong{
+background:#fecaca !important;
+}
+
+.fraction{
+display:inline-block;
+vertical-align:middle;
+text-align:center;
+line-height:1.2;
+}
+
+.fraction .top{
+display:block;
+border-bottom:2px solid #000;
+padding:0 4px;
+}
+
+.fraction .bottom{
+display:block;
+padding:0 4px;
+}
+
+.start-box{
+background:white;
+padding:20px;
+border-radius:15px;
+width:90%;
+max-width:420px;
+box-shadow:0 4px 15px rgba(0,0,0,.2);
+text-align:center;
+margin-bottom:30px;
+}
+
+.info-box{
+text-align:left;
+background:#f8fafc;
+padding:15px;
+border-radius:10px;
+margin-bottom:20px;
+font-size:15px;
+line-height:1.5;
+}
+
+.instructions{
+text-align:left;
+background:#fff7ed;
+padding:15px;
+border-radius:10px;
+margin-bottom:20px;
+font-size:14px;
+line-height:1.5;
+border:1px solid #fdba74;
+}
+
+.start-input{
+width:100%;
+padding:12px;
+font-size:20px;
+font-weight:bold;
+border:1px solid #ccc;
+border-radius:8px;
+}
+
+.start-btn{
+width:100%;
+padding:14px;
+background:#0f172a;
+color:white;
+border:none;
+border-radius:10px;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+}
+
+@media(max-width:768px){
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+border-right:none;
+border-bottom:1px solid #ccc;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h2>General Concepts of Rotating Electrical Machine : Part - 2</h2>
+
+<div>
+⏳ <span id="timer">00:00:00</span>
+</div>
+
+</header>
+
+<!-- START SCREEN -->
+
+<div id="startScreen">
+
+<div class="start-box">
+
+<h2 style="margin-bottom:15px;">
+General Concepts of Rotating Electrical Machine : Part - 2
+</h2>
+
+<div style="font-size:80px;">👨‍🎓</div>
+
+<div class="info-box">
+<p>📘 <b>Total Questions :</b> <span id="startTotalQ"></span></p>
+
+<p>⏱ <b>Test Duration :</b> 30 minutes </p>
+
+<p>🎯 <b>Total Marks :</b> 100 Marks</p>
+
+<p>✅ <b>Marks Per Question :</b> 1 Mark</p>
+
+<p>❌ <b>Negative Marking :</b> No</p>
+
+<p>📚 <b>Subject :</b> Electrical Machine - I</p>
+
+<p>📖 <b>Topic :</b> General Concepts of Rotating Electrical Machine : Part - 1</p>
+
+<p>🔢 <b>Question Range :</b> 101 to 181</p>
+
+<p>📝 <b>Exam Type :</b> PYQ Youth Publication</p>
+
+<p>💻 <b>Mode :</b> Online CBT Examination</p>
+</div>
+
+<div class="instructions">
+
+<h3 style="margin-bottom:10px;">
+📌 Instructions
+</h3>
+
+<ul style="padding-left:20px;">
+
+<li>Each question carries 1 mark.</li>
+
+<li>No negative marking.</li>
+
+<li>Click Submit Test before timer ends.</li>
+
+<li>Questions can be changed anytime.</li>
+
+<li>Green palette indicates attempted questions.</li>
+
+<li>Test auto submits after timer completion.</li>
+
+</ul>
+
+</div>
+
+<label><b>Select Hours</b></label>
+
+<br><br>
+
+<input
+type="number"
+id="hourInput"
+min="0"
+max="10"
+value="0"
+class="start-input">
+
+<br><br>
+
+<label><b>Select Minutes</b></label>
+
+<br><br>
+
+<input
+type="number"
+id="minuteInput"
+min="0"
+max="59"
+value="30"
+class="start-input">
+
+<br><br>
+
+<button onclick="startTest()" class="start-btn">
+
+Start Test
+
+</button>
+
+</div>
+
+</div>
+
+<div class="container">
+
+<div class="sidebar">
+
+<h3>Question Palette</h3>
+
+<br>
+
+<div class="palette" id="palette"></div>
+
+<br>
+
+<p><b>Attempted:</b> <span id="attempted">0</span></p>
+
+<p><b>Total:</b> <span id="totalQuestions"></span></p>
+
+<div class="progress">
+
+<div class="progress-bar" id="progressBar"></div>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="question-box" id="questionBox"></div>
+
+<div class="controls">
+
+<button onclick="prevQ()">Previous</button>
+
+<button onclick="nextQ()">Next</button>
+
+<button onclick="clearAns()">Clear</button>
+
+<button onclick="clearAllAnswers()">Clear All</button>
+
+<button onclick="confirmSubmit()">Submit Test</button>
+
+</div>
+
+<div id="result"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+num:101,
+question:"Inter–poles are used in ..........",
+options:{
+A:"Lap wound machines",
+B:"Wave wound machines",
+C:"Both lap and wave wound machines",
+D:"None of these"
+},
+answer:"C"
+},
+
+{
+num:102,
+question:"For the production of induced e.m.f field system of an electric machine ................",
+options:{
+A:"Must be on stator",
+B:"May be on stator or rotor",
+C:"Must be on rotor",
+D:"None of these"
+},
+answer:"B"
+},
+
+{
+num:103,
+question:"The number of conductors of the compensating winding in a D.C. machine",
+options:{
+A:"Is always more than the number of armature conductors per pole",
+B:"Is always less than the number of armature conductors per pole",
+C:"May be less or more than the number of armature conductors per pole",
+D:"None of these"
+},
+answer:"B"
+},
+
+{
+num:104,
+question:"In a D.C. machine, how are the commutating pole winding connected?",
+options:{
+A:"In series with the shunt winding",
+B:"Parallel to the shunt winding",
+C:"In series with the armature winding",
+D:"Parallel to the armature winding"
+},
+answer:"C"
+},
+
+{
+num:105,
+question:"In electromechanical energy conversion devices (e.g. generators and motors), a small air gap is left between the stator and rotor in order to .......",
+options:{
+A:"Reduce the reluctance of the magnetic path",
+B:"Increase flux density in the air gap",
+C:"Permit mechanical clearance",
+D:"Avoid saturation of field"
+},
+answer:"C"
+},
+
+{
+num:106,
+question:"Magnitude of E.M.F. induced in a circuit is directly proportional to",
+options:{
+A:"the magnetic flux",
+B:"the size of the flux",
+C:"rate of change of flux",
+D:"None of the above"
+},
+answer:"C"
+},
+
+{
+num:107,
+question:"What is the condition of retrogressive winding in dc machines?",
+options:{
+A:"Y<sub>B</sub> > Y<sub>F</sub>",
+B:"Y<sub>B</sub> < Y<sub>F</sub>",
+C:"Y<sub>B</sub> = Y<sub>F</sub>",
+D:"Y<sub>B</sub> + Y<sub>F</sub> = 0"
+},
+answer:"B"
+},
+
+{
+num:108,
+question:"The emf generated in dc generator depends upon............",
+options:{
+A:"Brush contact drop",
+B:"Number of parallel path",
+C:"Terminal voltage",
+D:"Commutation"
+},
+answer:"B"
+},
+
+{
+num:109,
+question:"Which part of the electrical machine provided mechanical support to the poles and path for magnetic flux?",
+options:{
+A:"Armature conductor",
+B:"Brushes",
+C:"Field winding",
+D:"Yoke"
+},
+answer:"D"
+},
+
+{
+num:110,
+question:"Armature coil of a DC machine is usually made up of :",
+options:{
+A:"mica",
+B:"copper",
+C:"brass",
+D:"graphite"
+},
+answer:"B"
+},
+
+{
+num:111,
+question:"The generator which gives DC supply to the rotor is called :",
+options:{
+A:"Converter",
+B:"Exciter",
+C:"Inverter",
+D:"Rectifier"
+},
+answer:"B"
+},
+
+{
+num:112,
+question:"Frequency of electromotive force, generated by generator depend upon",
+options:{
+A:"Motion",
+B:"Number of poles",
+C:"(a) and (b) both",
+D:"None of the above"
+},
+answer:"C"
+},
+
+{
+num:113,
+question:"In starting DC generator provides-",
+options:{
+A:"A.C.",
+B:"D.C.",
+C:"(A.C.) and (D.C.) both",
+D:"None"
+},
+answer:"A"
+},
+ 
+{
+num:114,
+question:"The yoke of small DC machine is made up of–",
+options:{
+A:"Cast iron",
+B:"Aluminium",
+C:"Stainless steel",
+D:"Copper"
+},
+answer:"A"
+},
+
+{
+num:115,
+question:"The field of self-excited generator is excited by–",
+options:{
+A:"AC",
+B:"DC",
+C:"By its own current",
+D:"Either AC or DC"
+},
+answer:"C"
+},
+
+{
+num:116,
+question:"Fleming's right hand rule is used for the determination of direction of :",
+options:{
+A:"Force acting on a current carrying conductor kept in a magnetic field",
+B:"Motion of a current carrying conductor kept in an electric field",
+C:"Current induced in a conductor due to its motion in a magnetic field",
+D:"Deflection of a charged particle moving in a magnetic field"
+},
+answer:"C"
+},
+
+{
+num:117,
+question:"In a DC machine, each conductor lies at ________ to the magnetic flux and in the direction of its movement.",
+options:{
+A:"180°",
+B:"120°",
+C:"0°",
+D:"90°"
+},
+answer:"D"
+},
+
+{
+num:118,
+question:"The best way to produce reversing voltage to neutralise the reactance voltage is by using:",
+options:{
+A:"compensating winding",
+B:"carbon brushes",
+C:"equaliser rings",
+D:"interpoles"
+},
+answer:"D"
+},
+
+{
+num:119,
+question:"The reversal of current in a coil as the coil passes the brush axis is called:",
+options:{
+A:"generator action",
+B:"motoring action",
+C:"armature reaction",
+D:"commutation"
+},
+answer:"D"
+},
+
+{
+num:120,
+question:"______ is a hetero-polar structure with stationary poles and a rotating armature.",
+options:{
+A:"A three-phase synchronous motor",
+B:"A single-phase induction motor",
+C:"A three-phase induction motor",
+D:"A DC machine"
+},
+answer:"D"
+},
+
+{
+num:121,
+question:"The commutator segments are connected to the armature conductors by means of",
+options:{
+A:"Copper lugs",
+B:"Resistance wires",
+C:"Insulation pads",
+D:"Brazing"
+},
+answer:"A"
+},
+
+{
+num:122,
+question:"In DC generator, pole shoes are fastened to pole core by :",
+options:{
+A:"Rivet",
+B:"Brazing",
+C:"Welding",
+D:"Counter sunk screws"
+},
+answer:"D"
+},
+
+{
+num:123,
+question:"In DC generators, current to the external circuit from the armature is given through :",
+options:{
+A:"Commutator",
+B:"Slip rings",
+C:"Solid connection",
+D:"Yoke"
+},
+answer:"A"
+},
+
+{
+num:124,
+question:"The armature winding of a D.C. machine is made up of a number of coils distributed in a large number of armature slots instead of placing all the coils in two slots to",
+options:{
+A:"Get sinusoidal emf at the output terminals",
+B:"Have minimum heat dissipation from the armature",
+C:"Make the armature dynamically balanced",
+D:"Get the maximum generated emf in the armature"
+},
+answer:"C"
+},
+
+{
+num:125,
+question:"A 6-pole, wave-wound armature has 600 conductor and is driven at 700 rpm. Determine the generated EMF in the armature if the flux per pole is 10 mWb.",
+options:{
+A:"230 V",
+B:"420 V",
+C:"210 V",
+D:"500 V"
+},
+answer:"C"
+},
+
+{
+num:126,
+question:"Consider the following figure for a 4-pole, 3-phase, 24-slots double layer winding. Find the pole pitch and the slot pitch angle.",
+options:{
+A:"4 and 40 electrical degrees",
+B:"5 and 50 electrical degrees",
+C:"6 and 30 electrical degrees",
+D:"6 and 60 electrical degrees"
+},
+answer:"C"
+},
+
+{
+num:127,
+question:"In armature winding, the distance between the segments to which the ends of coils are connected is?",
+options:{
+A:"commutator pitch",
+B:"resultant pitch",
+C:"back pitch",
+D:"front pitch"
+},
+answer:"A"
+},
+
+{
+num:128,
+question:"The armature of a DC machine is placed on the rotor to ________ .",
+options:{
+A:"Reduce losses",
+B:"Save iron",
+C:"Support commutation",
+D:"Decrease armature reaction"
+},
+answer:"C"
+},
+
+{
+num:129,
+question:"In a 6-pole DC machine, 90 mechanical degrees corresponds to how many electrical degrees?",
+options:{
+A:"270",
+B:"180",
+C:"30",
+D:"45"
+},
+answer:"A"
+},
+
+{
+num:130,
+question:"When a single turn coil rotates in a uniform magnetic field, at uniform speed, the induced emf will be?",
+options:{
+A:"Alternating",
+B:"Steady",
+C:"Pulsating",
+D:"None of these"
+},
+answer:"A"
+},
+
+{
+num:131,
+question:"The brushes in d.c. machines are made of carbon",
+options:{
+A:"to reduce the size of brushes",
+B:"to reduce the wear and tear of commutator",
+C:"to increase the efficiency of the commutator",
+D:"None of these"
+},
+answer:"B"
+},
+  
+{
+num:139,
+question:`An elementary cylindrical machine has one full-pitch coil in the stator, but the rotor may have (i) two poles or (ii) four poles of permanent magnets. The time-varying voltage that could be induced in the stator coil for one rotation of the rotor, which the rotor is revolving at a constant speed are shown in the figures A, B, C and D below:<br><br>
+
+<div style="text-align:center;">
+<img 
+src="https://drive.google.com/uc?export=view&id=1pYZpvGEDDRjCKpgicW3IVqkfQkDiytBK"
+style="
+width:100%;
+max-width:500px;
+border:1px solid #ccc;
+border-radius:8px;
+padding:5px;
+background:white;
+">
+</div>
+
+<br>
+
+Select the correct combination from the code given below:`,
+
+options:{
+A:"2-Pole → A , 4-Pole → D",
+B:"2-Pole → A , 4-Pole → B",
+C:"2-Pole → C , 4-Pole → D",
+D:"2-Pole → B , 4-Pole → C"
+},
+
+answer:"B"
+}
+];
+
+let current=0;
+
+let total=0;
+
+let timerStarted=false;
+
+let answers=JSON.parse(localStorage.getItem("cbtAnswers") || "{}");
+
+document.getElementById("totalQuestions").innerText =
+questions.length;
+
+document.getElementById("startTotalQ").innerText =
+questions.length;
+
+function renderPalette(){
+
+let html="";
+
+questions.forEach((q,i)=>{
+
+html += `
+<button
+class="${answers[q.num]?'attempted':''}
+${i===current?'current':''}"
+onclick="goQ(${i})">
+
+${q.num}
+
+</button>
+`;
+
+});
+
+document.getElementById("palette").innerHTML = html;
+
+document.getElementById("attempted").innerText =
+Object.keys(answers).length;
+
+document.getElementById("progressBar").style.width =
+((Object.keys(answers).length/questions.length)*100)+"%";
+
+}
+
+function renderQuestion(){
+
+let q = questions[current];
+
+let html = `
+<h3 style="font-size:16px;line-height:1.3;font-weight:600;">
+Q${q.num}. ${q.question}
+</h3>
+`;
+
+for(let key in q.options){
+
+html += `
+
+<div class="option">
+
+<label style="display:flex;align-items:center;gap:10px">
+
+<input
+type="radio"
+name="q${q.num}"
+value="${key}"
+
+${answers[q.num]===key?'checked':''}
+
+onchange="saveAns(${q.num},'${key}')">
+
+<div>
+
+<b>${key}.</b>
+
+${q.options[key]}
+
+</div>
+
+</label>
+
+</div>
+
+`;
+
+}
+
+document.getElementById("questionBox").innerHTML = html;
+
+renderPalette();
+
+}
+
+function saveAns(q,a){
+
+answers[q]=a;
+
+localStorage.setItem(
+"cbtAnswers",
+JSON.stringify(answers)
+);
+
+renderPalette();
+
+}
+
+function goQ(i){
+
+current=i;
+
+renderQuestion();
+
+}
+
+function nextQ(){
+
+if(current<questions.length-1){
+
+current++;
+
+}
+
+renderQuestion();
+
+}
+
+function prevQ(){
+
+if(current>0){
+
+current--;
+
+}
+
+renderQuestion();
+
+}
+
+function clearAns(){
+
+delete answers[questions[current].num];
+
+localStorage.setItem(
+"cbtAnswers",
+JSON.stringify(answers)
+);
+
+renderQuestion();
+
+}
+function clearAllAnswers(){
+
+let confirmClear =
+confirm("Are you sure you want to clear all attempted questions?");
+
+if(confirmClear){
+
+answers = {};
+
+localStorage.removeItem("cbtAnswers");
+
+renderQuestion();
+
+renderPalette();
+
+alert("All answers cleared successfully.");
+
+}
+
+}
+
+function confirmSubmit(){
+
+let confirmTest =
+confirm("Are you sure you want to submit the test?");
+
+if(confirmTest){
+
+submitTest();
+
+}
+
+}
+
+function submitTest(){
+
+let score=0;
+
+let resultHTML="";
+
+questions.forEach(q=>{
+
+let user=answers[q.num] || "Not Attempted";
+
+let correct=user===q.answer;
+
+if(correct){
+
+score++;
+
+}
+
+resultHTML += `
+
+<div style="
+margin-top:20px;
+padding:15px;
+border:1px solid #ddd;
+border-radius:10px;
+">
+
+<p style="font-size:18px">
+
+<b>Q${q.num}.</b>
+
+${q.question}
+
+</p>
+
+<p
+class="${correct?'correct':'wrong'}"
+style="
+padding:10px;
+border-radius:8px;
+margin-top:10px;
+font-size:15px;
+">
+
+<b>Your Answer:</b>
+
+${
+user==="Not Attempted"
+
+? "Not Attempted"
+
+: `${user}: ${q.options[user]}`
+}
+
+</p>
+
+<p style="margin-top:10px;font-size:15px">
+
+<b>Correct Answer:</b>
+
+${q.answer}: ${q.options[q.answer]}
+
+</p>
+
+</div>
+
+`;
+
+});
+
+let percent=
+((score/questions.length)*100).toFixed(2);
+
+resultHTML=`
+
+<div class="result-card">
+
+<h2>🎯 Final Result</h2>
+
+<br>
+
+<p><b>Score:</b> ${score}/${questions.length}</p>
+
+<p><b>Percentage:</b> ${percent}%</p>
+
+<p><b>Attempted:</b> ${Object.keys(answers).length}</p>
+
+<br>
+
+<button onclick="window.print()">
+
+🖨 Print Result
+
+</button>
+
+<hr><br>
+
+${resultHTML}
+
+</div>
+
+`;
+
+document.getElementById("result").innerHTML =
+resultHTML;
+
+}
+
+function startTest(){
+
+let hour =
+parseInt(document.getElementById("hourInput").value) || 0;
+
+let minute =
+parseInt(document.getElementById("minuteInput").value) || 0;
+
+total = (hour * 3600) + (minute * 60);
+
+timerStarted=true;
+
+document.getElementById("startScreen").style.display="none";
+
+}
+
+setInterval(()=>{
+
+if(!timerStarted) return;
+
+if(total > 0){
+
+total--;
+
+let h=Math.floor(total/3600);
+
+let m=Math.floor((total%3600)/60);
+
+let s=total%60;
+
+document.getElementById("timer").innerText =
+
+String(h).padStart(2,'0')
++":"
++
+String(m).padStart(2,'0')
++":"
++
+String(s).padStart(2,'0');
+
+}
+
+else{
+
+submitTest();
+
+timerStarted=false;
+
+}
+
+},1000);
+
+renderQuestion();
+
+</script>
+
+</body>
+</html>
