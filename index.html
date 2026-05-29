@@ -1,8 +1,13 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mock Test Portal</title><style>
+
+<title>Youth Publication PYQ Mock Test Portal</title>
+
+<style>
+
 *{
 margin:0;
 padding:0;
@@ -12,47 +17,59 @@ font-family:Arial,sans-serif;
 
 body{
 background:#0f172a;
-color:white;
-padding:20px;
+color:#fff;
+padding:15px;
 }
+
+/* HEADER */
 
 .header{
 background:#111827;
-padding:20px;
+padding:25px;
 border-radius:20px;
-margin-bottom:20px;
+margin-bottom:25px;
 position:sticky;
-top:0;
+top:10px;
 z-index:100;
+box-shadow:0 10px 25px rgba(0,0,0,.3);
 }
 
 .header h1{
-font-size:40px;
-margin-bottom:10px;
+font-size:34px;
+margin-bottom:8px;
+}
+
+.header p{
+color:#94a3b8;
+margin-bottom:15px;
 }
 
 .search-box{
-padding:12px;
 width:100%;
-max-width:400px;
+padding:14px;
 border:none;
 border-radius:12px;
-margin-top:10px;
 font-size:16px;
+outline:none;
 }
+
+/* GRID */
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+grid-template-columns:
+repeat(auto-fit,minmax(350px,1fr));
 gap:20px;
 }
 
+/* CARD */
+
 .card{
 background:#1e293b;
-padding:20px;
-border-radius:25px;
 border:1px solid #334155;
-transition:0.3s;
+border-radius:25px;
+padding:20px;
+transition:.3s;
 }
 
 .card:hover{
@@ -65,12 +82,14 @@ font-weight:bold;
 margin-bottom:15px;
 }
 
+/* TOPIC */
+
 .topic{
 background:#0f172a;
+border:1px solid #334155;
 padding:15px;
 border-radius:15px;
 margin-bottom:15px;
-border:1px solid #334155;
 }
 
 .topic h3{
@@ -78,19 +97,27 @@ font-size:18px;
 margin-bottom:12px;
 }
 
+/* PART BUTTONS */
+
 .parts{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(90px,1fr));
+grid-template-columns:
+repeat(auto-fit,minmax(90px,1fr));
 gap:10px;
 }
 
 .parts a{
 text-decoration:none;
 text-align:center;
-padding:10px;
+padding:12px;
 border-radius:12px;
 font-weight:bold;
 color:white;
+transition:.3s;
+}
+
+.parts a:hover{
+transform:scale(1.05);
 }
 
 .part1{
@@ -105,129 +132,223 @@ background:#7c3aed;
 background:#db2777;
 }
 
-.stats{
-background:#0f172a;
-padding:15px;
-border-radius:15px;
-margin-top:15px;
-}
-
-.progress{
-width:100%;
-height:10px;
-background:#334155;
-border-radius:20px;
-overflow:hidden;
-margin:10px 0;
-}
-
-.progress-bar{
-width:40%;
-height:100%;
-background:#22c55e;
-}
+/* OPEN SUBJECT BUTTON */
 
 .start-btn{
 display:block;
-width:100%;
-padding:14px;
-text-align:center;
-background:linear-gradient(to right,#06b6d4,#2563eb);
-color:white;
 text-decoration:none;
+text-align:center;
+padding:15px;
+margin-top:10px;
 border-radius:15px;
 font-weight:bold;
-margin-top:15px;
 font-size:18px;
+color:white;
+background:linear-gradient(
+90deg,
+#06b6d4,
+#2563eb
+);
 }
+
+/* FOOTER */
 
 footer{
 text-align:center;
-padding:30px;
 margin-top:30px;
+padding:20px;
 color:#94a3b8;
 }
+
+/* MOBILE */
 
 @media(max-width:600px){
 
 .header h1{
-font-size:28px;
+font-size:24px;
+}
+
+.subject-title{
+font-size:22px;
 }
 
 .parts{
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:
+repeat(2,1fr);
 }
 
 .parts a{
-font-size:15px;
-padding:12px 8px;
+font-size:14px;
 }
 
-                             }
-</style></head><body><div class="header">
+.start-btn{
+font-size:16px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
 <h1>📚 Youth Publication PYQ Mock Test Portal</h1>
-<p>Electrical & Electronics Engineering Mock Tests</p><input type="text" class="search-box" placeholder="Search Subject...">
-</div><div class="grid"><div class="card">
-<div class="subject-title">⚡ Electrical Machine-I</div><div class="topic">
-<h3>General Concepts of Rotating Electrical Machine</h3><div class="parts">
+
+<p>Electrical & Electronics Engineering Mock Tests</p>
+
+<input
+type="text"
+class="search-box"
+id="searchBox"
+placeholder="Search Subject or Topic..."
+>
+
+</div>
+
+<div class="grid" id="subjectGrid">
+
+<!-- Electrical Machine -->
+
+<div class="card">
+
+<div class="subject-title">
+⚡ Electrical Machine-I
+</div>
+
+<div class="topic">
+<h3>General Concepts of Rotating Electrical Machine</h3>
+
+<div class="parts">
 <a href="Electrical Machine-I/general-concept-part1.html" class="part1">Part 1</a>
 <a href="Electrical Machine-I/general-concept-part2.html" class="part2">Part 2</a>
 </div>
+
 </div>
+
 <div class="topic">
-<h3>DC Generator</h3><div class="parts">
+<h3>DC Generator</h3>
+
+<div class="parts">
 <a href="#" class="part1">Part 1</a>
 <a href="#" class="part2">Part 2</a>
 <a href="#" class="part3">Part 3</a>
 </div>
-</div><div class="stats">
-<p>Total Questions : 345+</p>
-<p>Attempted : 120</p><div class="progress">
-<div class="progress-bar"></div>
-</div><a href="general-concept-part1.html" class="start-btn">Start Mock Test</a>
 
 </div>
-</div><div class="card">
-<div class="subject-title">📘 Electronics-I</div><div class="topic">
-<h3>Semiconductor Physics</h3><div class="parts">
-<a href="#" class="part1">Part 1</a>
-<a href="#" class="part2">Part 2</a>
-<a href="#" class="part3">Part 3</a>
-</div>
-</div><div class="topic">
-<h3>Semiconductor Diode</h3><div class="parts">
-<a href="#" class="part1">Part 1</a>
-<a href="#" class="part2">Part 2</a>
-<a href="#" class="part3">Part 3</a>
-</div>
-</div><div class="stats">
-<p>Total Questions : 500+</p>
-<p>Attempted : 200</p><div class="progress">
-<div class="progress-bar"></div>
-</div><a href="#" class="start-btn">Start Mock Test</a>
+
+<a href="Electrical Machine-I/general-concept-part1.html"
+class="start-btn">
+🚀 Open Subject
+</a>
 
 </div>
-</div><div class="card">
-<div class="subject-title">🧠 Electronics-II</div><div class="topic">
-<h3>Logic Gates & Logic Circuits</h3><div class="parts">
+
+<!-- Electronics I -->
+
+<div class="card">
+
+<div class="subject-title">
+📘 Electronics-I
+</div>
+
+<div class="topic">
+<h3>Semiconductor Physics</h3>
+
+<div class="parts">
 <a href="#" class="part1">Part 1</a>
 <a href="#" class="part2">Part 2</a>
 <a href="#" class="part3">Part 3</a>
 </div>
-</div><div class="topic">
-<h3>Sequential Circuits</h3><div class="parts">
-<a href="#" class="part1">Part 1</a>
-<a href="#" class="part2">Part 2</a>
-<a href="#" class="part3">Part 3</a>
-</div>
-</div><div class="stats">
-<p>Total Questions : 400+</p>
-<p>Attempted : 150</p><div class="progress">
-<div class="progress-bar"></div>
-</div><a href="#" class="start-btn">Start Mock Test</a>
 
 </div>
-</div></div><footer>
-© 2026 Mock Test Portal | GitHub Pages Ready
-</footer></body>
+
+<div class="topic">
+<h3>Semiconductor Diode</h3>
+
+<div class="parts">
+<a href="#" class="part1">Part 1</a>
+<a href="#" class="part2">Part 2</a>
+<a href="#" class="part3">Part 3</a>
+</div>
+
+</div>
+
+<a href="#" class="start-btn">
+🚀 Open Subject
+</a>
+
+</div>
+
+<!-- Electronics II -->
+
+<div class="card">
+
+<div class="subject-title">
+🧠 Electronics-II
+</div>
+
+<div class="topic">
+<h3>Logic Gates & Logic Circuits</h3>
+
+<div class="parts">
+<a href="#" class="part1">Part 1</a>
+<a href="#" class="part2">Part 2</a>
+<a href="#" class="part3">Part 3</a>
+</div>
+
+</div>
+
+<div class="topic">
+<h3>Sequential Circuits</h3>
+
+<div class="parts">
+<a href="#" class="part1">Part 1</a>
+<a href="#" class="part2">Part 2</a>
+<a href="#" class="part3">Part 3</a>
+</div>
+
+</div>
+
+<a href="#" class="start-btn">
+🚀 Open Subject
+</a>
+
+</div>
+
+</div>
+
+<footer>
+© 2026 Youth Publication | GitHub Pages Ready
+</footer>
+
+<script>
+
+const searchBox =
+document.getElementById("searchBox");
+
+searchBox.addEventListener("input",()=>{
+
+const value =
+searchBox.value.toLowerCase();
+
+document.querySelectorAll(".card")
+.forEach(card=>{
+
+const text =
+card.innerText.toLowerCase();
+
+card.style.display =
+text.includes(value)
+? "block"
+: "none";
+
+});
+
+});
+
+</script>
+
+</body>
 </html>
