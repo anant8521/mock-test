@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Youth Publication PYQ Mock Test Portal</title>
+<title>Youth Publication PYQ Portal</title>
 
 <style>
 
@@ -19,33 +18,36 @@ body{
 background:#0f172a;
 color:#fff;
 padding:15px;
+transition:.3s;
 }
-
-/* HEADER */
 
 .header{
 background:#111827;
-padding:25px;
+padding:20px;
 border-radius:20px;
-margin-bottom:25px;
-position:sticky;
-top:10px;
-z-index:100;
-box-shadow:0 10px 25px rgba(0,0,0,.3);
+margin-bottom:20px;
+box-shadow:0 8px 25px rgba(0,0,0,.25);
 }
 
 .header h1{
-font-size:34px;
-margin-bottom:8px;
+font-size:28px;
+margin-bottom:5px;
 }
 
 .header p{
 color:#94a3b8;
+font-size:15px;
 margin-bottom:15px;
 }
 
+.search-row{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
 .search-box{
-width:100%;
+flex:1;
 padding:14px;
 border:none;
 border-radius:12px;
@@ -53,97 +55,61 @@ font-size:16px;
 outline:none;
 }
 
-/* GRID */
+.theme-btn{
+width:55px;
+height:50px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-size:22px;
+background:#ffffff;
+}
+
+#subjectCount{
+margin-top:10px;
+color:#94a3b8;
+font-size:14px;
+}
 
 .grid{
 display:grid;
 grid-template-columns:
-repeat(auto-fit,minmax(350px,1fr));
+repeat(auto-fit,minmax(380px,1fr));
 gap:20px;
 }
 
-/* CARD */
-
 .card{
 background:#1e293b;
+padding:22px;
+border-radius:20px;
 border:1px solid #334155;
-border-radius:25px;
-padding:20px;
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-5px);
 }
 
 .subject-title{
-font-size:28px;
+font-size:24px;
 font-weight:bold;
 margin-bottom:15px;
 }
 
-/* TOPIC */
-
-.topic{
-background:#0f172a;
-border:1px solid #334155;
-padding:15px;
-border-radius:15px;
-margin-bottom:15px;
+.topic-item{
+padding:8px 0;
+color:#cbd5e1;
+border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.topic h3{
-font-size:18px;
-margin-bottom:12px;
+.topic-item:last-child{
+border-bottom:none;
 }
 
-/* PART BUTTONS */
-
-.parts{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(90px,1fr));
-gap:10px;
-}
-
-.parts a{
-text-decoration:none;
-text-align:center;
-padding:12px;
-border-radius:12px;
-font-weight:bold;
-color:white;
-transition:.3s;
-}
-
-.parts a:hover{
-transform:scale(1.05);
-}
-
-.part1{
-background:#2563eb;
-}
-
-.part2{
-background:#7c3aed;
-}
-
-.part3{
-background:#db2777;
-}
-
-/* OPEN SUBJECT BUTTON */
-
-.start-btn{
+.open-btn{
 display:block;
-text-decoration:none;
 text-align:center;
-padding:15px;
-margin-top:10px;
-border-radius:15px;
+padding:14px;
+margin-top:15px;
+text-decoration:none;
 font-weight:bold;
-font-size:18px;
 color:white;
+border-radius:12px;
 background:linear-gradient(
 90deg,
 #06b6d4,
@@ -151,18 +117,37 @@ background:linear-gradient(
 );
 }
 
-/* FOOTER */
+/* Light Mode */
 
-footer{
-text-align:center;
-margin-top:30px;
-padding:20px;
-color:#94a3b8;
+body.light{
+background:#f1f5f9;
+color:#111827;
 }
 
-/* MOBILE */
+body.light .header,
+body.light .card{
+background:#ffffff;
+}
 
-@media(max-width:600px){
+body.light .subject-title{
+color:#111827;
+}
+
+body.light .topic-item{
+color:#475569;
+border-bottom:1px solid #e5e7eb;
+}
+
+body.light .header p,
+body.light #subjectCount{
+color:#64748b;
+}
+
+@media(max-width:768px){
+
+.grid{
+grid-template-columns:1fr;
+}
 
 .header h1{
 font-size:24px;
@@ -172,17 +157,8 @@ font-size:24px;
 font-size:22px;
 }
 
-.parts{
-grid-template-columns:
-repeat(2,1fr);
-}
-
-.parts a{
+.topic-item{
 font-size:14px;
-}
-
-.start-btn{
-font-size:16px;
 }
 
 }
@@ -194,157 +170,261 @@ font-size:16px;
 
 <div class="header">
 
-<h1>📚 Youth Publication PYQ Mock Test Portal</h1>
+<h1>📚 Youth Publication PYQ Portal</h1>
 
 <p>Electrical & Electronics Engineering Mock Tests</p>
 
+<div class="search-row">
+
 <input
 type="text"
-class="search-box"
 id="searchBox"
+class="search-box"
 placeholder="Search Subject or Topic..."
 >
 
+<button
+id="themeToggle"
+class="theme-btn">
+🌙
+</button>
+
 </div>
 
-<div class="grid" id="subjectGrid">
+<p id="subjectCount">
+Total Subjects : 11
+</p>
 
-<!-- Electrical Machine -->
+</div>
 
+<!-- SUBJECT CARDS START HERE -->
+
+<!-- Electrical Machine-I -->
 <div class="card">
-
 <div class="subject-title">
 ⚡ Electrical Machine-I
 </div>
 
-<div class="topic">
-<h3>General Concepts of Rotating Electrical Machine</h3>
-
-<div class="parts">
-<a href="Electrical Machine-I/general-concept-part1.html" class="part1">Part 1</a>
-<a href="Electrical Machine-I/general-concept-part2.html" class="part2">Part 2</a>
+<div class="topic-item">
+i. General Concepts of Rotating Electrical Machine
 </div>
 
+<div class="topic-item">
+ii. DC Generator
 </div>
 
-<div class="topic">
-<h3>DC Generator</h3>
-
-<div class="parts">
-<a href="#" class="part1">Part 1</a>
-<a href="#" class="part2">Part 2</a>
-<a href="#" class="part3">Part 3</a>
+<div class="topic-item">
+iii. DC Motor
 </div>
 
+<div class="topic-item">
+iv. Transformer (Single Phase and Three Phase)
 </div>
 
-<a href="Electrical Machine-I/general-concept-part1.html"
-class="start-btn">
-🚀 Open Subject
+<div class="topic-item">
+v. Alternator (Synchronous Generator)
+</div>
+
+<a href="Electrical-Machine-I/index.html"
+class="open-btn">
+📂 Open Subject
 </a>
-
 </div>
-
-<!-- Electronics I -->
+  
+<!-- Electrical Machine-II -->
 
 <div class="card">
+<div class="subject-title">⚡ Electrical Machine-II</div>
 
-<div class="subject-title">
-📘 Electronics-I
-</div>
+<div class="topic-item">i. Three Phase Induction Machine</div>
+<div class="topic-item">ii. AC Single Phase Induction Motor and Special Type of Motor</div>
+<div class="topic-item">iii. Synchronous Motor</div>
 
-<div class="topic">
-<h3>Semiconductor Physics</h3>
-
-<div class="parts">
-<a href="#" class="part1">Part 1</a>
-<a href="#" class="part2">Part 2</a>
-<a href="#" class="part3">Part 3</a>
-</div>
-
-</div>
-
-<div class="topic">
-<h3>Semiconductor Diode</h3>
-
-<div class="parts">
-<a href="#" class="part1">Part 1</a>
-<a href="#" class="part2">Part 2</a>
-<a href="#" class="part3">Part 3</a>
-</div>
-
-</div>
-
-<a href="#" class="start-btn">
-🚀 Open Subject
+<a href="Electrical-Machine-II/index.html" class="open-btn">
+📂 Open Subject
 </a>
-
 </div>
 
-<!-- Electronics II -->
+<!-- Utilization of Electrical Energy -->
 
 <div class="card">
+<div class="subject-title">💡 Utilization of Electrical Energy</div>
 
-<div class="subject-title">
-🧠 Electronics-II
-</div>
+<div class="topic-item">i. Illumination</div>
+<div class="topic-item">ii. Electric Welding</div>
+<div class="topic-item">iii. Electric Heating</div>
+<div class="topic-item">iv. Electro Chemical Processes and Batteries</div>
+<div class="topic-item">v. Economic Consideration of Electrical Power</div>
+<div class="topic-item">vi. Electric Traction and Drives</div>
+<div class="topic-item">vii. Refrigeration and Cooling</div>
 
-<div class="topic">
-<h3>Logic Gates & Logic Circuits</h3>
-
-<div class="parts">
-<a href="#" class="part1">Part 1</a>
-<a href="#" class="part2">Part 2</a>
-<a href="#" class="part3">Part 3</a>
-</div>
-
-</div>
-
-<div class="topic">
-<h3>Sequential Circuits</h3>
-
-<div class="parts">
-<a href="#" class="part1">Part 1</a>
-<a href="#" class="part2">Part 2</a>
-<a href="#" class="part3">Part 3</a>
-</div>
-
-</div>
-
-<a href="#" class="start-btn">
-🚀 Open Subject
+<a href="Utilization-of-Electrical-Energy/index.html" class="open-btn">
+📂 Open Subject
 </a>
-
 </div>
 
+<!-- Electronics-I -->
+
+<div class="card">
+<div class="subject-title">📘 Electronics-I</div>
+
+<div class="topic-item">i. Semiconductor Physics</div>
+<div class="topic-item">ii. Semiconductor Diode</div>
+<div class="topic-item">iii. Bi-Polar Transistor</div>
+<div class="topic-item">iv. Basic Transistor Amplifier</div>
+<div class="topic-item">v. Single-Stage Transistor Amplifier</div>
+<div class="topic-item">vi. Field Effect Transistors (JFET, MOSFET, CMOS)</div>
+<div class="topic-item">vii. Multi-Stage and Power Amplifier</div>
+<div class="topic-item">viii. Feedback in Amplifiers</div>
+<div class="topic-item">ix. Regulated Power Supply</div>
+<div class="topic-item">x. Oscillators, Multivibrator and Timer</div>
+
+<a href="Electronics-I/index.html" class="open-btn">
+📂 Open Subject
+</a>
 </div>
 
-<footer>
-© 2026 Youth Publication | GitHub Pages Ready
-</footer>
+<!-- Electronics-II -->
+
+<div class="card">
+<div class="subject-title">🧠 Electronics-II</div>
+
+<div class="topic-item">i. Number System</div>
+<div class="topic-item">ii. Logic Gate & Logic Circuits</div>
+<div class="topic-item">iii. Combinational Circuits</div>
+<div class="topic-item">iv. Sequential Circuits</div>
+<div class="topic-item">v. A/D and D/A Converters</div>
+<div class="topic-item">vi. Logic Families</div>
+<div class="topic-item">vii. Display Devices</div>
+<div class="topic-item">viii. Microprocessors</div>
+<div class="topic-item">ix. Operational Amplifier</div>
+<div class="topic-item">x. Integrated Circuits</div>
+<div class="topic-item">xi. Communication Engineering</div>
+<div class="topic-item">xii. Modern Methods of Communication</div>
+
+<a href="Electronics-II/index.html" class="open-btn">
+📂 Open Subject
+</a>
+</div>
+
+<!-- Power Electronics & Drives -->
+
+<div class="card">
+<div class="subject-title">🔋 Power Electronics & Drives</div>
+
+<div class="topic-item">i. Power Semiconductor Devices</div>
+<div class="topic-item">ii. Diode Rectifier</div>
+<div class="topic-item">iii. Phase Controlled Rectifier</div>
+<div class="topic-item">iv. Chopper</div>
+<div class="topic-item">v. Inverters and Converter</div>
+<div class="topic-item">vi. Power Semiconductor Drives</div>
+<div class="topic-item">vii. Switched Mode Power Supply (SMPS)</div>
+
+<a href="Power-Electronics-Drives/index.html" class="open-btn">
+📂 Open Subject
+</a>
+</div>
+
+<!-- Control System -->
+
+<div class="card">
+<div class="subject-title">🎛 Control System</div>
+
+<div class="topic-item">i. Mathematical Modeling of Dynamic Linear Continuous System</div>
+<div class="topic-item">ii. Block Diagram & Signal Flow Graph</div>
+<div class="topic-item">iii. Time Response Specification</div>
+<div class="topic-item">iv. Concepts of Stability</div>
+<div class="topic-item">v. Root Locus Technique</div>
+<div class="topic-item">vi. Frequency Response Analysis</div>
+<div class="topic-item">vii. Compensator, Controller and Filter</div>
+<div class="topic-item">viii. State Space Analysis</div>
+<div class="topic-item">ix. Miscellaneous</div>
+
+<a href="Control-System/index.html" class="open-btn">
+📂 Open Subject
+</a>
+</div>
+
+<!-- Engineering Mathematics -->
+
+<div class="card">
+<div class="subject-title">📐 Engineering Mathematics</div>
+
+<div class="topic-item">Engineering Mathematics PYQ</div>
+
+<a href="Engineering-Mathematics/index.html" class="open-btn">
+📂 Open Subject
+</a>
+</div>
+
+<!-- IMED, IMRE and Energy Conservation -->
+
+<div class="card">
+<div class="subject-title">🏭 IMED, IMRE and Energy Conservation</div>
+
+<div class="topic-item">i. Industrial Management & Entrepreneurship Development</div>
+<div class="topic-item">ii. Installation Maintenance & Repair of Electrical Machines and Equipments (IMRE)</div>
+<div class="topic-item">iii. Energy Conservation</div>
+
+<a href="IMED-IMRE-Energy-Conservation/index.html" class="open-btn">
+📂 Open Subject
+</a>
+</div>
+
+<!-- PLC SCADA -->
+
+<div class="card">
+<div class="subject-title">💻 PLC, SCADA, 8051 Microcontroller and Computer</div>
+
+<div class="topic-item">i. Programmable Logic Controller</div>
+<div class="topic-item">ii. Supervisory Control and Data Acquisition (SCADA)</div>
+<div class="topic-item">iii. 8051 Microcontroller</div>
+<div class="topic-item">iv. Computer</div>
+
+<a href="PLC-SCADA-8051-Computer/index.html" class="open-btn">
+📂 Open Subject
+</a>
+</div>
+
+<!-- Application of Computer Software -->
+
+<div class="card">
+<div class="subject-title">🖥 Application of Computer Software in Electrical Engineering</div>
+
+<div class="topic-item">i. Software use in Electrical Engineering</div>
+<div class="topic-item">ii. MATLAB</div>
+<div class="topic-item">iii. Simulink</div>
+<div class="topic-item">iv. AutoCAD</div>
+<div class="topic-item">v. Automation</div>
+
+<a href="Application-of-Computer-Software/index.html" class="open-btn">
+📂 Open Subject
+</a>
+</div>
+
+<!-- Add remaining subject cards here -->
 
 <script>
 
-const searchBox =
-document.getElementById("searchBox");
+const btn =
+document.getElementById("themeToggle");
 
-searchBox.addEventListener("input",()=>{
+if(localStorage.getItem("theme")==="light"){
+document.body.classList.add("light");
+btn.innerHTML="☀️";
+}
 
-const value =
-searchBox.value.toLowerCase();
+btn.addEventListener("click",()=>{
 
-document.querySelectorAll(".card")
-.forEach(card=>{
+document.body.classList.toggle("light");
 
-const text =
-card.innerText.toLowerCase();
-
-card.style.display =
-text.includes(value)
-? "block"
-: "none";
-
-});
+if(document.body.classList.contains("light")){
+localStorage.setItem("theme","light");
+btn.innerHTML="☀️";
+}else{
+localStorage.setItem("theme","dark");
+btn.innerHTML="🌙";
+}
 
 });
 
