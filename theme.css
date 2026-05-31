@@ -1,0 +1,12 @@
+body.light{
+background:#f1f5f9;
+color:#111827;
+}
+body.light .header,
+body.light .card{
+background:#ffffff;
+}
+body.light .topic-title,
+body.light .subject-title{
+color:#111827;
+}
