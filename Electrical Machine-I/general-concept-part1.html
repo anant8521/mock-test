@@ -6,7 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Electrical Machine CBT Mock Test</title>
-
+<link rel="stylesheet" href="../theme.css">
+  
 <style>
 
 *{
@@ -226,6 +227,38 @@ font-size:20px;
 font-weight:bold;
 cursor:pointer;
 }
+body.light{
+background:#f1f5f9;
+color:#111827;
+}
+
+body.light header{
+background:#ffffff;
+color:#111827;
+border-bottom:1px solid #e5e7eb;
+}
+
+body.light .sidebar,
+body.light .question-box,
+body.light .result-card,
+body.light .start-box{
+background:#ffffff;
+color:#111827;
+}
+
+body.light #startScreen{
+background:#f1f5f9;
+}
+
+body.light .info-box{
+background:#f8fafc;
+}
+
+body.light .controls button,
+body.light .start-btn{
+background:#2563eb;
+color:#fff;
+}
 
 @media(max-width:768px){
 
@@ -239,6 +272,39 @@ border-right:none;
 border-bottom:1px solid #ccc;
 }
 
+}
+
+body.light{
+background:#f1f5f9;
+color:#111827;
+}
+
+body.light header{
+background:#ffffff;
+color:#111827;
+border-bottom:1px solid #e5e7eb;
+}
+
+body.light .sidebar,
+body.light .question-box,
+body.light .result-card,
+body.light .start-box{
+background:#ffffff;
+color:#111827;
+}
+
+body.light #startScreen{
+background:#f1f5f9;
+}
+
+body.light .info-box{
+background:#f8fafc;
+}
+
+body.light .controls button,
+body.light .start-btn{
+background:#2563eb;
+color:#fff;
 }
 
 </style>
@@ -272,7 +338,7 @@ General Concepts of Rotating Electrical Machine : Part - 1
 <div class="info-box">
 <p>📘 <b>Total Questions :</b> <span id="startTotalQ"></span></p>
 
-<p>⏱ <b>Test Duration :</b> 2 Hours</p>
+<p>⏱ <b>Test Duration :</b> 1 Hours 30 minutes </p>
 
 <p>🎯 <b>Total Marks :</b> 100 Marks</p>
 
@@ -282,7 +348,7 @@ General Concepts of Rotating Electrical Machine : Part - 1
 
 <p>📚 <b>Subject :</b> Electrical Machine - I</p>
 
-<p>📖 <b>Topic :</b> General Concepts of Rotating Electrical Machine : Part - 1</p>
+<p>📖 <b>Topic :</b> General Concepts of Rotating Electrical Machine</p>
 
 <p>🔢 <b>Question Range :</b> 1 to 100</p>
 
@@ -324,7 +390,7 @@ type="number"
 id="hourInput"
 min="0"
 max="10"
-value="2"
+value="1"
 class="start-input">
 
 <br><br>
@@ -338,7 +404,7 @@ type="number"
 id="minuteInput"
 min="0"
 max="59"
-value="0"
+value="30"
 class="start-input">
 
 <br><br>
@@ -1983,6 +2049,7 @@ timerStarted=false;
 renderQuestion();
 
 </script>
-
+<script src="../theme.js"></script>
+  
 </body>
 </html>
