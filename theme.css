@@ -2,11 +2,35 @@ body.light{
 background:#f1f5f9;
 color:#111827;
 }
+
 body.light .header,
 body.light .card{
 background:#ffffff;
 }
+
 body.light .topic-title,
 body.light .subject-title{
 color:#111827;
+}
+
+body.light .topic-item{
+color:#475569;
+border-bottom:1px solid #e5e7eb;
+}
+
+body.light .header p,
+body.light #subjectCount{
+color:#64748b;
+}
+
+body.light .search-box{
+background:#ffffff;
+color:#111827;
+border:1px solid #d1d5db;
+}
+
+body.light .theme-btn{
+background:#ffffff;
+color:#111827;
+border:1px solid #d1d5db;
 }
