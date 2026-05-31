@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Youth Publication PYQ Portal</title>
+<link rel="stylesheet" href="theme.css">
 
 <style>
 
@@ -17,10 +18,11 @@ font-family:Arial,sans-serif;
 body{
 background:#0f172a;
 color:#fff;
-padding:15px;
+padding:20px;
 transition:.3s;
+line-height:1.6;
 }
-
+  
 .header{
 background:#111827;
 padding:20px;
@@ -75,7 +77,7 @@ font-size:14px;
 display:grid;
 grid-template-columns:
 repeat(auto-fit,minmax(380px,1fr));
-gap:20px;
+gap:25px;
 }
 
 .card{
@@ -83,6 +85,11 @@ background:#1e293b;
 padding:22px;
 border-radius:20px;
 border:1px solid #334155;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-4px);
 }
 
 .subject-title{
@@ -105,7 +112,7 @@ border-bottom:none;
 display:block;
 text-align:center;
 padding:14px;
-margin-top:15px;
+margin-top:18px;
 text-decoration:none;
 font-weight:bold;
 color:white;
@@ -117,36 +124,11 @@ background:linear-gradient(
 );
 }
 
-/* Light Mode */
-
-body.light{
-background:#f1f5f9;
-color:#111827;
-}
-
-body.light .header,
-body.light .card{
-background:#ffffff;
-}
-
-body.light .subject-title{
-color:#111827;
-}
-
-body.light .topic-item{
-color:#475569;
-border-bottom:1px solid #e5e7eb;
-}
-
-body.light .header p,
-body.light #subjectCount{
-color:#64748b;
-}
-
 @media(max-width:768px){
 
 .grid{
 grid-template-columns:1fr;
+gap:20px;
 }
 
 .header h1{
@@ -154,11 +136,26 @@ font-size:24px;
 }
 
 .subject-title{
-font-size:22px;
+font-size:20px;
+line-height:1.4;
 }
 
 .topic-item{
 font-size:14px;
+padding:10px 0;
+}
+
+.search-row{
+flex-direction:column;
+}
+
+.search-box{
+width:100%;
+}
+
+.theme-btn{
+width:100%;
+height:45px;
 }
 
 }
@@ -191,16 +188,15 @@ class="theme-btn">
 
 </div>
 
-<p id="subjectCount">
-Total Subjects : 11
-</p>
+<p id="subjectCount"></p>
 
 </div>
+<div class="grid">
 
 <!-- SUBJECT CARDS START HERE -->
 
 <!-- Electrical Machine-I -->
-<div class="card">
+<div class="card subject-card">
 <div class="subject-title">
 ⚡ Electrical Machine-I
 </div>
@@ -233,7 +229,7 @@ class="open-btn">
   
 <!-- Electrical Machine-II -->
 
-<div class="card">
+<div class="card subject-card">
 <div class="subject-title">⚡ Electrical Machine-II</div>
 
 <div class="topic-item">i. Three Phase Induction Machine</div>
@@ -247,7 +243,7 @@ class="open-btn">
 
 <!-- Utilization of Electrical Energy -->
 
-<div class="card">
+<div class="card subject-card">
 <div class="subject-title">💡 Utilization of Electrical Energy</div>
 
 <div class="topic-item">i. Illumination</div>
@@ -265,7 +261,7 @@ class="open-btn">
 
 <!-- Electronics-I -->
 
-<div class="card">
+<div class="card subject-card">
 <div class="subject-title">📘 Electronics-I</div>
 
 <div class="topic-item">i. Semiconductor Physics</div>
@@ -286,7 +282,7 @@ class="open-btn">
 
 <!-- Electronics-II -->
 
-<div class="card">
+<div class="card subject-card">
 <div class="subject-title">🧠 Electronics-II</div>
 
 <div class="topic-item">i. Number System</div>
@@ -309,7 +305,7 @@ class="open-btn">
 
 <!-- Power Electronics & Drives -->
 
-<div class="card">
+<div class="card subject-card">
 <div class="subject-title">🔋 Power Electronics & Drives</div>
 
 <div class="topic-item">i. Power Semiconductor Devices</div>
@@ -327,7 +323,7 @@ class="open-btn">
 
 <!-- Control System -->
 
-<div class="card">
+<div class="card subject-card">
 <div class="subject-title">🎛 Control System</div>
 
 <div class="topic-item">i. Mathematical Modeling of Dynamic Linear Continuous System</div>
@@ -347,7 +343,7 @@ class="open-btn">
 
 <!-- Engineering Mathematics -->
 
-<div class="card">
+<div class="card subject-card">
 <div class="subject-title">📐 Engineering Mathematics</div>
 
 <div class="topic-item">Engineering Mathematics PYQ</div>
@@ -359,7 +355,7 @@ class="open-btn">
 
 <!-- IMED, IMRE and Energy Conservation -->
 
-<div class="card">
+<div class="card subject-card">
 <div class="subject-title">🏭 IMED, IMRE and Energy Conservation</div>
 
 <div class="topic-item">i. Industrial Management & Entrepreneurship Development</div>
@@ -373,7 +369,7 @@ class="open-btn">
 
 <!-- PLC SCADA -->
 
-<div class="card">
+<div class="card subject-card">
 <div class="subject-title">💻 PLC, SCADA, 8051 Microcontroller and Computer</div>
 
 <div class="topic-item">i. Programmable Logic Controller</div>
@@ -388,7 +384,7 @@ class="open-btn">
 
 <!-- Application of Computer Software -->
 
-<div class="card">
+<div class="card subject-card">
 <div class="subject-title">🖥 Application of Computer Software in Electrical Engineering</div>
 
 <div class="topic-item">i. Software use in Electrical Engineering</div>
@@ -401,34 +397,51 @@ class="open-btn">
 📂 Open Subject
 </a>
 </div>
+</div>
 
 <!-- Add remaining subject cards here -->
+<script src="theme.js"></script>
 
 <script>
 
-const btn =
-document.getElementById("themeToggle");
+// Search Function
 
-if(localStorage.getItem("theme")==="light"){
-document.body.classList.add("light");
-btn.innerHTML="☀️";
-}
+const searchBox =
+document.getElementById("searchBox");
 
-btn.addEventListener("click",()=>{
+searchBox.addEventListener("input",()=>{
 
-document.body.classList.toggle("light");
+const value =
+searchBox.value.toLowerCase();
 
-if(document.body.classList.contains("light")){
-localStorage.setItem("theme","light");
-btn.innerHTML="☀️";
-}else{
-localStorage.setItem("theme","dark");
-btn.innerHTML="🌙";
-}
+document
+.querySelectorAll(".subject-card")
+.forEach(card=>{
+
+const text =
+card.innerText.toLowerCase();
+
+card.style.display =
+text.includes(value)
+? ""
+: "none";
 
 });
 
+});
+
+// Auto Subject Count
+
+document.getElementById(
+"subjectCount"
+).innerText =
+"Total Subjects : " +
+document.querySelectorAll(
+".subject-card"
+).length;
+
 </script>
+
 
 </body>
 </html>
