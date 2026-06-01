@@ -10,9 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
-    
         body {
-            font-family: 'Manrope', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #f8fafc;
             /* Disable Selection */
             -webkit-user-select: none;
@@ -27,26 +26,6 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        /* Question Font Styling */
-       #question-text{
-           font-size:16px;
-           font-weight:700;
-           line-height:1.1;
-           color:#0f172a;
-           letter-spacing:0.2px;
-       }
-        #question-number{
-             font-size:12px;
-             font-weight:800;
-            letter-spacing:1px;
-        }
-       .option-text{
-           font-size:16px;
-           font-weight:600;
-           line-height:1.7;
-           color:#1e293b;
-        }
-  <span class="option-text">${value}</span>
         /* Mathematical Structural Layouts */
         .math-fraction {
             display: inline-flex;
@@ -63,38 +42,47 @@
         .math-denominator {
             padding-top: 1px;
         }
-        #options-container > div:hover{
-            transform:translateY(-1px);
-        }
-        #question-text{
-             font-family:'Manrope',sans-serif;
-        }
-
-        .option-text{
-              font-family:'Manrope',sans-serif;
-         }
-
-        #options-container > div{
-              box-shadow:0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        #options-container > div:hover{
-              box-shadow:0 4px 12px rgba(0,0,0,0.08);
-        }
+        
+        /* FIXED PRINT PRINT ENGINE STYLES */
         @media print {
-            .no-print { display: none !important; }
-            #result-screen { display: block !important; }
+            .no-print, #welcome-screen, #test-screen, footer, header, button {
+                display: none !important;
+            }
+            body, html {
+                background: #ffffff !important;
+                color: #000000 !important;
+                user-select: auto !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            #result-screen {
+                display: block !important;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .bg-white {
+                background-color: #ffffff !important;
+                border-color: #e2e8f0 !important;
+                box-shadow: none !important;
+            }
+            .break-inside-avoid {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
         }
     </style>
 </head>
 <body class="text-slate-800 antialiased font-semibold" oncontextmenu="return false;">
 
-    <!-- SCREEN 1: WELCOME/LANDING CARD -->
-    <div id="welcome-screen" class="min-h-screen flex items-center justify-center p-4">
-        <div class="w-full max-w-xl bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6">
-            <div class="text-center space-y-2">
+    <div id="welcome-screen" class="min-h-screen flex items-start justify-center pt-2 px-4 pb-4">
+        <div class="w-full max-w-xl bg-white border border-slate-200 rounded-2xl shadow-sm p-5 space-y-5 mt-1">
+            <div class="text-center space-y-1.5">
                 <h1 class="text-2xl font-bold text-slate-900 tracking-tight">General Concepts of Rotating Electrical Machine</h1>
-                <p class="text-sm font-bold text-indigo-600 tracking-wide uppercase">Part - 1 • Question Range : 1 to 100 </p>
+                <p class="text-sm font-bold text-indigo-600 tracking-wide uppercase">Part - 1 • PYQ Youth Publication Series</p>
             </div>
             
             <div class="grid grid-cols-2 gap-3">
@@ -127,17 +115,16 @@
                     </div>
                 </div>
             </div>
-                  <div class="border border-slate-200 rounded-xl p-3 space-y-2 bg-amber-50/50 border-amber-200">
-                <div class="flex items-center space-x-2 text-slate-900 font-bold text-sm">
-                    <i class="fa-solid fa-circle-info text-indigo-600"></i>
-                    <span>Important Rules</span>
+
+            <div class="border border-slate-200 rounded-xl p-4 space-y-3 bg-amber-50/50 border-amber-200">
+                <div class="flex items-center space-x-2 text-slate-900 font-bold">
+                    <i class="fa-solid fa-circle-info text-amber-600"></i>
+                    <span>Strict Examination Rules</span>
                 </div>
-                <ul class="space-y-1 text-[11px] text-slate-600 font-semibold leading-4 list-disc list-inside">
-                    <li>Each question carries exactly 1 mark.</li>
-                    <li>You can change your responses anytime before final submission.</li>
-                    <li>Green indicators on the palette mark answered states.</li>
-                    <li>The test auto-submits instantly when the countdown timer hits zero.</li>
+                <ul class="space-y-2 text-xs text-slate-600 font-semibold list-disc list-inside">
+                    <li>Each correct submission awards exactly 1 mark.</li>
                     <li><span class="text-rose-600 font-bold">Warning:</span> Tab switching or window minimization is restricted. 3 violations will auto-submit your test.</li>
+                    <li>Copying question data, right-clicks, or text selections are strictly disabled.</li>
                 </ul>
             </div>
 
@@ -169,7 +156,6 @@
         </div>
     </div>
 
-    <!-- SCREEN 2: ACTIVE TEST APPLICATION PANEL -->
     <div id="test-screen" class="hidden min-h-screen flex flex-col max-w-md mx-auto bg-white border-x border-slate-200 relative shadow-md">
         <header class="sticky top-0 bg-white border-b border-slate-200 px-4 py-3.5 flex items-center justify-between z-10">
             <div class="flex items-center space-x-2">
@@ -180,7 +166,6 @@
                     <h2 class="text-sm font-bold text-slate-900 truncate">Rotating Machines</h2>
                 </div>
             </div>
-            <!-- Tab Warning Counter Badge -->
             <div id="tab-warning-badge" class="hidden bg-amber-100 text-amber-800 border border-amber-200 text-[10px] px-2 py-1 rounded font-bold animate-pulse">
                 Tab Shifts: <span id="warning-count-text">0</span>/3
             </div>
@@ -209,11 +194,9 @@
             <div class="space-y-2">
                 <span id="question-number" class="inline-block text-xs font-bold bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md uppercase tracking-wider">Question 01</span>
                 <div id="question-text" class="text-base font-bold text-slate-900 leading-snug space-y-2">
-                    <!-- Text & Formulas Injected Here -->
-                </div>
+                    </div>
             </div>
 
-            <!-- Contextual Illustration Slot -->
             <div id="question-image-container" class="hidden border border-slate-100 rounded-xl overflow-hidden bg-slate-50 p-2 text-center">
                 <img id="question-image" src="" alt="Technical Figure" class="max-h-40 mx-auto rounded-lg object-contain">
             </div>
@@ -242,8 +225,7 @@
         </footer>
     </div>
 
-    <!-- SCREEN 3: RESULTS ANALYTICS DASHBOARD -->
-    <div id="result-screen" class="hidden min-h-screen py-8 px-4 flex justify-center items-start">
+    <div id="result-screen" class="hidden min-h-screen py-4 px-4 flex justify-center items-start">
         <div class="w-full max-w-xl bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6">
             <div class="text-center space-y-1 border-b border-slate-100 pb-4">
                 <h1 class="text-2xl font-bold text-slate-900">Examination Metrics</h1>
@@ -278,9 +260,7 @@
         </div>
     </div>
 
-    <!-- CORE LOGIC & SECURITY CONTROLLER ENGINE -->
     <script>
-        // Questions array declared at the top to prevent timing/execution bugs
         const questions = [
             {num:1,question:"How many parallel paths are there in a 6-pole simplex lap-wound DC machine?",options:{A:"6",B:"2",C:"12",D:"3"},answer:"A"},
 {num:2,question:"Wave winding is employed in a d.c. machine of:",options:{A:"High current and low voltage rating",B:"Low current and high voltage rating",C:"High current and high voltage rating",D:"Low current and low voltage rating"},answer:"B"},
@@ -381,10 +361,9 @@
 {num:97,question:"The exciting coils of any DC machine are wound____:",options:{A:"in the machine",B:"in the armature slots",C:"around the poles",D:"separately"},answer:"C"},
 {num:98,question:"In d.c. machines, the armature reaction m.m.f. is",options:{A:"stationary with respect to armature",B:"rotating with respect to stator",C:"stationary with respect to stator",D:"rotating with respect to brushes"},answer:"C"},
 {num:99,question:"Which of the following quantity maintains the same direction whether a D.C. machine runs as a generator or as a motor?",options:{A:"Induced e.m.f.",B:"Armature current",C:"Field current",D:"Supply current"},answer:"A"},
-{num:100,question:"NEMA standards rate motors according to ......",options:{A:"Frame number",B:"Horsepower",C:"Voltage",D:"Weight"},answer:"A"}
+{num:100,question:"NEMA standards rate motors according to ......",options:{A:"Frame number",B:"Horsepower",C:"Voltage",D:"Weight"},answer:"A"
         ];
 
-        // System Runtime States
         let currentIdx = 0;
         let userResponses = {}; 
         let totalSecondsLeft = 0;
@@ -392,7 +371,6 @@
         let tabViolations = 0;
         let examSubmitted = false;
 
-        // Initialize counters dynamically from the questions array length
         function initDashboardMetrics() {
             document.getElementById('startTotalQ').innerText = questions.length;
             document.getElementById('startTotalMarks').innerText = questions.length;
@@ -405,14 +383,12 @@
             document.getElementById('display-duration').innerText = `${h}h ${m}m`;
         }
 
-        // Anti-Copy/Paste & Selection Interceptor Rules
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'a' || e.key === 'x')) {
                 e.preventDefault();
             }
         });
 
-        // Tab Switch Blocker & Monitoring Architecture
         window.addEventListener('blur', () => {
             if (examSubmitted) return;
             tabViolations++;
@@ -492,8 +468,8 @@
 
         function updatePaletteStyles() {
             questions.forEach((q, index) => {
-                const rBtn = document.getElementById(`palette-row-${index}`);
-                const gBtn = document.getElementById(`palette-grid-${index}`);
+                const rBtn = document.getElementById('palette-row-' + index);
+                const gBtn = document.getElementById('palette-grid-' + index);
                 
                 let baseStyle = "";
                 if (index === currentIdx) {
@@ -518,7 +494,6 @@
             document.getElementById('question-number').innerText = `Question ${String(currentIdx + 1).padStart(2, '0')}`;
             document.getElementById('question-text').innerHTML = q.question;
 
-            // Handle Contextual Diagnostic Layout Illustrations 
             const imgContainer = document.getElementById('question-image-container');
             if (q.imageUrl) {
                 imgContainer.classList.remove('hidden');
@@ -534,7 +509,7 @@
                 const isSelected = userResponses[currentIdx] === key;
                 const optDiv = document.createElement('div');
                 optDiv.onclick = () => selectOption(key);
-                optDiv.className = `border rounded-xl p-4 flex items-center space-x-3 cursor-pointer transition-all bg-white ${
+                optDiv.className = `border rounded-xl p-3.5 flex items-center space-x-3 cursor-pointer transition-all bg-white ${
                     isSelected ? 'border-indigo-600 ring-2 ring-indigo-50' : 'border-slate-200 hover:border-slate-300'
                 }`;
 
@@ -680,9 +655,7 @@
             document.getElementById('result-percentage').innerText = `Accuracy: ${percentage}%`;
         }
 
-        // Run metrics initialization on window frame load
         window.onload = initDashboardMetrics;
     </script>
 </body>
 </html>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
