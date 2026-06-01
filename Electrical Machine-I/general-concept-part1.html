@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Electrical Machine CBT Mock Test</title>
+<link rel="stylesheet" href="../theme.css">
+  
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#eef2f7;
+color:#222;
+}
+
+/* START SCREEN FIXED */
+
+#startScreen{
+position:fixed;
+inset:0;
+overflow-y:auto;
+-webkit-overflow-scrolling:touch;
+padding:20px 10px 80px;
+background:#eef2f7;
+display:block;
+z-index:5000;
+}
+
+header{
+background:#0f172a;
+color:#fff;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.container{
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:260px;
+background:#fff;
+padding:15px;
+overflow-y:auto;
+border-right:1px solid #ccc;
+}
+
+.palette{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+}
+
+.palette button{
+padding:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#d1d5db;
+font-weight:bold;
+}
+
+.palette .attempted{
+background:#22c55e;
+color:#fff;
+}
+
+.palette .current{
+background:#2563eb;
+color:#fff;
+}
+
+.main{
+flex:1;
+padding:20px;
+}
+
+.question-box{
+background:#fff;
+padding:20px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.option{
+padding:14px;
+border:1px solid #ccc;
+border-radius:10px;
+margin-top:12px;
+cursor:pointer;
+transition:.2s;
+font-size:15px;
+}
+
+.option:hover{
+background:#f1f5f9;
+}
+
+.controls{
+margin-top:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.controls button{
+padding:12px 18px;
+border:none;
+border-radius:10px;
+background:#0f172a;
+color:#fff;
+cursor:pointer;
+font-size:15px;
+}
+
+.progress{
+margin-top:15px;
+height:10px;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:#22c55e;
+}
+
+.result-card{
+background:#fff;
+padding:25px;
+border-radius:12px;
+margin-top:20px;
+}
+
+.correct{
+background:#bbf7d0 !important;
+}
+
+.wrong{
+background:#fecaca !important;
+}
+
+.fraction{
+display:inline-block;
+vertical-align:middle;
+text-align:center;
+line-height:1.2;
+}
+
+.fraction .top{
+display:block;
+border-bottom:2px solid #000;
+padding:0 4px;
+}
+
+.fraction .bottom{
+display:block;
+padding:0 4px;
+}
+
+.start-box{
+background:white;
+padding:20px;
+border-radius:15px;
+width:100%;
+max-width:420px;
+margin:20px auto 80px auto;
+box-shadow:0 4px 15px rgba(0,0,0,.2);
+text-align:center;
+}
+  
+.info-box{
+text-align:left;
+background:#f8fafc;
+padding:15px;
+border-radius:10px;
+margin-bottom:20px;
+font-size:15px;
+line-height:1.5;
+}
+
+.instructions{
+text-align:left;
+background:#fff7ed;
+padding:15px;
+border-radius:10px;
+margin-bottom:20px;
+font-size:14px;
+line-height:1.5;
+border:1px solid #fdba74;
+}
+
+.start-input{
+width:100%;
+padding:12px;
+font-size:20px;
+font-weight:bold;
+border:1px solid #ccc;
+border-radius:8px;
+}
+
+.start-btn{
+width:100%;
+padding:14px;
+background:#0f172a;
+color:white;
+border:none;
+border-radius:10px;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+}
+body.light{
+background:#f1f5f9;
+color:#111827;
+}
+
+body.light header{
+background:#ffffff;
+color:#111827;
+border-bottom:1px solid #e5e7eb;
+}
+
+body.light .sidebar,
+body.light .question-box,
+body.light .result-card,
+body.light .start-box{
+background:#ffffff;
+color:#111827;
+}
+
+body.light #startScreen{
+background:#f1f5f9;
+}
+
+body.light .info-box{
+background:#f8fafc;
+}
+
+body.light .controls button,
+body.light .start-btn{
+background:#2563eb;
+color:#fff;
+}
+
+@media(max-width:768px){
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+border-right:none;
+border-bottom:1px solid #ccc;
+}
+
+}
+
+body.light{
+background:#f1f5f9;
+color:#111827;
+}
+
+body.light header{
+background:#ffffff;
+color:#111827;
+border-bottom:1px solid #e5e7eb;
+}
+
+body.light .sidebar,
+body.light .question-box,
+body.light .result-card,
+body.light .start-box{
+background:#ffffff;
+color:#111827;
+}
+
+body.light #startScreen{
+background:#f1f5f9;
+}
+
+body.light .info-box{
+background:#f8fafc;
+}
+
+body.light .controls button,
+body.light .start-btn{
+background:#2563eb;
+color:#fff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h2>General Concepts of Rotating Electrical Machine : Part - 1</h2>
+
+<div>
+⏳ <span id="timer">00:00:00</span>
+</div>
+
+</header>
+
+<!-- START SCREEN -->
+
+<div id="startScreen">
+
+<div class="start-box">
+
+<h2 style="margin-bottom:15px;">
+General Concepts of Rotating Electrical Machine : Part - 1
+</h2>
+
+<div style="font-size:80px;">👨‍🎓</div>
+
+<div class="info-box">
+<p>📘 <b>Total Questions :</b> <span id="startTotalQ"></span></p>
+
+<p>⏱ <b>Test Duration :</b> 1 Hours 30 minutes </p>
+
+<p>🎯 <b>Total Marks :</b> 100 Marks</p>
+
+<p>✅ <b>Marks Per Question :</b> 1 Mark</p>
+
+<p>❌ <b>Negative Marking :</b> No</p>
+
+<p>📚 <b>Subject :</b> Electrical Machine - I</p>
+
+<p>📖 <b>Topic :</b> General Concepts of Rotating Electrical Machine</p>
+
+<p>🔢 <b>Question Range :</b> 1 to 100</p>
+
+<p>📝 <b>Exam Type :</b> PYQ Youth Publication</p>
+
+<p>💻 <b>Mode :</b> Online CBT Examination</p>
+</div>
+
+<div class="instructions">
+
+<h3 style="margin-bottom:10px;">
+📌 Instructions
+</h3>
+
+<ul style="padding-left:20px;">
+
+<li>Each question carries 1 mark.</li>
+
+<li>No negative marking.</li>
+
+<li>Click Submit Test before timer ends.</li>
+
+<li>Questions can be changed anytime.</li>
+
+<li>Green palette indicates attempted questions.</li>
+
+<li>Test auto submits after timer completion.</li>
+
+</ul>
+
+</div>
+
+<label><b>Select Hours</b></label>
+
+<br><br>
+
+<input
+type="number"
+id="hourInput"
+min="0"
+max="10"
+value="1"
+class="start-input">
+
+<br><br>
+
+<label><b>Select Minutes</b></label>
+
+<br><br>
+
+<input
+type="number"
+id="minuteInput"
+min="0"
+max="59"
+value="30"
+class="start-input">
+
+<br><br>
+
+<button onclick="startTest()" class="start-btn">
+
+Start Test
+
+</button>
+
+</div>
+
+</div>
+
+<div class="container">
+
+<div class="sidebar">
+
+<h3>Question Palette</h3>
+
+<br>
+
+<div class="palette" id="palette"></div>
+
+<br>
+
+<p><b>Attempted:</b> <span id="attempted">0</span></p>
+
+<p><b>Total:</b> <span id="totalQuestions"></span></p>
+
+<div class="progress">
+
+<div class="progress-bar" id="progressBar"></div>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="question-box" id="questionBox"></div>
+
+<div class="controls">
+
+<button onclick="prevQ()">Previous</button>
+
+<button onclick="nextQ()">Next</button>
+
+<button onclick="clearAns()">Clear</button>
+
+<button onclick="clearAllAnswers()">Clear All</button>
+
+<button onclick="confirmSubmit()">Submit Test</button>
+
+</div>
+
+<div id="result"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+num:1,
+question:"How many parallel paths are there in a 6-pole simplex lap-wound DC machine?",
+options:{
+A:"6",
+B:"2",
+C:"12",
+D:"3"
+},
+answer:"A"
+},
+
+{
+num:2,
+question:"Wave winding is employed in a d.c. machine of:",
+options:{
+A:"High current and low voltage rating",
+B:"Low current and high voltage rating",
+C:"High current and high voltage rating",
+D:"Low current and low voltage rating"
+},
+answer:"B"
+},
+
+{
+num:3,
+question:"Which of the following machines do NOT use equalizer rings?",
+options:{
+A:"6-pole simplex lap-wound DC machine",
+B:"4-pole simplex wave-wound DC machine",
+C:"4-pole simplex lap-wound DC machine",
+D:"4-pole duplex wave-wound DC machine"
+},
+answer:"B"
+},
+
+{
+num:4,
+question:"For a 4-pole, 2 layer, DC lap-winding with 20 slots and one conductor per layer, the number of commutator bars is",
+options:{
+A:"20",
+B:"40",
+C:"160",
+D:"80"
+},
+answer:"A"
+},
+
+{
+num:5,
+question:"In an electromechanical energy conversion device, the developed torque depends on",
+options:{
+A:"Stator field strength and rotor field strength",
+B:"Stator field strength only",
+C:"Stator field and rotor field strength and torque angle",
+D:"Stator field strength and torque angle"
+},
+answer:"C"
+},
+
+{
+num:6,
+question:"The emf induced in a conductor rotating in a bipolar field is",
+options:{
+A:"AC",
+B:"DC",
+C:"AC & DC both",
+D:"None of these"
+},
+answer:"A"
+},
+
+{
+num:7,
+question:"The wave form of the armature m.m.f. in DC machine is...............",
+options:{
+A:"square",
+B:"rectangular",
+C:"triangular",
+D:"sinusoidal"
+},
+answer:"C"
+},
+
+{
+num:8,
+question:"In DC machine shape of main field flux distribution is",
+options:{
+A:"triangular",
+B:"flat tapped or trapezoidal",
+C:"saddle shape",
+D:"peaky in nature"
+},
+answer:"B"
+},
+
+{
+num:9,
+question:"The principle of dynamically induced emf is utilised in :",
+options:{
+A:"Choke",
+B:"Transformer",
+C:"Thermocouple",
+D:"Generator"
+},
+answer:"D"
+},
+
+{
+num:10,
+question:"Dummy coils are used for",
+options:{
+A:"increasing efficiency",
+B:"reducing armature reaction",
+C:"mechanical balancing",
+D:"all options are correct"
+},
+answer:"C"
+},
+
+{
+num:11,
+question:"For a linear electromagnetic circuit, which of the following statement is true?",
+options:{
+A:"Field energy is equal to the co-energy",
+B:"Field energy is greater than the co-energy",
+C:"Field energy is lesser than the co-energy",
+D:"Co-energy is zero"
+},
+answer:"A"
+},
+
+{
+num:12,
+question:`In electrical machines, magnetic leakage is undesirable. This is due to the fact that it–<br>
+<span style="font-weight:normal;">
+1. Lowers the power efficiency<br>
+2. Produces fringing<br>
+3. Leads to increased weight
+</span>`,
+options:{
+A:"Only 1",
+B:"1, 2 and 3",
+C:"Only 2",
+D:"Both 2 and 3"
+},
+answer:"D"
+},
+  
+{
+num:13,
+question:"If a machine has P poles and the armature rotates at N revolutions per minute, then the frequency of induced emf in the armature winding of the machine is:",
+options:{
+
+A:`f =
+<span class="fraction">
+<span class="top">50</span>
+<span class="bottom">PN</span>
+</span>
+Hz`,
+
+B:`f =
+<span class="fraction">
+<span class="top">120</span>
+<span class="bottom">PN</span>
+</span>
+Hz`,
+
+C:`f =
+<span class="fraction">
+<span class="top">PN</span>
+<span class="bottom">120</span>
+</span>
+Hz`,
+
+D:`f =
+<span class="fraction">
+<span class="top">PN</span>
+<span class="bottom">50</span>
+</span>
+Hz`
+
+},
+answer:"C"
+},
+  
+{
+num:14,
+question:"_____ helps to find out the direction of current in the conductor of a generator.",
+options:{
+A:"Cork screw rule",
+B:"Right hand thumb rule",
+C:"Fleming left hand rule",
+D:"Fleming right hand rule"
+},
+answer:"D"
+},
+
+{
+num:15,
+question:"Lap winding is preferred for which type of machines?",
+options:{
+A:"Low current & low voltage",
+B:"High current & high voltage",
+C:"High current and low voltage",
+D:"Low current & high voltage"
+},
+answer:"C"
+},
+  
+{
+num:16,
+question:"A dynamo is sometimes said to generate electricity. It is actually acts as a source of:",
+options:{
+A:"charge",
+B:"magnetism",
+C:"emf",
+D:"energy"
+},
+answer:"C"
+},
+  
+{
+num:17,
+question:"The alternating voltage generated in the DC generator can be converted into direct voltage by a device called _______.",
+options:{
+A:"varactor",
+B:"commutator",
+C:"armature",
+D:"pole pitch"
+},
+answer:"B"
+},
+  
+{
+num:18,
+question:"Reactance voltage of a DC machine is ______ times of commutation.",
+options:{
+A:"Inversely proportional to",
+B:"Directly proportional to",
+C:"Independent of",
+D:"Equal to"
+},
+answer:"A"
+},
+  
+{
+num:19,
+question:"Which of the following windings is connected in series with armature winding of DC machine?",
+options:{
+A:"Auxiliary winding",
+B:"Compensating winding",
+C:"Commutating Pole winding",
+D:"Both (b) and (c)"
+},
+answer:"D"
+},
+  
+{
+num:20,
+question:"In a D.C. machine, on no load the magnetic neutral axis",
+options:{
+A:"Moves from geometrical neutral axis in the direction of rotation",
+B:"Moves from geometrical neutral axis in the opposite direction of rotation",
+C:"Coincides with the geometrical neutral axis",
+D:"None of the above"
+},
+answer:"C"
+},
+  
+{
+num:21,
+question:"In a DC generator, whenever the rotating armature coil is parallel to the lines of flux:",
+options:{
+A:"the rate of change of flux linkage is minimum",
+B:"the flux linked with the coil is minimum and rate of change of flux linkage is maximum",
+C:"the flux linked with the coil is maximum",
+D:"the flux linked with the coil is maximum and rate of change of flux linkage is minimum"
+},
+answer:"B"
+},
+  
+{
+num:22,
+question:"The line representing the critical resistance of a dc generator _______ its characteristics (OCC).",
+options:{
+A:"intersects",
+B:"does not intersect",
+C:"just touches",
+D:"runs parallel to"
+},
+answer:"C"
+},
+  
+{
+num:23,
+question:"Compensating winding in a DC machine is placed",
+options:{
+A:"On Yoke in the interpolar gap",
+B:"On Yoke in the pole faces",
+C:"On partly in armature slots and partly in pole faces",
+D:"In armature slots"
+},
+answer:"B"
+},
+  
+{
+num:24,
+question:"In a symmetrical rotating machine, the impedances met by armature currents of a given sequence are:",
+options:{
+A:"opposite in two phases and zero in remaining",
+B:"equal in the three phases",
+C:"zero in two phases",
+D:"different in the three phases"
+},
+answer:"B"
+},
+  
+{
+num:25,
+question:"The function of pole-shoes in a DC machine is:",
+options:{
+A:"to increase field winding reactance",
+B:"to decrease field winding resistance",
+C:"to increase field winding resistance",
+D:"uniform distribution of flux"
+},
+answer:"D"
+}, 
+{
+num:26,
+question:"In a 4-pole dc machine, a coil span of 120 electrical degrees is equal to:",
+options:{
+A:"240 mechanical degrees",
+B:"60 mechanical degrees",
+C:"180 mechanical degrees",
+D:"120 mechanical degrees"
+},
+answer:"B"
+},
+{
+num:27,
+question:"The yoke in a large DC machine is made of:",
+options:{
+A:"Grain oriented steel",
+B:"Cast iron",
+C:"Cast steel",
+D:"Mild steel"
+},
+answer:"C"
+},
+{
+num:28,
+question:"The relative speed between the magnetic fields of stator and rotor under steady state operation is zero for a:",
+options:{
+A:"DC machine",
+B:"3-phase induction machine",
+C:"Synchronous machine",
+D:"All of these"
+},
+answer:"D"
+},
+{
+num:29,
+question:"A device which converts electrical energy into mechanical energy is termed as:",
+options:{
+A:"Capacitor",
+B:"Generator",
+C:"Motor",
+D:"Converter"
+},
+answer:"C"
+},
+{
+num:30,
+question:"In differential compound DC machine magnetic field produced by shunt and series field act in______ direction.",
+options:{
+A:"Same",
+B:"Opposite",
+C:"Vertical",
+D:"Horizontal"
+},
+answer:"B"
+},
+{
+num:31,
+question:"The Pitch of wave winding is:",
+options:{
+A:"Y<sub>B</sub> − Y<sub>F</sub>",
+B:"Y<sub>B</sub>",
+C:"Y<sub>B</sub> + Y<sub>F</sub>",
+D:"Y<sub>F</sub>"
+},
+answer:"C"
+},
+{
+num:32,
+question:"The distance between two consecutive and similar top coil side is called",
+options:{
+A:"Back pitch",
+B:"Front pitch",
+C:"Winding pitch",
+D:"Commutator pitch"
+},
+answer:"C"
+},
+{
+num:33,
+question:"Which part of a DC motor has the maximum flux",
+options:{
+A:"Pole core",
+B:"Interpole",
+C:"Leading pole tip",
+D:"Trailing pole tip"
+},
+answer:"C"
+},
+{
+num:34,
+question:"Brushes of D.C. machines are made of-",
+options:{
+A:"carbon",
+B:"soft copper",
+C:"hard copper",
+D:"all of these"
+},
+answer:"A"
+},
+{
+num:35,
+question:`Which of the followings are true with respect of interpoles in dc machine?<br>
+
+<span style="font-weight:normal;">
+
+1. Reduce armature reaction effect in interpolar region.<br>
+
+2. Windings are connected in series with armature.<br>
+
+3. Have the same dimensions as main poles.
+
+</span><br>
+
+Select the correct answer using the code given below:`,
+
+options:{
+A:"1 and 2",
+B:"2 and 3",
+C:"1 and 3",
+D:"1, 2 and 3"
+},
+answer:"A"
+},
+{
+num:36,
+question:"Pole shoe of a dc machine is laminated for the purpose of",
+options:{
+A:"Decreasing hysteresis loss",
+B:"Decreasing eddy current loss",
+C:"Manufacturing ease",
+D:"Decreasing both hysteresis & eddy current loss"
+},
+answer:"B"
+},
+{
+num:37,
+question:"Which of the following is true with a commutator?",
+options:{
+A:"It acts as an inverter in a motor",
+B:"It acts as rectifier in a generator",
+C:"It requires frequent maintenance",
+D:"all the above"
+},
+answer:"D"
+},
+{
+num:38,
+question:"The resistance of armature winding depends on",
+options:{
+A:"length of conductor",
+B:"cross sectional area of the conductor",
+C:"number of conductors",
+D:"all of the above"
+},
+answer:"D"
+},
+{
+num:39,
+question:"Which law describes the dynamically induced EMF in a generator?",
+options:{
+A:"Ohm's law",
+B:"Biot Savart's law",
+C:"Kirchhoff's law",
+D:"Faraday's law"
+},
+answer:"D"
+},
+{
+num:40,
+question:"______ represents the electrical energy converted into mechanical energy by a dc motor.",
+options:{
+A:"E<sub>b</sub>I<sub>a</sub>",
+B:"VI<sub>a</sub>",
+C:"E<sub>g</sub>I<sub>a</sub>",
+D:"VI<sub>sh</sub>"
+},
+answer:"A"
+},
+
+{
+num:41,
+question:"For a P pole machine, the relation between electrical and mechanical degrees is",
+options:{
+A:"θ<sub>elec.</sub> = <span class='fraction'><span class='top'>2</span><span class='bottom'>P</span></span> θ<sub>mech.</sub>",
+
+B:"θ<sub>elec.</sub> = <span class='fraction'><span class='top'>4</span><span class='bottom'>P</span></span> θ<sub>mech.</sub>",
+
+C:"θ<sub>elec.</sub> = Pθ<sub>mech.</sub>",
+
+D:"θ<sub>elec.</sub> = <span class='fraction'><span class='top'>P</span><span class='bottom'>2</span></span> θ<sub>mech.</sub>"
+},
+answer:"D"
+},
+{
+num:42,
+question:"Two dc machines A and B have armature circuit resistances of the order of 0.4 ohm and 1.2 ohm respectively. Which machine is bigger than the other for same voltage rating?",
+options:{
+A:"A is bigger than B",
+B:"B is bigger than A",
+C:"Both have same size",
+D:"Field circuit resistance will decide the size of machine"
+},
+answer:"A"
+},
+{
+num:43,
+question:"What are slot wedges in a dc machine, made of?",
+options:{
+A:"Mild steel",
+B:"Silicon steel",
+C:"Fibre",
+D:"Cast iron"
+},
+answer:"C"
+},
+{
+num:44,
+question:"The working of a dynamo is based on the principle of -",
+options:{
+A:"Electromagnetic induction",
+B:"Conversion of energy into electricity",
+C:"Magnetic effects of current",
+D:"Heating effects of current"
+},
+answer:"A"
+},
+{
+num:45,
+question:"The output of a dynamo using a splitting commutator is-",
+options:{
+A:"D.C.",
+B:"A.C.",
+C:"Fluctuating D.C.",
+D:"Half-wave rectified voltage"
+},
+answer:"C"
+},
+{
+num:46,
+question:"The inter poles in DC machines have a tapering shape in order to",
+options:{
+A:"reduce the overall weight",
+B:"reduce the saturation in the inter pole",
+C:"economies on the material required for inter poles",
+D:"increase the acceleration of commutation"
+},
+answer:"B"
+},
+{
+num:47,
+question:"EMF induced in a coil rotating in a uniform Magnetic field will be maximum when the:",
+options:{
+A:"Rate of change of flux linkage is minimum",
+B:"Rate of change of flux linkage is maximum",
+C:"Rate of cutting flux by the coil sides is minimum",
+D:"Flux linking with the coil is maximum"
+},
+answer:"B"
+},
+{
+num:48,
+question:"Force on a Conductors is :",
+options:{
+A:"unidirectional",
+B:"bidirectional",
+C:"Either of these",
+D:"none of these"
+},
+answer:"A"
+},
+{
+num:49,
+question:"Electro–mechanical voltage regulators generally find applications in :",
+options:{
+A:"generators",
+B:"transformers",
+C:"reactors",
+D:"all option are correct"
+},
+answer:"A"
+},
+{
+num:50,
+question:"In which of the following voltage sources, the movement of conductors in a magnetic field is used to produce voltage?",
+options:{
+A:"in a thermo couple",
+B:"in a zinc copper element",
+C:"in a DC generator",
+D:"in a transformer"
+},
+answer:"C"
+},
+{
+num:51,
+question:"What is called the electro-motive force(e.m.f) of a voltage source?",
+options:{
+A:"Terminal voltage when load is applied",
+B:"Internal voltage when no load is applied",
+C:"Product of internal resistance and load current",
+D:"Electric pressure provided to the load"
+},
+answer:"B"
+},
+{
+num:52,
+question:"In DC motor, where does iron loss occur?",
+options:{
+A:"the yoke",
+B:"the armature",
+C:"the field",
+D:"None of these"
+},
+answer:"B"
+},
+{
+num:53,
+question:`Consider the following parts of a dc machine:<br>
+
+<span style="font-weight:normal;">
+
+1. Yoke &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. Armature core<br>
+
+3. Brushes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4. Pole core
+
+</span><br>
+
+Which of the above parts are subjected to iron loss?`,
+options:{
+A:"1 and 2 only",
+B:"2 only",
+C:"1 only",
+D:"1, 2, 3 and 4"
+},
+answer:"B"
+},
+{
+num:54,
+question:"The e.m.f. of a DC generator depends on............",
+options:{
+A:"commutation",
+B:"speed",
+C:"frequency",
+D:"brush contact drop"
+},
+answer:"B"
+},
+{
+num:55,
+question:"How many segments will be there for the commutator of a 6 pole d.c. machine having a simple wave wound armature with 72 slots?",
+options:{
+A:"73",
+B:"72",
+C:"71",
+D:"70"
+},
+answer:"B"
+},
+{
+num:56,
+question:"The parts of the armature electric circuit which take active part in e.m.f. generation are..............",
+options:{
+A:"The coil sides inside the slots",
+B:"The overhangs",
+C:"both the coil sides inside the slots and the overhangs",
+D:"the commutator segments"
+},
+answer:"A"
+},
+{
+num:57,
+question:"The commutator in a D.C. machine acts as",
+options:{
+A:"a mechanical inverter",
+B:"a mechanical rectifier",
+C:"current controller",
+D:"either (a) or (b)"
+},
+answer:"D"
+},
+{
+num:58,
+question:"For a 6-pole D.C. machine with wave wound armature, the number of brushes required is",
+options:{
+A:"2",
+B:"4",
+C:"6",
+D:"12"
+},
+answer:"A"
+},
+{
+num:59,
+question:"A triangular mmf wave is produced in the air-gap of an electric machine. Such a wave is produced by",
+options:{
+A:"Stator of an induction machine",
+B:"Rotor of a synchronous machine",
+C:"Stator of a dc machine",
+D:"Rotor of a dc machine"
+},
+answer:"D"
+},
+{
+num:60,
+question:"Function of interpoles in a D.C. machine is to",
+options:{
+A:"reduce field winding heating.",
+B:"improve commutation.",
+C:"compensate for air-gap variation",
+D:"reduce losses"
+},
+answer:"B"
+},
+{
+num:61,
+question:"The commutator segments of D.C. machine are made of",
+options:{
+A:"tungsten",
+B:"hard-drawn copper",
+C:"soft copper",
+D:"electrolytic copper"
+},
+answer:"B"
+},
+{
+num:62,
+question:"Which of the following expression satisfies the Faraday's law of electromagnetic induction?",
+options:{
+
+A:`e = -N 
+<span class="fraction">
+<span class="top">dϕ</span>
+<span class="bottom">dt</span>
+</span>`,
+
+B:`e = N 
+<span class="fraction">
+<span class="top">dϕ</span>
+<span class="bottom">dt</span>
+</span>`,
+
+C:`e = -N ∫ dϕdt`,
+
+D:`e = 
+<span class="fraction">
+<span class="top">Nd²ϕ</span>
+<span class="bottom">dt²</span>
+</span>`
+
+},
+answer:"A"
+},
+{
+num:63,
+question:"The function of the commutator in a DC machine is.................",
+options:{
+A:"to change alternating current into direct current",
+B:"to improve commutation",
+C:"for easy speed control",
+D:"to change alternating voltage to direct voltage"
+},
+answer:"D"
+},
+{
+num:64,
+question:"A time-varying flux causes an induced electromotive force. What law does this statement represent?",
+options:{
+A:"Ampere's law",
+B:"Faraday's law",
+C:"Lenz's law",
+D:"Field form of Ohm's law"
+},
+answer:"B"
+},
+{
+num:65,
+question:"The number of brushes required for a 4 pole, lap wound DC machine is…………?",
+options:{
+A:"8",
+B:"1",
+C:"4",
+D:"2"
+},
+answer:"C"
+},
+{
+num:66,
+question:"In dc machine iron losses cause",
+options:{
+A:"heating in core",
+B:"less in efficiency",
+C:"rise in temperature of ventilating air",
+D:"all of the mentioned"
+},
+answer:"D"
+},
+{
+num:67,
+question:"The field winding will be drawn at what degree?",
+options:{
+A:"60 degree",
+B:"30 degree",
+C:"90 degree",
+D:"180 degree"
+},
+answer:"C"
+},
+{
+num:68,
+question:"Compensating winding is placed in the",
+options:{
+A:"pole shoe",
+B:"armature core",
+C:"main field",
+D:"all option are correct"
+},
+answer:"A"
+},
+{
+num:69,
+question:"DC machine winding are",
+options:{
+A:"full pitched",
+B:"short pitched",
+C:"either of these",
+D:"none of these"
+},
+answer:"A"
+},
+{
+num:70,
+question:"The armature winding is connected to the external power source through a",
+options:{
+A:"commutator system",
+B:"brush system",
+C:"commutator brush system",
+D:"none of these"
+},
+answer:"C"
+},
+{
+num:71,
+question:"Number of poles in comparison to number of parallel path in a lap winding are:",
+options:{
+A:"more",
+B:"less",
+C:"double",
+D:"equal"
+},
+answer:"D"
+},
+{
+num:72,
+question:"The nature of emf induced in the armature of a dc generator is _____ and it is converted into _____ by means of split",
+options:{
+A:"DC; DC",
+B:"AC; DC",
+C:"DC; AC",
+D:"AC; AC"
+},
+answer:"B"
+},
+{
+num:73,
+question:"The armature core in an electrical machine is made with the help of a/an:",
+options:{
+A:"dielectric material",
+B:"semiconductive material",
+C:"electrically-conductive mono-solid material",
+D:"laminated electrically-conductive material"
+},
+answer:"D"
+},
+{
+num:74,
+question:"In lap winding of a DC generator, the number of parallel paths is equal to ________.",
+options:{
+A:"2",
+B:"Number of poles",
+C:"1",
+D:"Number of Interpoles"
+},
+answer:"B"
+},
+{
+num:75,
+question:"How many number of parallel paths will be in simplex 4 pole wave winding?",
+options:{
+A:"4",
+B:"8",
+C:"2",
+D:"6"
+},
+answer:"C"
+},
+{
+num:76,
+question:"How many number of parallel path will be in duplex 4-pole wave winding?",
+options:{
+A:"2",
+B:"4",
+C:"8",
+D:"6"
+},
+answer:"B"
+},
+{
+num:77,
+question:"Which of the following limits the output of a rotating electrical machine?",
+options:{
+A:"size of the machine",
+B:"temperature rise",
+C:"peripheral velocity",
+D:"none of the above"
+},
+answer:"B"
+},
+{
+num:78,
+question:"In DC machines the value of A equals to 2",
+options:{
+A:"For lap winding",
+B:"For wave winding",
+C:"For Field winding",
+D:"For Armature winding"
+},
+answer:"B"
+},
+{
+num:79,
+question:"Separately excited and self-excited are types of which machine?",
+options:{
+A:"DC Machine",
+B:"Synchronous machine",
+C:"Induction machine",
+D:"None of the above"
+},
+answer:"A"
+},
+{
+num:80,
+question:"In a dc machine, for the same number of slots and same current in the armature conductor, which one of the following will induces higher emf?",
+options:{
+A:"Lap winding",
+B:"Wave winding",
+C:"Compensating winding",
+D:"Pole winding"
+},
+answer:"B"
+},
+{
+num:81,
+question:"What is the EMF generated per path in a simplex wave-wound DC generator?",
+options:{
+
+A:`<span class="fraction">
+<span class="top">ϕZN</span>
+<span class="bottom">60P</span>
+</span> V`,
+
+B:`<span class="fraction">
+<span class="top">ϕZPN</span>
+<span class="bottom">60</span>
+</span> V`,
+
+C:`<span class="fraction">
+<span class="top">ϕZN</span>
+<span class="bottom">120P</span>
+</span> V`,
+
+D:`<span class="fraction">
+<span class="top">ϕZPN</span>
+<span class="bottom">120</span>
+</span> V`
+
+},
+answer:"D"
+},
+{
+num:82,
+question:"The armature of a DC machine is made of....….",
+options:{
+A:"mild steel",
+B:"silicon steel",
+C:"stainless steel",
+D:"cast iron"
+},
+answer:"B"
+},
+{
+num:83,
+question:"DC generators are designed to develop armature voltages not exceeding 650 V because of the limitations of ….......",
+options:{
+A:"field winding",
+B:"armature winding",
+C:"commutator",
+D:"starters"
+},
+answer:"C"
+},
+{
+num:84,
+question:"Brushes in a DC machine are normally placed electrically in the",
+options:{
+A:"polar regions",
+B:"inter polar regions",
+C:"either of these",
+D:"None of these"
+},
+answer:"B"
+},
+{
+num:85,
+question:"Pole shoe of a D.C. machine is laminated for the purpose of :",
+options:{
+A:"Decreasing hysteresis loss",
+B:"Decreasing eddy current loss",
+C:"Decreasing both hysteresis and eddy current loss",
+D:"Manufacturing ease"
+},
+answer:"B"
+},
+{
+num:86,
+question:"What is the EMF generated per path in a P-pole simplex lap-wound generator?",
+options:{
+A:`<span class="fraction">
+<span class="top">ϕZN</span>
+<span class="bottom">120</span>
+</span> V`,
+B:`<span class="fraction">
+<span class="top">ϕZN</span>
+<span class="bottom">120</span>
+</span> PV`,
+C:`<span class="fraction">
+<span class="top">ϕZN</span>
+<span class="bottom">60</span>
+</span> V`,
+D:`<span class="fraction">
+<span class="top">ϕZN</span>
+<span class="bottom">60</span>
+</span> PV`
+},
+answer:"C"
+},
+{
+num:87,
+question:"Which among the following has a better voltage regulation?",
+options:{
+A:"Shunt generator",
+B:"Series generator",
+C:"Self excited generator",
+D:"Both series and shunt generator"
+},
+answer:"A"
+},
+{
+num:88,
+question:"The commutator of a DC generator acts as",
+options:{
+A:"an amplifier",
+B:"a rectifier",
+C:"a load",
+D:"a multiplier"
+},
+answer:"B"
+},
+{
+num:89,
+question:"Faraday's laws of electromagnetic induction are related to:",
+options:{
+A:"The e.m.f. of a chemical cell",
+B:"The e.m.f. of a generator",
+C:"The current flowing in a conductor",
+D:"The strength of a magnetic field"
+},
+answer:"B"
+},
+{
+num:90,
+question:"In a DC machine, commutator performs which of the following functions?",
+options:{
+A:"Supply starting current or torque",
+B:"Converting DC into AC",
+C:"Converting AC into DC",
+D:"Both conversion of AC into DC and vice versa"
+},
+answer:"D"
+},
+{
+num:91,
+question:"The winding of interpoles is connected _______ with the armature.",
+options:{
+A:"Half in series and half in parallel",
+B:"Both in series and parallel",
+C:"In parallel",
+D:"In series"
+},
+answer:"D"
+},
+{
+num:92,
+question:"If the speed of rotation of a dynamo is doubled, then the induced emf will :",
+options:{
+A:"become half",
+B:"become double",
+C:"become four times",
+D:"remain unchanged"
+},
+answer:"B"
+},
+{
+num:93,
+question:"In DC machines, fractional pitch winding is used to :",
+options:{
+A:"improve cooling",
+B:"reduce copper losses",
+C:"increase the generated emf",
+D:"reduce the sparking"
+},
+answer:"D"
+},
+{
+num:94,
+question:"What is the mechanical energy source used to drive a dc generator?",
+options:{
+A:"alternator",
+B:"armature",
+C:"motor drive",
+D:"rotor",
+E:"prime mover"
+},
+answer:"E"
+},
+{
+num:95,
+question:"Which of the following materials is used in the field coils of D.C. generators?",
+options:{
+A:"Mica",
+B:"Copper",
+C:"Cast Iron",
+D:"Carbon",
+E:"Nickel"
+},
+answer:"B"
+},
+{
+num:96,
+question:"What is the armature mmf wave for a d.c. machine?",
+options:{
+A:"Sinusoidal and rotates w.r.t. armature",
+B:"Sinusoidal and rotates w.r.t. field",
+C:"Triangular and rotates w.r.t. armature",
+D:"Square and rotates w.r.t. field",
+E:"Triangular and stationary w.r.t. armature"
+},
+answer:"E"
+},
+{
+num:97,
+question:"The exciting coils of any DC machine are wound____:",
+options:{
+A:"in the machine",
+B:"in the armature slots",
+C:"around the poles",
+D:"separately"
+},
+answer:"C"
+},
+{
+num:98,
+question:"In d.c. machines, the armature reaction m.m.f. is",
+options:{
+A:"stationary with respect to armature",
+B:"rotating with respect to stator",
+C:"stationary with respect to stator",
+D:"rotating with respect to brushes"
+},
+answer:"C"
+},
+{
+num:99,
+question:"Which of the following quantity maintains the same direction whether a D.C. machine runs as a generator or as a motor?",
+options:{
+A:"Induced e.m.f.",
+B:"Armature current",
+C:"Field current",
+D:"Supply current"
+},
+answer:"A"
+},
+{
+num:100,
+question:"NEMA standards rate motors according to ......",
+options:{
+A:"Frame number",
+B:"Horsepower",
+C:"Voltage",
+D:"Weight"
+},
+answer:"A"
+},
+];
+
+let current=0;
+
+let total=0;
+
+let timerStarted=false;
+
+let answers=JSON.parse(localStorage.getItem("cbtAnswers") || "{}");
+
+document.getElementById("totalQuestions").innerText =
+questions.length;
+
+document.getElementById("startTotalQ").innerText =
+questions.length;
+
+function renderPalette(){
+
+let html="";
+
+questions.forEach((q,i)=>{
+
+html += `
+<button
+class="${answers[q.num]?'attempted':''}
+${i===current?'current':''}"
+onclick="goQ(${i})">
+
+${q.num}
+
+</button>
+`;
+
+});
+
+document.getElementById("palette").innerHTML = html;
+
+document.getElementById("attempted").innerText =
+Object.keys(answers).length;
+
+document.getElementById("progressBar").style.width =
+((Object.keys(answers).length/questions.length)*100)+"%";
+
+}
+
+function renderQuestion(){
+
+let q = questions[current];
+
+let html = `
+<h3 style="font-size:16px;line-height:1.3;font-weight:600;">
+Q${q.num}. ${q.question}
+</h3>
+`;
+
+for(let key in q.options){
+
+html += `
+
+<div class="option">
+
+<label style="display:flex;align-items:center;gap:10px">
+
+<input
+type="radio"
+name="q${q.num}"
+value="${key}"
+
+${answers[q.num]===key?'checked':''}
+
+onchange="saveAns(${q.num},'${key}')">
+
+<div>
+
+<b>${key}.</b>
+
+${q.options[key]}
+
+</div>
+
+</label>
+
+</div>
+
+`;
+
+}
+
+document.getElementById("questionBox").innerHTML = html;
+
+renderPalette();
+
+}
+
+function saveAns(q,a){
+
+answers[q]=a;
+
+localStorage.setItem(
+"cbtAnswers",
+JSON.stringify(answers)
+);
+
+renderPalette();
+
+}
+
+function goQ(i){
+
+current=i;
+
+renderQuestion();
+
+}
+
+function nextQ(){
+
+if(current<questions.length-1){
+
+current++;
+
+}
+
+renderQuestion();
+
+}
+
+function prevQ(){
+
+if(current>0){
+
+current--;
+
+}
+
+renderQuestion();
+
+}
+
+function clearAns(){
+
+delete answers[questions[current].num];
+
+localStorage.setItem(
+"cbtAnswers",
+JSON.stringify(answers)
+);
+
+renderQuestion();
+
+}
+function clearAllAnswers(){
+
+let confirmClear =
+confirm("Are you sure you want to clear all attempted questions?");
+
+if(confirmClear){
+
+answers = {};
+
+localStorage.removeItem("cbtAnswers");
+
+renderQuestion();
+
+renderPalette();
+
+alert("All answers cleared successfully.");
+
+}
+
+}
+
+function confirmSubmit(){
+
+let confirmTest =
+confirm("Are you sure you want to submit the test?");
+
+if(confirmTest){
+
+submitTest();
+
+}
+
+}
+
+function submitTest(){
+
+let score=0;
+
+let resultHTML="";
+
+questions.forEach(q=>{
+
+let user=answers[q.num] || "Not Attempted";
+
+let correct=user===q.answer;
+
+if(correct){
+
+score++;
+
+}
+
+resultHTML += `
+
+<div style="
+margin-top:20px;
+padding:15px;
+border:1px solid #ddd;
+border-radius:10px;
+">
+
+<p style="font-size:18px">
+
+<b>Q${q.num}.</b>
+
+${q.question}
+
+</p>
+
+<p
+class="${correct?'correct':'wrong'}"
+style="
+padding:10px;
+border-radius:8px;
+margin-top:10px;
+font-size:15px;
+">
+
+<b>Your Answer:</b>
+
+${
+user==="Not Attempted"
+
+? "Not Attempted"
+
+: `${user}: ${q.options[user]}`
+}
+
+</p>
+
+<p style="margin-top:10px;font-size:15px">
+
+<b>Correct Answer:</b>
+
+${q.answer}: ${q.options[q.answer]}
+
+</p>
+
+</div>
+
+`;
+
+});
+
+let percent=
+((score/questions.length)*100).toFixed(2);
+
+resultHTML=`
+
+<div class="result-card">
+
+<h2>🎯 Final Result</h2>
+
+<br>
+
+<p><b>Score:</b> ${score}/${questions.length}</p>
+
+<p><b>Percentage:</b> ${percent}%</p>
+
+<p><b>Attempted:</b> ${Object.keys(answers).length}</p>
+
+<br>
+
+<button onclick="window.print()">
+
+🖨 Print Result
+
+</button>
+
+<hr><br>
+
+${resultHTML}
+
+</div>
+
+`;
+
+document.getElementById("result").innerHTML =
+resultHTML;
+
+}
+
+function startTest(){
+
+let hour =
+parseInt(document.getElementById("hourInput").value) || 0;
+
+let minute =
+parseInt(document.getElementById("minuteInput").value) || 0;
+
+total = (hour * 3600) + (minute * 60);
+
+timerStarted=true;
+
+document.getElementById("startScreen").style.display="none";
+
+}
+
+setInterval(()=>{
+
+if(!timerStarted) return;
+
+if(total > 0){
+
+total--;
+
+let h=Math.floor(total/3600);
+
+let m=Math.floor((total%3600)/60);
+
+let s=total%60;
+
+document.getElementById("timer").innerText =
+
+String(h).padStart(2,'0')
++":"
++
+String(m).padStart(2,'0')
++":"
++
+String(s).padStart(2,'0');
+
+}
+
+else{
+
+submitTest();
+
+timerStarted=false;
+
+}
+
+},1000);
+
+renderQuestion();
+
+</script>
+<script src="../theme.js"></script>
+  
+</body>
+</html>
