@@ -8,12 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Manrope', sans-serif;
             background-color: #f8fafc;
-            /* Disable Selection */
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -26,7 +25,24 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        /* Mathematical Structural Layouts */
+        #question-text {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.5;
+            color: #0f172a;
+            letter-spacing: 0.1px;
+        }
+        #question-number {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .option-text {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.6;
+            color: #1e293b;
+        }
         .math-fraction {
             display: inline-flex;
             flex-direction: column;
@@ -42,47 +58,47 @@
         .math-denominator {
             padding-top: 1px;
         }
-        
-        /* FIXED PRINT PRINT ENGINE STYLES */
+        .option-card {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .option-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
         @media print {
-            .no-print, #welcome-screen, #test-screen, footer, header, button {
-                display: none !important;
-            }
-            body, html {
-                background: #ffffff !important;
-                color: #000000 !important;
-                user-select: auto !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            #result-screen {
-                display: block !important;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-            .bg-white {
-                background-color: #ffffff !important;
-                border-color: #e2e8f0 !important;
-                box-shadow: none !important;
-            }
-            .break-inside-avoid {
-                break-inside: avoid !important;
-                page-break-inside: avoid !important;
-            }
+            .no-print { display: none !important; }
+            #result-screen { display: block !important; }
         }
     </style>
 </head>
 <body class="text-slate-800 antialiased font-semibold" oncontextmenu="return false;">
 
-    <div id="welcome-screen" class="min-h-screen flex items-start justify-center pt-2 px-4 pb-4">
-        <div class="w-full max-w-xl bg-white border border-slate-200 rounded-2xl shadow-sm p-5 space-y-5 mt-1">
-            <div class="text-center space-y-1.5">
+    <!-- INLINE PORTAL MODAL INTERFACE CONTAINER -->
+    <div id="custom-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-all duration-200">
+        <div class="bg-white rounded-2xl border border-slate-200 w-full max-w-sm p-6 space-y-4 shadow-xl transform scale-95 transition-transform duration-200" id="modal-card">
+            <div class="flex items-start space-x-3">
+                <div id="modal-icon-bg" class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-indigo-50 text-indigo-600">
+                    <i id="modal-icon" class="fa-solid fa-circle-info"></i>
+                </div>
+                <div class="space-y-1">
+                    <h3 id="modal-title" class="text-base font-bold text-slate-900">Notification</h3>
+                    <p id="modal-message" class="text-xs text-slate-500 font-medium leading-relaxed"></p>
+                </div>
+            </div>
+            <div class="flex items-center justify-end space-x-2 pt-2" id="modal-actions">
+                <button id="modal-btn-cancel" class="px-4 py-2 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-all">Cancel</button>
+                <button id="modal-btn-confirm" class="px-4 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition-all">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 1: WELCOME/LANDING CARD -->
+    <div id="welcome-screen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-xl bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6">
+            <div class="text-center space-y-2">
                 <h1 class="text-2xl font-bold text-slate-900 tracking-tight">General Concepts of Rotating Electrical Machine</h1>
-                <p class="text-sm font-bold text-indigo-600 tracking-wide uppercase">Part - 1 • PYQ Youth Publication Series</p>
+                <p class="text-sm font-bold text-indigo-600 tracking-wide uppercase">Part - 1 • Question Range : 1 to 100 </p>
             </div>
             
             <div class="grid grid-cols-2 gap-3">
@@ -90,7 +106,7 @@
                     <div class="text-indigo-600 text-lg font-bold">📄</div>
                     <div>
                         <div class="text-xs text-slate-400 font-bold uppercase">Questions</div>
-                        <div class="text-base font-bold text-slate-900"><span id="startTotalQ">0</span> Qs</div>
+                        <div class="text-base font-bold text-slate-900"><span id="startTotalQ">100</span> Qs</div>
                     </div>
                 </div>
                 <div class="border border-slate-200 rounded-xl p-3 flex items-center space-x-3">
@@ -104,7 +120,7 @@
                     <div class="text-indigo-600 text-lg font-bold">🎯</div>
                     <div>
                         <div class="text-xs text-slate-400 font-bold uppercase">Total Marks</div>
-                        <div class="text-base font-bold text-slate-900"><span id="startTotalMarks">0</span> Marks</div>
+                        <div class="text-base font-bold text-slate-900"><span id="startTotalMarks">100</span> Marks</div>
                     </div>
                 </div>
                 <div class="border border-slate-200 rounded-xl p-3 flex items-center space-x-3">
@@ -116,15 +132,17 @@
                 </div>
             </div>
 
-            <div class="border border-slate-200 rounded-xl p-4 space-y-3 bg-amber-50/50 border-amber-200">
-                <div class="flex items-center space-x-2 text-slate-900 font-bold">
-                    <i class="fa-solid fa-circle-info text-amber-600"></i>
-                    <span>Strict Examination Rules</span>
+            <div class="border border-slate-200 rounded-xl p-3 space-y-2 bg-amber-50/50 border-amber-200">
+                <div class="flex items-center space-x-2 text-slate-900 font-bold text-sm">
+                    <i class="fa-solid fa-circle-info text-indigo-600"></i>
+                    <span>Important Rules</span>
                 </div>
-                <ul class="space-y-2 text-xs text-slate-600 font-semibold list-disc list-inside">
-                    <li>Each correct submission awards exactly 1 mark.</li>
+                <ul class="space-y-1 text-[11px] text-slate-600 font-semibold leading-4 list-disc list-inside">
+                    <li>Each question carries exactly 1 mark.</li>
+                    <li>You can change your responses anytime before final submission.</li>
+                    <li>Green indicators on the palette mark answered states.</li>
+                    <li>The test auto-submits instantly when the countdown timer hits zero.</li>
                     <li><span class="text-rose-600 font-bold">Warning:</span> Tab switching or window minimization is restricted. 3 violations will auto-submit your test.</li>
-                    <li>Copying question data, right-clicks, or text selections are strictly disabled.</li>
                 </ul>
             </div>
 
@@ -156,77 +174,125 @@
         </div>
     </div>
 
-    <div id="test-screen" class="hidden min-h-screen flex flex-col max-w-md mx-auto bg-white border-x border-slate-200 relative shadow-md">
-        <header class="sticky top-0 bg-white border-b border-slate-200 px-4 py-3.5 flex items-center justify-between z-10">
-            <div class="flex items-center space-x-2">
-                <button onclick="exitTest()" class="text-slate-500 hover:text-rose-600 font-bold text-sm bg-slate-100 hover:bg-rose-50 px-2.5 py-1.5 rounded-lg transition-all">
-                    <i class="fa-solid fa-arrow-left-long"></i> Exit
+    <!-- SCREEN 2: ACTIVE TEST APPLICATION PANEL -->
+    <div id="test-screen" class="hidden min-h-screen flex flex-col bg-slate-50 relative w-full">
+        
+        <!-- Top Full-Width Sticky Navbar Header -->
+        <header class="sticky top-0 bg-white border-b border-slate-200 px-4 lg:px-8 py-4 flex items-center justify-between z-30 shadow-sm">
+            <div class="flex items-center space-x-4">
+                <button onclick="exitTest()" class="text-slate-500 hover:text-rose-600 font-bold text-sm bg-slate-100 hover:bg-rose-50 px-3 py-2 rounded-xl transition-all flex items-center space-x-1.5">
+                    <i class="fa-solid fa-arrow-left-long"></i> <span>Exit Portal</span>
                 </button>
-                <div class="truncate max-w-[150px]">
-                    <h2 class="text-sm font-bold text-slate-900 truncate">Rotating Machines</h2>
+                <h2 class="text-base lg:text-lg font-bold text-slate-900 hidden sm:block border-l border-slate-200 pl-4">Rotating Electrical Machines Examination</h2>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <div id="tab-warning-badge" class="hidden bg-amber-100 text-amber-800 border border-amber-200 text-[11px] px-3 py-1.5 rounded-lg font-bold animate-pulse">
+                    Tab Shifts: <span id="warning-count-text">0</span>/3
                 </div>
-            </div>
-            <div id="tab-warning-badge" class="hidden bg-amber-100 text-amber-800 border border-amber-200 text-[10px] px-2 py-1 rounded font-bold animate-pulse">
-                Tab Shifts: <span id="warning-count-text">0</span>/3
-            </div>
-            <div class="flex items-center space-x-1.5 bg-rose-50 text-rose-600 px-3 py-1.5 rounded-lg border border-rose-100">
-                <i class="fa-solid fa-hourglass-half text-xs animate-pulse"></i>
-                <span id="countdown-timer" class="text-sm font-bold tracking-wider">00:00:00</span>
+                <div class="flex items-center space-x-2 bg-rose-50 text-rose-600 px-4 py-2 rounded-xl border border-rose-100 font-mono font-bold tracking-wider">
+                    <i class="fa-solid fa-hourglass-half text-sm animate-pulse"></i>
+                    <span id="countdown-timer" class="text-sm lg:text-base">00:00:00</span>
+                </div>
             </div>
         </header>
 
-        <div class="bg-white border-b border-slate-200 px-4 py-3 flex items-center space-x-3">
-            <div id="horizontal-palette" class="flex items-center space-x-2 overflow-x-auto no-scrollbar flex-1 py-0.5"></div>
-            <button onclick="toggleFullPalette()" class="bg-slate-900 text-white w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold shrink-0">
-                ☰
-            </button>
-        </div>
+        <!-- Main Body Frame Layout Grid Logic Split Grid -->
+        <div class="flex-1 w-full max-w-7xl mx-auto flex flex-col md:flex-row p-4 lg:p-6 gap-6 overflow-hidden">
+            
+            <!-- Left Main Block: Question Display Area Frame Window (75% on Desktop) -->
+            <div class="flex-1 bg-white border border-slate-200 rounded-2xl flex flex-col overflow-hidden shadow-sm">
+                
+                <!-- Horizontal Track Tracker: Appears Only on Mobile Portports -->
+                <div class="bg-white border-b border-slate-200 px-4 py-3 flex items-center space-x-3 md:hidden shrink-0">
+                    <div id="horizontal-palette" class="flex items-center space-x-2 overflow-x-auto no-scrollbar flex-1 py-0.5"></div>
+                    <button onclick="toggleFullPalette()" class="bg-slate-900 text-white w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold shrink-0">
+                        ☰
+                    </button>
+                </div>
 
-        <div id="full-palette-drawer" class="hidden absolute top-[110px] left-0 right-0 bg-white border-b border-slate-200 shadow-lg z-20 p-4 transition-all duration-300">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-bold text-slate-500 uppercase">Jump to Question</span>
-                <span id="palette-summary" class="text-xs font-bold text-indigo-600">Attempted: 0/100</span>
-            </div>
-            <div id="drawer-grid" class="grid grid-cols-5 gap-2 max-h-48 overflow-y-auto p-1"></div>
-        </div>
-
-        <main class="flex-1 p-4 overflow-y-auto space-y-4">
-            <div class="space-y-2">
-                <span id="question-number" class="inline-block text-xs font-bold bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md uppercase tracking-wider">Question 01</span>
-                <div id="question-text" class="text-base font-bold text-slate-900 leading-snug space-y-2">
+                <!-- Horizontal Dropdown Menu Drawer Panel Frame: Mobile Only -->
+                <div id="full-palette-drawer" class="hidden absolute top-[135px] left-4 right-4 bg-white border border-slate-200 rounded-xl shadow-xl z-20 p-4 md:hidden">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Jump to Question</span>
+                        <span id="palette-summary-mobile" class="text-xs font-bold text-indigo-600">Attempted: 0/100</span>
                     </div>
+                    <div id="drawer-grid" class="grid grid-cols-5 gap-2 max-h-48 overflow-y-auto p-1"></div>
+                </div>
+
+                <!-- Main Active Content Scroll Panel Context Container -->
+                <main class="flex-1 p-6 lg:p-8 overflow-y-auto space-y-6">
+                    <div class="space-y-3">
+                        <span id="question-number" class="inline-block text-xs font-bold bg-indigo-50 text-indigo-600 border border-indigo-100 px-3 py-1 rounded-md uppercase tracking-wider">Question 01</span>
+                        <div id="question-text" class="text-slate-900 space-y-2 font-medium"></div>
+                    </div>
+
+                    <!-- Contextual Vector Diagnostic Layout Figure Container -->
+                    <div id="question-image-container" class="hidden border border-slate-100 rounded-2xl overflow-hidden bg-slate-50 p-4 text-center">
+                        <img id="question-image" src="" alt="Technical Figure Diagram" class="max-h-56 mx-auto rounded-lg object-contain">
+                    </div>
+
+                    <!-- Options Flex/Grid Stack Wrapper -->
+                    <div id="options-container" class="space-y-3 pt-2"></div>
+                </main>
+                
+                <!-- Lower Interactive Action Bar Deck Frame Footer Area -->
+                <footer class="bg-slate-50 border-t border-slate-200 p-4 lg:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
+                    <div class="flex items-center justify-between w-full sm:w-auto sm:space-x-4">
+                        <button onclick="clearResponse()" class="text-sm font-bold text-slate-400 hover:text-rose-600 transition-colors flex items-center space-x-1.5 py-1">
+                            <i class="fa-solid fa-trash-can text-xs"></i> <span>Clear Response</span>
+                        </button>
+                        <span id="mobile-progress" class="text-xs font-bold text-slate-400 sm:hidden">Question 1 of 100</span>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 w-full sm:w-auto justify-end">
+                        <button id="btn-prev" onclick="navigateQuestion(-1)" class="bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold px-6 py-3 rounded-xl flex items-center justify-center space-x-2 active:bg-slate-50 transition-all text-sm w-full sm:w-auto shadow-sm">
+                            <i class="fa-solid fa-chevron-left text-xs"></i> <span>Previous</span>
+                        </button>
+                        <button id="btn-next" onclick="navigateQuestion(1)" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-3 rounded-xl flex items-center justify-center space-x-2 shadow-md transition-all text-sm w-full sm:w-auto">
+                            <span id="next-text">Save & Next</span> <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </footer>
             </div>
 
-            <div id="question-image-container" class="hidden border border-slate-100 rounded-xl overflow-hidden bg-slate-50 p-2 text-center">
-                <img id="question-image" src="" alt="Technical Figure" class="max-h-40 mx-auto rounded-lg object-contain">
+            <!-- Right Sidebar Panel Frame: Persistent Desktop Matrix Grid System (25% on Wide Screen View) -->
+            <div class="hidden md:flex w-[340px] flex-col gap-4 shrink-0">
+                
+                <!-- Status Metrics Box Window -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-3 shadow-sm">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Metrics Monitoring</div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="bg-slate-50 border border-slate-100 rounded-xl p-2.5 text-center">
+                            <div class="text-[11px] text-slate-400 uppercase font-bold">Total</div>
+                            <div class="text-base font-extrabold text-slate-900">100 Qs</div>
+                        </div>
+                        <div class="bg-indigo-50/50 border border-indigo-100/60 rounded-xl p-2.5 text-center">
+                            <div class="text-[11px] text-indigo-400 uppercase font-bold">Attempted</div>
+                            <div id="palette-summary-desktop" class="text-base font-extrabold text-indigo-600">0 / 100</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Matrix Tracking Navigation Array Layout Frame Deck Container -->
+                <div class="flex-1 bg-white border border-slate-200 rounded-2xl p-4 flex flex-col shadow-sm min-h-0">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Question Navigation Matrix</div>
+                    <!-- 4-Column Balanced Grid Array System Layout -->
+                    <div id="desktop-grid" class="grid grid-cols-4 gap-2 overflow-y-auto pr-1 flex-1 no-scrollbar pb-2"></div>
+                </div>
+
+                <!-- Permanent Root Submission Node Action Key -->
+                <button onclick="triggerSubmit()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-2xl shadow-md transition-all text-sm uppercase tracking-wider">
+                    Submit Entire Examination
+                </button>
             </div>
 
-            <div id="options-container" class="space-y-2.5 pt-2"></div>
-        </main>
-
-        <footer class="sticky bottom-0 bg-white border-t border-slate-200 p-4 space-y-3">
-            <div class="flex items-center justify-between">
-                <button onclick="clearResponse()" class="text-sm font-bold text-slate-500 hover:text-rose-600 transition-colors flex items-center space-x-1">
-                    <i class="fa-solid fa-trash-can text-xs"></i> <span>Clear Response</span>
-                </button>
-                <span id="mobile-progress" class="text-xs font-bold text-slate-400">Question 1 of 100</span>
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-                <button id="btn-prev" onclick="navigateQuestion(-1)" class="border border-slate-200 hover:border-slate-300 text-slate-700 font-bold py-3 rounded-xl flex items-center justify-center space-x-2 active:bg-slate-50 transition-all">
-                    <i class="fa-solid fa-chevron-left text-xs"></i> <span>Previous</span>
-                </button>
-                <button id="btn-next" onclick="navigateQuestion(1)" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl flex items-center justify-center space-x-2 shadow-sm transition-all">
-                    <span id="next-text">Save & Next</span> <i class="fa-solid fa-chevron-right text-xs"></i>
-                </button>
-            </div>
-            <button onclick="triggerSubmit()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-sm mt-1 transition-all">
-                Submit Entire Examination
-            </button>
-        </footer>
+        </div>
     </div>
 
-    <div id="result-screen" class="hidden min-h-screen py-4 px-4 flex justify-center items-start">
-        <div class="w-full max-w-xl bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6">
+    <!-- SCREEN 3: RESULTS ANALYTICS DASHBOARD -->
+    <div id="result-screen" class="hidden min-h-screen py-8 px-4 flex justify-center items-start">
+        <div class="w-full max-w-2xl bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6">
             <div class="text-center space-y-1 border-b border-slate-100 pb-4">
                 <h1 class="text-2xl font-bold text-slate-900">Examination Metrics</h1>
                 <p class="text-sm text-slate-500 font-semibold">General Concepts of Rotating Electrical Machine</p>
@@ -237,7 +303,7 @@
                 <div class="relative w-28 h-28 flex items-center justify-center rounded-full border-4 border-indigo-600">
                     <div class="text-center">
                         <span id="result-score" class="text-3xl font-extrabold text-slate-900">0</span>
-                        <span class="text-slate-400 font-bold text-xs block border-t border-slate-100 mt-0.5 pt-0.5">out of <span class="total-q-placeholder">0</span></span>
+                        <span class="text-slate-400 font-bold text-xs block border-t border-slate-100 mt-0.5 pt-0.5">out of <span class="total-q-placeholder">100</span></span>
                     </div>
                 </div>
                 <div class="text-center">
@@ -260,108 +326,109 @@
         </div>
     </div>
 
+    <!-- CORE LOGIC & SECURITY CONTROLLER ENGINE -->
     <script>
         const questions = [
             {num:1,question:"How many parallel paths are there in a 6-pole simplex lap-wound DC machine?",options:{A:"6",B:"2",C:"12",D:"3"},answer:"A"},
-{num:2,question:"Wave winding is employed in a d.c. machine of:",options:{A:"High current and low voltage rating",B:"Low current and high voltage rating",C:"High current and high voltage rating",D:"Low current and low voltage rating"},answer:"B"},
-{num:3,question:"Which of the following machines do NOT use equalizer rings?",options:{A:"6-pole simplex lap-wound DC machine",B:"4-pole simplex wave-wound DC machine",C:"4-pole simplex lap-wound DC machine",D:"4-pole duplex wave-wound DC machine"},answer:"B"},
-{num:4,question:"For a 4-pole, 2 layer, DC lap-winding with 20 slots and one conductor per layer, the number of commutator bars is",options:{A:"20",B:"40",C:"160",D:"80"},answer:"A"},
-{num:5,question:"In an electromechanical energy conversion device, the developed torque depends on",options:{A:"Stator field strength and rotor field strength",B:"Stator field strength only",C:"Stator field and rotor field strength and torque angle",D:"Stator field strength and torque angle"},answer:"C"},
-{num:6,question:"The emf induced in a conductor rotating in a bipolar field is",options:{A:"AC",B:"DC",C:"AC & DC both",D:"None of these"},answer:"A"},
-{num:7,question:"The wave form of the armature m.m.f. in DC machine is...............",options:{A:"square",B:"rectangular",C:"triangular",D:"sinusoidal"},answer:"C"},
-{num:8,question:"In DC machine shape of main field flux distribution is",options:{A:"triangular",B:"flat tapped or trapezoidal",C:"saddle shape",D:"peaky in nature"},answer:"B"},
-{num:9,question:"The principle of dynamically induced emf is utilised in :",options:{A:"Choke",B:"Transformer",C:"Thermocouple",D:"Generator"},answer:"D"},
-{num:10,question:"Dummy coils are used for",options:{A:"increasing efficiency",B:"reducing armature reaction",C:"mechanical balancing",D:"all options are correct"},answer:"C"},
-{num:11,question:"For a linear electromagnetic circuit, which of the following statement is true?",options:{A:"Field energy is equal to the co-energy",B:"Field energy is greater than the co-energy",C:"Field energy is lesser than the co-energy",D:"Co-energy is zero"},answer:"A"},
-{num:12,question:`In electrical machines, magnetic leakage is undesirable. This is due to the fact that it–<br><span style="font-weight:600;">1. Lowers the power efficiency<br>2. Produces fringing<br>3. Leads to increased weight</span>`,options:{A:"Only 1",B:"1, 2 and 3",C:"Only 2",D:"Both 2 and 3"},answer:"D"},
-{num:13,question:"If a machine has P poles and the armature rotates at N revolutions per minute, then the frequency of induced emf in the armature winding of the machine is:",options:{A:`f = <span class="math-fraction"><span class="math-numerator">50</span><span class="math-denominator">PN</span></span> Hz`,B:`f = <span class="math-fraction"><span class="math-numerator">120</span><span class="math-denominator">PN</span></span> Hz`,C:`f = <span class="math-fraction"><span class="math-numerator">PN</span><span class="math-denominator">120</span></span> Hz`,D:`f = <span class="math-fraction"><span class="math-numerator">PN</span><span class="math-denominator">50</span></span> Hz`},answer:"C"},
-{num:14,question:"_____ helps to find out the direction of current in the conductor of a generator.",options:{A:"Cork screw rule",B:"Right hand thumb rule",C:"Fleming left hand rule",D:"Fleming right hand rule"},answer:"D"},
-{num:15,question:"Lap winding is preferred for which type of machines?",options:{A:"Low current & low voltage",B:"High current & high voltage",C:"High current and low voltage",D:"Low current & high voltage"},answer:"C"},
-{num:16,question:"A dynamo is sometimes said to generate electricity. It is actually acts as a source of:",options:{A:"charge",B:"magnetism",C:"emf",D:"energy"},answer:"C"},
-{num:17,question:"The alternating voltage generated in the DC generator can be converted into direct voltage by a device called _______.",options:{A:"varactor",B:"commutator",C:"armature",D:"pole pitch"},answer:"B"},
-{num:18,question:"Reactance voltage of a DC machine is ______ times of commutation.",options:{A:"Inversely proportional to",B:"Directly proportional to",C:"Independent of",D:"Equal to"},answer:"A"},
-{num:19,question:"Which of the following windings is connected in series with armature winding of DC machine?",options:{A:"Auxiliary winding",B:"Compensating winding",C:"Commutating Pole winding",D:"Both (b) and (c)"},answer:"D"},
-{num:20,question:"In a D.C. machine, on no load the magnetic neutral axis",options:{A:"Moves from geometrical neutral axis in the direction of rotation",B:"Moves from geometrical neutral axis in the opposite direction of rotation",C:"Coincides with the geometrical neutral axis",D:"None of the above"},answer:"C"},
-{num:21,question:"In a DC generator, whenever the rotating armature coil is parallel to the lines of flux:",options:{A:"the rate of change of flux linkage is minimum",B:"the flux linked with the coil is minimum and rate of change of flux linkage is maximum",C:"the flux linked with the coil is maximum",D:"the flux linked with the coil is maximum and rate of change of flux linkage is minimum"},answer:"B"},
-{num:22,question:"The line representing the critical resistance of a dc generator _______ its characteristics (OCC).",options:{A:"intersects",B:"does not intersect",C:"just touches",D:"runs parallel to"},answer:"C"},
-{num:23,question:"Compensating winding in a DC machine is placed",options:{A:"On Yoke in the interpolar gap",B:"On Yoke in the pole faces",C:"On partly in armature slots and partly in pole faces",D:"In armature slots"},answer:"B"},
-{num:24,question:"In a symmetrical rotating machine, the impedances met by armature currents of a given sequence are:",options:{A:"opposite in two phases and zero in remaining",B:"equal in the three phases",C:"zero in two phases",D:"different in the three phases"},answer:"B"},
-{num:25,question:"The function of pole-shoes in a DC machine is:",options:{A:"to increase field winding reactance",B:"to decrease field winding resistance",C:"to increase field winding resistance",D:"uniform distribution of flux"},answer:"D"},
-{num:26,question:"In a 4-pole dc machine, a coil span of 120 electrical degrees is equal to:",options:{A:"240 mechanical degrees",B:"60 mechanical degrees",C:"180 mechanical degrees",D:"120 mechanical degrees"},answer:"B"},
-{num:27,question:"The yoke in a large DC machine is made of:",options:{A:"Grain oriented steel",B:"Cast iron",C:"Cast steel",D:"Mild steel"},answer:"C"},
-{num:28,question:"The relative speed between the magnetic fields of stator and rotor under steady state operation is zero for a:",options:{A:"DC machine",B:"3-phase induction machine",C:"Synchronous machine",D:"All of these"},answer:"D"},
-{num:29,question:"A device which converts electrical energy into mechanical energy is termed as:",options:{A:"Capacitor",B:"Generator",C:"Motor",D:"Converter"},answer:"C"},
-{num:30,question:"In differential compound DC machine magnetic field produced by shunt and series field act in______ direction.",options:{A:"Same",B:"Opposite",C:"Vertical",D:"Horizontal"},answer:"B"},
-{num:31,question:"The Pitch of wave winding is:",options:{A:"YB − YF",B:"YB",C:"YB + YF",D:"YF"},answer:"C"},
-{num:32,question:"The distance between two consecutive and similar top coil side is called",options:{A:"Back pitch",B:"Front pitch",C:"Winding pitch",D:"Commutator pitch"},answer:"C"},
-{num:33,question:"Which part of a DC motor has the maximum flux",options:{A:"Pole core",B:"Interpole",C:"Leading pole tip",D:"Trailing pole tip"},answer:"C"},
-{num:34,question:"Brushes of D.C. machines are made of-",options:{A:"carbon",B:"soft copper",C:"hard copper",D:"all of these"},answer:"A"},
-{num:35,question:`Which of the followings are true with respect of interpoles in dc machine?<br><span style="font-weight:600;">1. Reduce armature reaction effect in interpolar region.<br>2. Windings are connected in series with armature.<br>3. Have the same dimensions as main poles.</span>`,options:{A:"1 and 2",B:"2 and 3",C:"1 and 3",D:"1, 2 and 3"},answer:"A"},
-{num:36,question:"Pole shoe of a dc machine is laminated for the purpose of",options:{A:"Decreasing hysteresis loss",B:"Decreasing eddy current loss",C:"Manufacturing ease",D:"Decreasing both hysteresis & eddy current loss"},answer:"B"},
-{num:37,question:"Which of the following is true with a commutator?",options:{A:"It acts as an inverter in a motor",B:"It acts as rectifier in a generator",C:"It requires frequent maintenance",D:"all the above"},answer:"D"},
-{num:38,question:"The resistance of armature winding depends on",options:{A:"length of conductor",B:"cross sectional area of the conductor",C:"number of conductors",D:"all of the above"},answer:"D"},
-{num:39,question:"Which law describes the dynamically induced EMF in a generator?",options:{A:"Ohm's law",B:"Biot Savart's law",C:"Kirchhoff's law",D:"Faraday's law"},answer:"D"},
-{num:40,question:"______ represents the electrical energy converted into mechanical energy by a dc motor.",options:{A:"EbIa",B:"VIa",C:"EgIa",D:"VIsh"},answer:"A"},
-{num:41,question:"For a P pole machine, the relation between electrical and mechanical degrees is",options:{A:`θ<sub>elec.</sub> = <span class="math-fraction"><span class="math-numerator">2</span><span class="math-denominator">P</span></span> θ<sub>mech.</sub>`,B:`θ<sub>elec.</sub> = <span class="math-fraction"><span class="math-numerator">4</span><span class="math-denominator">P</span></span> θ<sub>mech.</sub>`,C:`θ<sub>elec.</sub> = Pθ<sub>mech.</sub>`,D:`θ<sub>elec.</sub> = <span class="math-fraction"><span class="math-numerator">P</span><span class="math-denominator">2</span></span> θ<sub>mech.</sub>`},answer:"D"},
-{num:42,question:"Two dc machines A and B have armature circuit resistances of the order of 0.4 ohm and 1.2 ohm respectively. Which machine is bigger than the other for same voltage rating?",options:{A:"A is bigger than B",B:"B is bigger than A",C:"Both have same size",D:"Field circuit resistance will decide the size of machine"},answer:"A"},
-{num:43,question:"What are slot wedges in a dc machine, made of?",options:{A:"Mild steel",B:"Silicon steel",C:"Fibre",D:"Cast iron"},answer:"C"},
-{num:44,question:"The working of a dynamo is based on the principle of -",options:{A:"Electromagnetic induction",B:"Conversion of energy into electricity",C:"Magnetic effects of current",D:"Heating effects of current"},answer:"A"},
-{num:45,question:"The output of a dynamo using a splitting commutator is-",options:{A:"D.C.",B:"A.C.",C:"Fluctuating D.C.",D:"Half-wave rectified voltage"},answer:"C"},
-{num:46,question:"The inter poles in DC machines have a tapering shape in order to",options:{A:"reduce the overall weight",B:"reduce the saturation in the inter pole",C:"economies on the material required for inter poles",D:"increase the acceleration of commutation"},answer:"B"},
-{num:47,question:"EMF induced in a coil rotating in a uniform Magnetic field will be maximum when the:",options:{A:"Rate of change of flux linkage is minimum",B:"Rate of change of flux linkage is maximum",C:"Rate of cutting flux by the coil sides is minimum",D:"Flux linking with the coil is maximum"},answer:"B"},
-{num:48,question:"Force on a Conductors is :",options:{A:"unidirectional",B:"bidirectional",C:"Either of these",D:"none of these"},answer:"A"},
-{num:49,question:"Electro–mechanical voltage regulators generally find applications in :",options:{A:"generators",B:"transformers",C:"reactors",D:"all option are correct"},answer:"A"},
-{num:50,question:"In which of the following voltage sources, the movement of conductors in a magnetic field is used to produce voltage?",options:{A:"in a thermo couple",B:"in a zinc copper element",C:"in a DC generator",D:"in a transformer"},answer:"C"},
-{num:51,question:"What is called the electro-motive force(e.m.f) of a voltage source?",options:{A:"Terminal voltage when load is applied",B:"Internal voltage when no load is applied",C:"Product of internal resistance and load current",D:"Electric pressure provided to the load"},answer:"B"},
-{num:52,question:"In DC motor, where does iron loss occur?",options:{A:"the yoke",B:"the armature",C:"the field",D:"None of these"},answer:"B"},
-{num:53,question:`Consider the following parts of a dc machine:<br><span style="font-weight:600;">1. Yoke &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. Armature core<br>3. Brushes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4. Pole core</span><br>Which of the above parts are subjected to iron loss?`,options:{A:"1 and 2 only",B:"2 only",C:"1 only",D:"1, 2, 3 and 4"},answer:"B"},
-{num:54,question:"The e.m.f. of a DC generator depends on............",options:{A:"commutation",B:"speed",C:"frequency",D:"brush contact drop"},answer:"B"},
-{num:55,question:"How many segments will be there for the commutator of a 6 pole d.c. machine having a simple wave wound armature with 72 slots?",options:{A:"73",B:"72",C:"71",D:"70"},answer:"B"},
-{num:56,question:"The parts of the armature electric circuit which take active part in e.m.f. generation are..............",options:{A:"The coil sides inside the slots",B:"The overhangs",C:"both the coil sides inside the slots and the overhangs",D:"the commutator segments"},answer:"A"},
-{num:57,question:"The commutator in a D.C. machine acts as",options:{A:"a mechanical inverter",B:"a mechanical rectifier",C:"current controller",D:"either (a) or (b)"},answer:"D"},
-{num:58,question:"For a 6-pole D.C. machine with wave wound armature, the number of brushes required is",options:{A:"2",B:"4",C:"6",D:"12"},answer:"A"},
-{num:59,question:"A triangular mmf wave is produced in the air-gap of an electric machine. Such a wave is produced by",options:{A:"Stator of an induction machine",B:"Rotor of a synchronous machine",C:"Stator of a dc machine",D:"Rotor of a dc machine"},answer:"D"},
-{num:60,question:"Function of interpoles in a D.C. machine is to",options:{A:"reduce field winding heating.",B:"improve commutation.",C:"compensate for air-gap variation",D:"reduce losses"},answer:"B"},
-{num:61,question:"The commutator segments of D.C. machine are made of",options:{A:"tungsten",B:"hard-drawn copper",C:"soft copper",D:"electrolytic copper"},answer:"B"},
-{num:62,question:"Which of the following expression satisfies the Faraday's law of electromagnetic induction?",options:{A:"e = -N * (dϕ/dt)",B:"e = N * (dϕ/dt)",C:"e = -N ∫ dϕdt",D:"e = (N * d²ϕ) / dt²"},answer:"A"},
-{num:63,question:"The function of the commutator in a DC machine is.................",options:{A:"to change alternating current into direct current",B:"to improve commutation",C:"for easy speed control",D:"to change alternating voltage to direct voltage"},answer:"D"},
-{num:64,question:"A time-varying flux causes an induced electromotive force. What law does this statement represent?",options:{A:"Ampere's law",B:"Faraday's law",C:"Lenz's law",D:"Field form of Ohm's law"},answer:"B"},
-{num:65,question:"The number of brushes required for a 4 pole, lap wound DC machine is…………?",options:{A:"8",B:"1",C:"4",D:"2"},answer:"C"},
-{num:66,question:"In dc machine iron losses cause",options:{A:"heating in core",B:"less in efficiency",C:"rise in temperature of ventilating air",D:"all of the mentioned"},answer:"D"},
-{num:67,question:"The field winding will be drawn at what degree?",options:{A:"60 degree",B:"30 degree",C:"90 degree",D:"180 degree"},answer:"C"},
-{num:68,question:"Compensating winding is placed in the",options:{A:"pole shoe",B:"armature core",C:"main field",D:"all option are correct"},answer:"A"},
-{num:69,question:"DC machine winding are",options:{A:"full pitched",B:"short pitched",C:"either of these",D:"none of these"},answer:"A"},
-{num:70,question:"The armature winding is connected to the external power source through a",options:{A:"commutator system",B:"brush system",C:"commutator brush system",D:"none of these"},answer:"C"},
-{num:71,question:"Number of poles in comparison to number of parallel path in a lap winding are:",options:{A:"more",B:"less",C:"double",D:"equal"},answer:"D"},
-{num:72,question:"The nature of emf induced in the armature of a dc generator is _____ and it is converted into _____ by means of split",options:{A:"DC; DC",B:"AC; DC",C:"DC; AC",D:"AC; AC"},answer:"B"},
-{num:73,question:"The armature core in an electrical machine is made with the help of a/an:",options:{A:"dielectric material",B:"semiconductive material",C:"electrically-conductive mono-solid material",D:"laminated electrically-conductive material"},answer:"D"},
-{num:74,question:"In lap winding of a DC generator, the number of parallel paths is equal to ________.",options:{A:"2",B:"Number of poles",C:"1",D:"Number of Interpoles"},answer:"B"},
-{num:75,question:"How many number of parallel paths will be in simplex 4 pole wave winding?",options:{A:"4",B:"8",C:"2",D:"6"},answer:"C"},
-{num:76,question:"How many number of parallel path will be in duplex 4-pole wave winding?",options:{A:"2",B:"4",C:"8",D:"6"},answer:"B"},
-{num:77,question:"Which of the following limits the output of a rotating electrical machine?",options:{A:"size of the machine",B:"temperature rise",C:"peripheral velocity",D:"none of the above"},answer:"B"},
-{num:78,question:"In DC machines the value of A equals to 2",options:{A:"For lap winding",B:"For wave winding",C:"For Field winding",D:"For Armature winding"},answer:"B"},
-{num:79,question:"Separately excited and self-excited are types of which machine?",options:{A:"DC Machine",B:"Synchronous machine",C:"Induction machine",D:"None of the above"},answer:"A"},
-{num:80,question:"In a dc machine, for the same number of slots and same current in the armature conductor, which one of the following will induces higher emf?",options:{A:"Lap winding",B:"Wave winding",C:"Compensating winding",D:"Pole winding"},answer:"B"},
-{num:81,question:"What is the EMF generated per path in a simplex wave-wound DC generator?",options:{A:`<span class="math-fraction"><span class="math-numerator">ϕZN</span><span class="math-denominator">60P</span></span> V`,B:`<span class="math-fraction"><span class="math-numerator">ϕZPN</span><span class="math-denominator">60</span></span> V`,C:`<span class="math-fraction"><span class="math-numerator">ϕZN</span><span class="math-denominator">120P</span></span> V`,D:`<span class="math-fraction"><span class="math-numerator">ϕZPN</span><span class="math-denominator">120</span></span> V`},answer:"D"},
-{num:82,question:"The armature of a DC machine is made of....….",options:{A:"mild steel",B:"silicon steel",C:"stainless steel",D:"cast iron"},answer:"B"},
-{num:83,question:"DC generators are designed to develop armature voltages not exceeding 650 V because of the limitations of ….......",options:{A:"field winding",B:"armature winding",C:"commutator",D:"starters"},answer:"C"},
-{num:84,question:"Brushes in a DC machine are normally placed electrically in the",options:{A:"polar regions",B:"inter polar regions",C:"either of these",D:"None of these"},answer:"B"},
-{num:85,question:"Pole shoe of a D.C. machine is laminated for the purpose of :",options:{A:"Decreasing hysteresis loss",B:"Decreasing eddy current loss",C:"Decreasing both hysteresis and eddy current loss",D:"Manufacturing ease"},answer:"B"},
-{num:86,question:"What is the EMF generated per path in a P-pole simplex lap-wound generator?",options:{A:`<span class="math-fraction"><span class="math-numerator">ϕZN</span><span class="math-denominator">120</span></span> V`,B:`<span class="math-fraction"><span class="math-numerator">ϕZN</span><span class="math-denominator">120</span></span> PV`,C:`<span class="math-fraction"><span class="math-numerator">ϕZN</span><span class="math-denominator">60</span></span> V`,D:`<span class="math-fraction"><span class="math-numerator">ϕZN</span><span class="math-denominator">60</span></span> PV`},answer:"C"},
-{num:87,question:"Which among the following has a better voltage regulation?",options:{A:"Shunt generator",B:"Series generator",C:"Self excited generator",D:"Both series and shunt generator"},answer:"A"},
-{num:88,question:"The commutator of a DC generator acts as",options:{A:"an amplifier",B:"a rectifier",C:"a load",D:"a multiplier"},answer:"B"},
-{num:89,question:"Faraday's laws of electromagnetic induction are related to:",options:{A:"The e.m.f. of a chemical cell",B:"The e.m.f. of a generator",C:"The current flowing in a conductor",D:"The strength of a magnetic field"},answer:"B"},
-{num:90,question:"In a DC machine, commutator performs which of the following functions?",options:{A:"Supply starting current or torque",B:"Converting DC into AC",C:"Converting AC into DC",D:"Both conversion of AC into DC and vice versa"},answer:"D"},
-{num:91,question:"The winding of interpoles is connected _______ with the armature.",options:{A:"Half in series and half in parallel",B:"Both in series and parallel",C:"In parallel",D:"In series"},answer:"D"},
-{num:92,question:"If the speed of rotation of a dynamo is doubled, then the induced emf will :",options:{A:"become half",B:"become double",C:"become four times",D:"remain unchanged"},answer:"B"},
-{num:93,question:"In DC machines, fractional pitch winding is used to :",options:{A:"improve cooling",B:"reduce copper losses",C:"increase the generated emf",D:"reduce the sparking"},answer:"D"},
-{num:94,question:"What is the mechanical energy source used to drive a dc generator?",options:{A:"alternator",B:"armature",C:"motor drive",D:"rotor",E:"prime mover"},answer:"E"},
-{num:95,question:"Which of the following materials is used in the field coils of D.C. generators?",options:{A:"Mica",B:"Copper",C:"Cast Iron",D:"Carbon",E:"Nickel"},answer:"B"},
-{num:96,question:"What is the armature mmf wave for a d.c. machine?",options:{A:"Sinusoidal and rotates w.r.t. armature",B:"Sinusoidal and rotates w.r.t. field",C:"Triangular and rotates w.r.t. armature",D:"Square and rotates w.r.t. field",E:"Triangular and stationary w.r.t. armature"},answer:"E"},
-{num:97,question:"The exciting coils of any DC machine are wound____:",options:{A:"in the machine",B:"in the armature slots",C:"around the poles",D:"separately"},answer:"C"},
-{num:98,question:"In d.c. machines, the armature reaction m.m.f. is",options:{A:"stationary with respect to armature",B:"rotating with respect to stator",C:"stationary with respect to stator",D:"rotating with respect to brushes"},answer:"C"},
-{num:99,question:"Which of the following quantity maintains the same direction whether a D.C. machine runs as a generator or as a motor?",options:{A:"Induced e.m.f.",B:"Armature current",C:"Field current",D:"Supply current"},answer:"A"},
-{num:100,question:"NEMA standards rate motors according to ......",options:{A:"Frame number",B:"Horsepower",C:"Voltage",D:"Weight"},answer:"A"
+            {num:2,question:"Wave winding is employed in a d.c. machine of:",options:{A:"High current and low voltage rating",B:"Low current and high voltage rating",C:"High current and high voltage rating",D:"Low current and low voltage rating"},answer:"B"},
+            {num:3,question:"Which of the following machines do NOT use equalizer rings?",options:{A:"6-pole simplex lap-wound DC machine",B:"4-pole simplex wave-wound DC machine",C:"4-pole simplex lap-wound DC machine",D:"4-pole duplex wave-wound DC machine"},answer:"B"},
+            {num:4,question:"For a 4-pole, 2 layer, DC lap-winding with 20 slots and one conductor per layer, the number of commutator bars is",options:{A:"20",B:"40",C:"160",D:"80"},answer:"A"},
+            {num:5,question:"In an electromechanical energy conversion device, the developed torque depends on",options:{A:"Stator field strength and rotor field strength",B:"Stator field strength only",C:"Stator field and rotor field strength and torque angle",D:"Stator field strength and torque angle"},answer:"C"},
+            {num:6,question:"The emf induced in a conductor rotating in a bipolar field is",options:{A:"AC",B:"DC",C:"AC & DC both",D:"None of these"},answer:"A"},
+            {num:7,question:"The wave form of the armature m.m.f. in DC machine is...............",options:{A:"square",B:"rectangular",C:"triangular",D:"sinusoidal"},answer:"C"},
+            {num:8,question:"In DC machine shape of main field flux distribution is",options:{A:"triangular",B:"flat tapped or trapezoidal",C:"saddle shape",D:"peaky in nature"},answer:"B"},
+            {num:9,question:"The principle of dynamically induced emf is utilised in :",options:{A:"Choke",B:"Transformer",C:"Thermocouple",D:"Generator"},answer:"D"},
+            {num:10,question:"Dummy coils are used for",options:{A:"increasing efficiency",B:"reducing armature reaction",C:"mechanical balancing",D:"all options are correct"},answer:"C"},
+            {num:11,question:"For a linear electromagnetic circuit, which of the following statement is true?",options:{A:"Field energy is equal to the co-energy",B:"Field energy is greater than the co-energy",C:"Field energy is lesser than the co-energy",D:"Co-energy is zero"},answer:"A"},
+            {num:12,question:`In electrical machines, magnetic leakage is undesirable. This is due to the fact that it–<br><span style="font-weight:600;">1. Lowers the power efficiency<br>2. Produces fringing<br>3. Leads to increased weight</span>`,options:{A:"Only 1",B:"1, 2 and 3",C:"Only 2",D:"Both 2 and 3"},answer:"D"},
+            {num:13,question:"If a machine has P poles and the armature rotates at N revolutions per minute, then the frequency of induced emf in the armature winding of the machine is:",options:{A:`f = <span class="math-fraction"><span class="math-numerator">50</span><span class="math-denominator">PN</span></span> Hz`,B:`f = <span class="math-fraction"><span class="math-numerator">120</span><span class="math-denominator">PN</span></span> Hz`,C:`f = <span class="math-fraction"><span class="math-numerator">PN</span><span class="math-denominator">120</span></span> Hz`,D:`f = <span class="math-fraction"><span class="math-numerator">PN</span><span class="math-denominator">50</span></span> Hz`},answer:"C"},
+            {num:14,question:"_____ helps to find out the direction of current in the conductor of a generator.",options:{A:"Cork screw rule",B:"Right hand thumb rule",C:"Fleming left hand rule",D:"Fleming right hand rule"},answer:"D"},
+            {num:15,question:"Lap winding is preferred for which type of machines?",options:{A:"Low current & low voltage",B:"High current & high voltage",C:"High current and low voltage",D:"Low current & high voltage"},answer:"C"},
+            {num:16,question:"A dynamo is sometimes said to generate electricity. It is actually acts as a source of:",options:{A:"charge",B:"magnetism",C:"emf",D:"energy"},answer:"C"},
+            {num:17,question:"The alternating voltage generated in the DC generator can be converted into direct voltage by a device called _______.",options:{A:"varactor",B:"commutator",C:"armature",D:"pole pitch"},answer:"B"},
+            {num:18,question:"Reactance voltage of a DC machine is ______ times of commutation.",options:{A:"Inversely proportional to",B:"Directly proportional to",C:"Independent of",D:"Equal to"},answer:"A"},
+            {num:19,question:"Which of the following windings is connected in series with armature winding of DC machine?",options:{A:"Auxiliary winding",B:"Compensating winding",C:"Commutating Pole winding",D:"Both (b) and (c)"},answer:"D"},
+            {num:20,question:"In a D.C. machine, on no load the magnetic neutral axis",options:{A:"Moves from geometrical neutral axis in the direction of rotation",B:"Moves from geometrical neutral axis in the opposite direction of rotation",C:"Coincides with the geometrical neutral axis",D:"None of the above"},answer:"C"},
+            {num:21,question:"In a DC generator, whenever the rotating armature coil is parallel to the lines of flux:",options:{A:"the rate of change of flux linkage is minimum",B:"the flux linked with the coil is minimum and rate of change of flux linkage is maximum",C:"the flux linked with the coil is maximum",D:"the flux linked with the coil is maximum and rate of change of flux linkage is minimum"},answer:"B"},
+            {num:22,question:"The line representing the critical resistance of a dc generator _______ its characteristics (OCC).",options:{A:"intersects",B:"does not intersect",C:"just touches",D:"runs parallel to"},answer:"C"},
+            {num:23,question:"Compensating winding in a DC machine is placed",options:{A:"On Yoke in the interpolar gap",B:"On Yoke in the pole faces",C:"On partly in armature slots and partly in pole faces",D:"In armature slots"},answer:"B"},
+            {num:24,question:"In a symmetrical rotating machine, the impedances met by armature currents of a given sequence are:",options:{A:"opposite in two phases and zero in remaining",B:"equal in the three phases",C:"zero in two phases",D:"different in the three phases"},answer:"B"},
+            {num:25,question:"The function of pole-shoes in a DC machine is:",options:{A:"to increase field winding reactance",B:"to decrease field winding resistance",C:"to increase field winding resistance",D:"uniform distribution of flux"},answer:"D"},
+            {num:26,question:"In a 4-pole dc machine, a coil span of 120 electrical degrees is equal to:",options:{A:"240 mechanical degrees",B:"60 mechanical degrees",C:"180 mechanical degrees",D:"120 mechanical degrees"},answer:"B"},
+            {num:27,question:"The yoke in a large DC machine is made of:",options:{A:"Grain oriented steel",B:"Cast iron",C:"Cast steel",D:"Mild steel"},answer:"C"},
+            {num:28,question:"The relative speed between the magnetic fields of stator and rotor under steady state operation is zero for a:",options:{A:"DC machine",B:"3-phase induction machine",C:"Synchronous machine",D:"All of these"},answer:"D"},
+            {num:29,question:"A device which converts electrical energy into mechanical energy is termed as:",options:{A:"Capacitor",B:"Generator",C:"Motor",D:"Converter"},answer:"C"},
+            {num:30,question:"In differential compound DC machine magnetic field produced by shunt and series field act in______ direction.",options:{A:"Same",B:"Opposite",C:"Vertical",D:"Horizontal"},answer:"B"},
+            {num:31,question:"The Pitch of wave winding is:",options:{A:"YB − YF",B:"YB",C:"YB + YF",D:"YF"},answer:"C"},
+            {num:32,question:"The distance between two consecutive and similar top coil side is called",options:{A:"Back pitch",B:"Front pitch",C:"Winding pitch",D:"Commutator pitch"},answer:"C"},
+            {num:33,question:"Which part of a DC motor has the maximum flux",options:{A:"Pole core",B:"Interpole",C:"Leading pole tip",D:"Trailing pole tip"},answer:"C"},
+            {num:34,question:"Brushes of D.C. machines are made of-",options:{A:"carbon",B:"soft copper",C:"hard copper",D:"all of these"},answer:"A"},
+            {num:35,question:`Which of the followings are true with respect of interpoles in dc machine?<br><span style="font-weight:600;">1. Reduce armature reaction effect in interpolar region.<br>2. Windings are connected in series with armature.<br>3. Have the same dimensions as main poles.</span>`,options:{A:"1 and 2",B:"2 and 3",C:"1 and 3",D:"1, 2 and 3"},answer:"A"},
+            {num:36,question:"Pole shoe of a dc machine is laminated for the purpose of",options:{A:"Decreasing hysteresis loss",B:"Decreasing eddy current loss",C:"Manufacturing ease",D:"Decreasing both hysteresis & eddy current loss"},answer:"B"},
+            {num:37,question:"Which of the following is true with a commutator?",options:{A:"It acts as an inverter in a motor",B:"It acts as rectifier in a generator",C:"It requires frequent maintenance",D:"all the above"},answer:"D"},
+            {num:38,question:"The resistance of armature winding depends on",options:{A:"length of conductor",B:"cross sectional area of the conductor",C:"number of conductors",D:"all of the above"},answer:"D"},
+            {num:39,question:"Which law describes the dynamically induced EMF in a generator?",options:{A:"Ohm's law",B:"Biot Savart's law",C:"Kirchhoff's law",D:"Faraday's law"},answer:"D"},
+            {num:40,question:"______ represents the electrical energy converted into mechanical energy by a dc motor.",options:{A:"EbIa",B:"VIa",C:"EgIa",D:"VIsh"},answer:"A"},
+            {num:41,question:"For a P pole machine, the relation between electrical and mechanical degrees is",options:{A:`θ<sub>elec.</sub> = <span class="math-fraction"><span class="math-numerator">2</span><span class="math-denominator">P</span></span> θ<sub>mech.</sub>`,B:`θ<sub>elec.</sub> = <span class="math-fraction"><span class="math-numerator">4</span><span class="math-denominator">P</span></span> θ<sub>mech.</sub>`,C:`θ<sub>elec.</sub> = Pθ<sub>mech.</sub>`,D:`θ<sub>elec.</sub> = <span class="math-fraction"><span class="math-numerator">P</span><span class="math-denominator">2</span></span> θ<sub>mech.</sub>`},answer:"D"},
+            {num:42,question:"Two dc machines A and B have armature circuit resistances of the order of 0.4 ohm and 1.2 ohm respectively. Which machine is bigger than the other for same voltage rating?",options:{A:"A is bigger than B",B:"B is bigger than A",C:"Both have same size",D:"Field circuit resistance will decide the size of machine"},answer:"A"},
+            {num:43,question:"What are slot wedges in a dc machine, made of?",options:{A:"Mild steel",B:"Silicon steel",C:"Fibre",D:"Cast iron"},answer:"C"},
+            {num:44,question:"The working of a dynamo is based on the principle of -",options:{A:"Electromagnetic induction",B:"Conversion of energy into electricity",C:"Magnetic effects of current",D:"Heating effects of current"},answer:"A"},
+            {num:45,question:"The output of a dynamo using a splitting commutator is-",options:{A:"D.C.",B:"A.C.",C:"Fluctuating D.C.",D:"Half-wave rectified voltage"},answer:"C"},
+            {num:46,question:"The inter poles in DC machines have a tapering shape in order to",options:{A:"reduce the overall weight",B:"reduce the saturation in the inter pole",C:"economies on the material required for inter poles",D:"increase the acceleration of commutation"},answer:"B"},
+            {num:47,question:"EMF induced in a coil rotating in a uniform Magnetic field will be maximum when the:",options:{A:"Rate of change of flux linkage is minimum",B:"Rate of change of flux linkage is maximum",C:"Rate of cutting flux by the coil sides is minimum",D:"Flux linking with the coil is maximum"},answer:"B"},
+            {num:48,question:"Force on a Conductors is :",options:{A:"unidirectional",B:"bidirectional",C:"Either of these",D:"none of these"},answer:"A"},
+            {num:49,question:"Electro–mechanical voltage regulators generally find applications in :",options:{A:"generators",B:"transformers",C:"reactors",D:"all option are correct"},answer:"A"},
+            {num:50,question:"In which of the following voltage sources, the movement of conductors in a magnetic field is used to produce voltage?",options:{A:"in a thermo couple",B:"in a zinc copper element",C:"in a DC generator",D:"in a transformer"},answer:"C"},
+            {num:51,question:"What is called the electro-motive force(e.m.f) of a voltage source?",options:{A:"Terminal voltage when load is applied",B:"Internal voltage when no load is applied",C:"Product of internal resistance and load current",D:"Electric pressure provided to the load"},answer:"B"},
+            {num:52,question:"In DC motor, where does iron loss occur?",options:{A:"the yoke",B:"the armature",C:"the field",D:"None of these"},answer:"B"},
+            {num:53,question:`Consider the following parts of a dc machine:<br><span style="font-weight:600;">1. Yoke &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. Armature core<br>3. Brushes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4. Pole core</span><br>Which of the above parts are subjected to iron loss?`,options:{A:"1 and 2 only",B:"2 only",C:"1 only",D:"1, 2, 3 and 4"},answer:"B"},
+            {num:54,question:"The e.m.f. of a DC generator depends on............",options:{A:"commutation",B:"speed",C:"frequency",D:"brush contact drop"},answer:"B"},
+            {num:55,question:"How many segments will be there for the commutator of a 6 pole d.c. machine having a simple wave wound armature with 72 slots?",options:{A:"73",B:"72",C:"71",D:"70"},answer:"B"},
+            {num:56,question:"The parts of the armature electric circuit which take active part in e.m.f. generation are..............",options:{A:"The coil sides inside the slots",B:"The overhangs",C:"both the coil sides inside the slots and the overhangs",D:"the commutator segments"},answer:"A"},
+            {num:57,question:"The commutator in a D.C. machine acts as",options:{A:"a mechanical inverter",B:"a mechanical rectifier",C:"current controller",D:"either (a) or (b)"},answer:"D"},
+            {num:58,question:"For a 6-pole D.C. machine with wave wound armature, the number of brushes required is",options:{A:"2",B:"4",C:"6",D:"12"},answer:"A"},
+            {num:59,question:"A triangular mmf wave is produced in the air-gap of an electric machine. Such a wave is produced by",options:{A:"Stator of an induction machine",B:"Rotor of a synchronous machine",C:"Stator of a dc machine",D:"Rotor of a dc machine"},answer:"D"},
+            {num:60,question:"Function of interpoles in a D.C. machine is to",options:{A:"reduce field winding heating.",B:"improve commutation.",C:"compensate for air-gap variation",D:"reduce losses"},answer:"B"},
+            {num:61,question:"The commutator segments of D.C. machine are made of",options:{A:"tungsten",B:"hard-drawn copper",C:"soft copper",D:"electrolytic copper"},answer:"B"},
+            {num:62,question:"Which of the following expression satisfies the Faraday's law of electromagnetic induction?",options:{A:"e = -N * (dϕ/dt)",B:"e = N * (dϕ/dt)",C:"e = -N ∫ dϕdt",D:"e = (N * d²ϕ) / dt²"},answer:"A"},
+            {num:63,question:"The function of the commutator in a DC machine is.................",options:{A:"to change alternating current into direct current",B:"to improve commutation",C:"for easy speed control",D:"to change alternating voltage to direct voltage"},answer:"D"},
+            {num:64,question:"A time-varying flux causes an induced electromotive force. What law does this statement represent?",options:{A:"Ampere's law",B:"Faraday's law",C:"Lenz's law",D:"Field form of Ohm's law"},answer:"B"},
+            {num:65,question:"The number of brushes required for a 4 pole, lap wound DC machine is…………?",options:{A:"8",B:"1",C:"4",D:"2"},answer:"C"},
+            {num:66,question:"In dc machine iron losses cause",options:{A:"heating in core",B:"less in efficiency",C:"rise in temperature of ventilating air",D:"all of the mentioned"},answer:"D"},
+            {num:67,question:"The field winding will be drawn at what degree?",options:{A:"60 degree",B:"30 degree",C:"90 degree",D:"180 degree"},answer:"C"},
+            {num:68,question:"Compensating winding is placed in the",options:{A:"pole shoe",B:"armature core",C:"main field",D:"all option are correct"},answer:"A"},
+            {num:69,question:"DC machine winding are",options:{A:"full pitched",B:"short pitched",C:"either of these",D:"none of these"},answer:"A"},
+            {num:70,question:"The armature winding is connected to the external power source through a",options:{A:"commutator system",B:"brush system",C:"commutator brush system",D:"none of these"},answer:"C"},
+            {num:71,question:"Number of poles in comparison to number of parallel path in a lap winding are:",options:{A:"more",B:"less",C:"double",D:"equal"},answer:"D"},
+            {num:72,question:"The nature of emf induced in the armature of a dc generator is _____ and it is converted into _____ by means of split",options:{A:"DC; DC",B:"AC; DC",C:"DC; AC",D:"AC; AC"},answer:"B"},
+            {num:73,question:"The armature core in an electrical machine is made with the help of a/an:",options:{A:"dielectric material",B:"semiconductive material",C:"electrically-conductive mono-solid material",D:"laminated electrically-conductive material"},answer:"D"},
+            {num:74,question:"In lap winding of a DC generator, the number of parallel paths is equal to ________.",options:{A:"2",B:"Number of poles",C:"1",D:"Number of Interpoles"},answer:"B"},
+            {num:75,question:"How many number of parallel paths will be in simplex 4 pole wave winding?",options:{A:"4",B:"8",C:"2",D:"6"},answer:"C"},
+            {num:76,question:"How many number of parallel path will be in duplex 4-pole wave winding?",options:{A:"2",B:"4",C:"8",D:"6"},answer:"B"},
+            {num:77,question:"Which of the following limits the output of a rotating electrical machine?",options:{A:"size of the machine",B:"temperature rise",C:"peripheral velocity",D:"none of the above"},answer:"B"},
+            {num:78,question:"In DC machines the value of A equals to 2",options:{A:"For lap winding",B:"For wave winding",C:"For Field winding",D:"For Armature winding"},answer:"B"},
+            {num:79,question:"Separately excited and self-excited are types of which machine?",options:{A:"DC Machine",B:"Synchronous machine",C:"Induction machine",D:"None of the above"},answer:"A"},
+            {num:80,question:"In a dc machine, for the same number of slots and same current in the armature conductor, which one of the following will induces higher emf?",options:{A:"Lap winding",B:"Wave winding",C:"Compensating winding",D:"Pole winding"},answer:"B"},
+            {num:81,question:"What is the EMF generated per path in a simplex wave-wound DC generator?",options:{A:`<span class="math-fraction"><span class="math-numerator">ϕZN</span><span class="math-denominator">60P</span></span> V`,B:`<span class="math-fraction"><span class="math-numerator">ϕZPN</span><span class="math-denominator">60</span></span> V`,C:`<span class="math-fraction"><span class="math-numerator">ϕZN</span><span class="math-denominator">120P</span></span> V`,D:`<span class="math-fraction"><span class="math-numerator">ϕZPN</span><span class="math-denominator">120</span></span> V`},answer:"D"},
+            {num:82,question:"The armature of a DC machine is made of....….",options:{A:"mild steel",B:"silicon steel",C:"stainless steel",D:"cast iron"},answer:"B"},
+            {num:83,question:"DC generators are designed to develop armature voltages not exceeding 650 V because of the limitations of ….......",options:{A:"field winding",B:"armature winding",C:"commutator",D:"starters"},answer:"C"},
+            {num:84,question:"Brushes in a DC machine are normally placed electrically in the",options:{A:"polar regions",B:"inter polar regions",C:"either of these",D:"None of these"},answer:"B"},
+            {num:85,question:"Pole shoe of a D.C. machine is laminated for the purpose of :",options:{A:"Decreasing hysteresis loss",B:"Decreasing eddy current loss",C:"Decreasing both hysteresis and eddy current loss",D:"Manufacturing ease"},answer:"B"},
+            {num:86,question:"What is the EMF generated per path in a P-pole simplex lap-wound generator?",options:{A:`<span class="math-fraction"><span class="math-numerator">ϕZN</span><span class="math-denominator">120</span></span> V`,B:`<span class="math-fraction"><span class="math-numerator">ϕZN</span><span class="math-denominator">120</span></span> PV`,C:`<span class="math-fraction"><span class="math-numerator">ϕZN</span><span class="math-denominator">60</span></span> V`,D:`<span class="math-fraction"><span class="math-numerator">ϕZN</span><span class="math-denominator">60</span></span> PV`},answer:"C"},
+            {num:87,question:"Which among the following has a better voltage regulation?",options:{A:"Shunt generator",B:"Series generator",C:"Self excited generator",D:"Both series and shunt generator"},answer:"A"},
+            {num:88,question:"The commutator of a DC generator acts as",options:{A:"an amplifier",B:"a rectifier",C:"a load",D:"a multiplier"},answer:"B"},
+            {num:89,question:"Faraday's laws of electromagnetic induction are related to:",options:{A:"The e.m.f. of a chemical cell",B:"The e.m.f. of a generator",C:"The current flowing in a conductor",D:"The strength of a magnetic field"},answer:"B"},
+            {num:90,question:"In a DC machine, commutator performs which of the following functions?",options:{A:"Supply starting current or torque",B:"Converting DC into AC",C:"Converting AC into DC",D:"Both conversion of AC into DC and vice versa"},answer:"D"},
+            {num:91,question:"The winding of interpoles is connected _______ with the armature.",options:{A:"Half in series and half in parallel",B:"Both in series and parallel",C:"In parallel",D:"In series"},answer:"D"},
+            {num:92,question:"If the speed of rotation of a dynamo is doubled, then the induced emf will :",options:{A:"become half",B:"become double",C:"become four times",D:"remain unchanged"},answer:"B"},
+            {num:93,question:"In DC machines, fractional pitch winding is used to :",options:{A:"improve cooling",B:"reduce copper losses",C:"increase the generated emf",D:"reduce the sparking"},answer:"D"},
+            {num:94,question:"What is the mechanical energy source used to drive a dc generator?",options:{A:"alternator",B:"armature",C:"motor drive",D:"rotor",E:"prime mover"},answer:"E"},
+            {num:95,question:"Which of the following materials is used in the field coils of D.C. generators?",options:{A:"Mica",B:"Copper",C:"Cast Iron",D:"Carbon",E:"Nickel"},answer:"B"},
+            {num:96,question:"What is the armature mmf wave for a d.c. machine?",options:{A:"Sinusoidal and rotates w.r.t. armature",B:"Sinusoidal and rotates w.r.t. field",C:"Triangular and rotates w.r.t. armature",D:"Square and rotates w.r.t. field",E:"Triangular and stationary w.r.t. armature"},answer:"E"},
+            {num:97,question:"The exciting coils of any DC machine are wound____:",options:{A:"in the machine",B:"in the armature slots",C:"around the poles",D:"separately"},answer:"C"},
+            {num:98,question:"In d.c. machines, the armature reaction m.m.f. is",options:{A:"stationary with respect to armature",B:"rotating with respect to stator",C:"stationary with respect to stator",D:"rotating with respect to brushes"},answer:"C"},
+            {num:99,question:"Which of the following quantity maintains the same direction whether a D.C. machine runs as a generator or as a motor?",options:{A:"Induced e.m.f.",B:"Armature current",C:"Field current",D:"Supply current"},answer:"A"},
+            {num:100,question:"NEMA standards rate motors according to ......",options:{A:"Frame number",B:"Horsepower",C:"Voltage",D:"Weight"},answer:"A"}
         ];
 
         let currentIdx = 0;
@@ -370,6 +437,40 @@
         let countdownInterval = null;
         let tabViolations = 0;
         let examSubmitted = false;
+
+        function showCustomModal(title, message, type, showCancel, onConfirm) {
+            const modal = document.getElementById('custom-modal');
+            const titleEl = document.getElementById('modal-title');
+            const msgEl = document.getElementById('modal-message');
+            const iconBg = document.getElementById('modal-icon-bg');
+            const icon = document.getElementById('modal-icon');
+            const btnCancel = document.getElementById('modal-btn-cancel');
+            const btnConfirm = document.getElementById('modal-btn-confirm');
+
+            titleEl.innerText = title;
+            msgEl.innerText = message;
+
+            if (type === 'danger') {
+                iconBg.className = "w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-rose-50 text-rose-600";
+                icon.className = "fa-solid fa-triangle-exclamation";
+            } else if (type === 'warning') {
+                iconBg.className = "w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-amber-50 text-amber-600";
+                icon.className = "fa-solid fa-circle-exclamation";
+            } else {
+                iconBg.className = "w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-indigo-50 text-indigo-600";
+                icon.className = "fa-solid fa-circle-info";
+            }
+
+            if (showCancel) btnCancel.classList.remove('hidden');
+            else btnCancel.classList.add('hidden');
+
+            btnConfirm.onclick = () => {
+                modal.classList.add('hidden');
+                if (onConfirm) onConfirm();
+            };
+            btnCancel.onclick = () => modal.classList.add('hidden');
+            modal.classList.remove('hidden');
+        }
 
         function initDashboardMetrics() {
             document.getElementById('startTotalQ').innerText = questions.length;
@@ -399,10 +500,11 @@
             if (txt) txt.innerText = tabViolations;
 
             if (tabViolations >= 3) {
-                alert("Security Alert: Multi-window tab switching detected. Exam auto-submitting now.");
-                autoSubmitTest("Force Submitted via Security Violation Monitor");
+                showCustomModal("Security Force Submit", "Multi-window tab switching detected. Exam auto-submitting now.", "danger", false, () => {
+                    autoSubmitTest("Force Submitted via Security Violation Monitor");
+                });
             } else {
-                alert(`Security Warning ${tabViolations}/3: Do not switch your screen tab layout context.`);
+                showCustomModal("Security Warning", `Violation ${tabViolations}/3: Do not switch your screen tab layout context.`, "warning", false, null);
             }
         });
 
@@ -447,8 +549,11 @@
         function initPalettes() {
             const row = document.getElementById('horizontal-palette');
             const grid = document.getElementById('drawer-grid');
+            const deskGrid = document.getElementById('desktop-grid');
+            
             row.innerHTML = '';
             grid.innerHTML = '';
+            deskGrid.innerHTML = '';
 
             questions.forEach((q, index) => {
                 const btnRow = document.createElement('button');
@@ -462,30 +567,40 @@
                 btnGrid.innerText = index + 1;
                 btnGrid.onclick = () => jumpToQuestion(index);
                 grid.appendChild(btnGrid);
+
+                const btnDesk = document.createElement('button');
+                btnDesk.id = `palette-desk-${index}`;
+                btnDesk.innerText = index + 1;
+                btnDesk.onclick = () => jumpToQuestion(index);
+                deskGrid.appendChild(btnDesk);
             });
             updatePaletteStyles();
         }
 
         function updatePaletteStyles() {
             questions.forEach((q, index) => {
-                const rBtn = document.getElementById('palette-row-' + index);
-                const gBtn = document.getElementById('palette-grid-' + index);
+                const rBtn = document.getElementById(`palette-row-${index}`);
+                const gBtn = document.getElementById(`palette-grid-${index}`);
+                const dBtn = document.getElementById(`palette-desk-${index}`);
                 
                 let baseStyle = "";
                 if (index === currentIdx) {
-                    baseStyle = "bg-indigo-600 text-white border-indigo-600 shadow-sm shadow-indigo-100";
+                    baseStyle = "bg-indigo-600 text-white border-indigo-600 shadow-sm ring-2 ring-indigo-100";
                 } else if (userResponses[index] !== undefined) {
-                    baseStyle = "bg-emerald-50 text-emerald-600 border-emerald-200";
+                    baseStyle = "bg-emerald-50 text-emerald-600 border-emerald-200 font-bold";
                 } else {
-                    baseStyle = "bg-white text-slate-700 border-slate-200 hover:border-slate-300";
+                    baseStyle = "bg-white text-slate-600 border-slate-200 hover:border-slate-300 font-medium";
                 }
 
-                if (rBtn) rBtn.className = `w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 border transition-all ${baseStyle}`;
-                if (gBtn) gBtn.className = `h-11 rounded-xl flex items-center justify-center font-bold text-sm border transition-all ${baseStyle}`;
+                const commonClass = `w-10 h-10 rounded-xl flex items-center justify-center text-sm shrink-0 border transition-all ${baseStyle}`;
+                if (rBtn) rBtn.className = commonClass;
+                if (gBtn) gBtn.className = `h-11 rounded-xl flex items-center justify-center text-sm border transition-all ${baseStyle}`;
+                if (dBtn) dBtn.className = `h-11 rounded-xl flex items-center justify-center text-sm border transition-all ${baseStyle}`;
             });
 
             const attemptedCount = Object.keys(userResponses).length;
-            document.getElementById('palette-summary').innerText = `Attempted: ${attemptedCount}/${questions.length}`;
+            document.getElementById('palette-summary-mobile').innerText = `Attempted: ${attemptedCount}/${questions.length}`;
+            document.getElementById('palette-summary-desktop').innerText = `${attemptedCount} / ${questions.length}`;
             document.getElementById('mobile-progress').innerText = `Question ${currentIdx + 1} of ${questions.length}`;
         }
 
@@ -509,18 +624,18 @@
                 const isSelected = userResponses[currentIdx] === key;
                 const optDiv = document.createElement('div');
                 optDiv.onclick = () => selectOption(key);
-                optDiv.className = `border rounded-xl p-3.5 flex items-center space-x-3 cursor-pointer transition-all bg-white ${
-                    isSelected ? 'border-indigo-600 ring-2 ring-indigo-50' : 'border-slate-200 hover:border-slate-300'
+                optDiv.className = `option-card border rounded-xl p-4 flex items-center space-x-4 cursor-pointer transition-all bg-white ${
+                    isSelected ? 'border-indigo-600 ring-2 ring-indigo-50 bg-indigo-50/10' : 'border-slate-200 hover:border-slate-300'
                 }`;
 
                 optDiv.innerHTML = `
                     <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                        isSelected ? 'border-indigo-600' : 'border-slate-300'
+                        isSelected ? 'border-indigo-600 bg-indigo-600' : 'border-slate-300 bg-white'
                     }">
-                        ${isSelected ? '<div class="w-2.5 h-2.5 bg-indigo-600 rounded-full"></div>' : ''}
+                        ${isSelected ? '<div class="w-1.5 h-1.5 bg-white rounded-full"></div>' : ''}
                     </div>
-                    <span class="text-sm font-bold text-slate-900">${key}.</span>
-                    <span class="text-sm font-bold text-slate-800">${value}</span>
+                    <span class="text-sm font-bold text-slate-400 select-none">${key}.</span>
+                    <span class="text-base font-bold text-slate-800 option-text">${value}</span>
                 `;
                 optContainer.appendChild(optDiv);
             });
@@ -558,6 +673,9 @@
             
             const targetItem = document.getElementById(`palette-row-${currentIdx}`);
             if(targetItem) targetItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            
+            const targetGridItem = document.getElementById(`palette-desk-${currentIdx}`);
+            if(targetGridItem) targetGridItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
         function jumpToQuestion(index) {
@@ -572,15 +690,15 @@
         }
 
         function exitTest() {
-            if (confirm("Exit Test Session? Active selection variables will be lost completely.")) {
+            showCustomModal("Exit Examination", "Exit Test Session? Active selection variables will be lost completely.", "warning", true, () => {
                 window.location.reload();
-            }
+            });
         }
 
         function triggerSubmit() {
-            if (confirm("Confirm Final Submission: Are you ready to output answers for processing?")) {
+            showCustomModal("Confirm Final Submission", "Are you ready to output answers for processing? This action cannot be undone.", "info", true, () => {
                 autoSubmitTest("Submitted Responsibly by Candidate");
-            }
+            });
         }
 
         function autoSubmitTest(reasonStatus = "Evaluation Completed") {
@@ -655,7 +773,7 @@
             document.getElementById('result-percentage').innerText = `Accuracy: ${percentage}%`;
         }
 
-        window.onload = initDashboardMetrics;
+        initDashboardMetrics();
     </script>
 </body>
 </html>
