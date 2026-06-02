@@ -6,7 +6,7 @@ setWindingData({
         hours: 1,
         minutes: 0
     },
-    questions = [
+    questions: [
 {
 num:101,
 question:"Inter–poles are used in ..........",
