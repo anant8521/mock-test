@@ -67,7 +67,7 @@
                     <div class="text-indigo-600 text-lg font-bold">⏱</div>
                     <div>
                         <div class="text-xs text-slate-400 font-bold uppercase">Duration</div>
-                        <div class="text-base font-bold text-slate-900" id="display-duration">1h 30m</div>
+                        <div class="text-base font-bold text-slate-900" id="display-duration">1h 00m</div>
                     </div>
                 </div>
                 <div class="border border-slate-200 rounded-xl p-3 flex items-center space-x-3">
@@ -105,7 +105,7 @@
                 <div class="space-y-1">
                     <label class="text-xs text-slate-500 font-bold uppercase">Set Minutes</label>
                     <select id="select-minutes" onchange="updateDurationUI()" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 font-bold focus:outline-none focus:border-indigo-500">
-                        <option value="0">00</option><option value="10">10</option><option value="30" selected>30</option><option value="45">45</option>
+                        <option value="0" selected>00</option><option value="10">10</option><option value="30">30</option><option value="45">45</option>
                     </select>
                 </div>
             </div>
@@ -163,7 +163,7 @@
                             <button id="btn-prev" onclick="navigateQuestion(-1)" class="bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold px-4 py-2.5 rounded-xl flex items-center justify-center text-xs w-full sm:w-auto shadow-sm">Previous</button>
                             <button id="btn-next" onclick="navigateQuestion(1)" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2.5 rounded-xl flex items-center justify-center text-xs w-full sm:w-auto shadow-md"><span id="next-text">Save & Next</span></button>
                         </div>
-                        <button onclick="triggerSubmit()" class="md:hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-sm">Submit Entire Examination</button>
+                        <button onclick="triggerSubmit()" class="lg:hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-sm">Submit Entire Examination</button>
                     </div>
                 </footer>
             </div>
@@ -247,7 +247,6 @@
             modal.classList.remove('hidden');
         }
 
-        // Target Module Data Injector Callback Node Link
         function setWindingData(payload) {
             questions = payload.questions;
             metaConfig = payload.metaConfig;
@@ -261,21 +260,27 @@
             document.getElementById('startTotalMarks').innerText = questions.length;
             document.getElementById('total-badge-desk').innerText = questions.length;
             document.querySelectorAll('.total-q-placeholder').forEach(el => el.innerText = questions.length);
+
+            if (metaConfig.hours !== undefined) {
+                document.getElementById('select-hours').value = metaConfig.hours;
+            }
+            if (metaConfig.minutes !== undefined) {
+                document.getElementById('select-minutes').value = metaConfig.minutes;
+            }
+            updateDurationUI();
         }
 
-        // Fixed Cross-Folder Route Resolver Function 
-        function loadWindingScript() {
+        function loadwinding() {
             const params = new URLSearchParams(window.location.search);
             const target = params.get('part') || '1';
             const script = document.createElement('script');
             
-            // Explicit URI mapping jumping down into your dynamic subfolder level
-            const folderRoute = "General Concepts of Rotating Electrical Machine";
-            script.src = `./${encodeURIComponent(folderRoute)}/part${target}.js`;
+            // Fixed clean direct path resolution strategy targeting local parameters 
+            script.src = `./part${target}.js`;
             
-            script.onerror = () => {
-                document.getElementById('exam-title-ui').innerText = "Module Tracking Error";
-                document.getElementById('exam-range-ui').innerText = "Could not map nested script arrays.";
+            script.onerror = function() {
+                document.getElementById('exam-title-ui').innerText = "Data File Not Found";
+                document.getElementById('exam-range-ui').innerText = "Verify part1.js or part2.js is inside this directory folder.";
             };
             document.body.appendChild(script);
         }
@@ -302,7 +307,7 @@
 
         function startTest() {
             const hrs = parseInt(document.getElementById('select-hours').value) || 1;
-            const mins = parseInt(document.getElementById('select-minutes').value) || 30;
+            const mins = parseInt(document.getElementById('select-minutes').value) || 0;
             totalSecondsLeft = (hrs * 3600) + (mins * 60);
 
             document.getElementById('welcome-screen').classList.add('hidden');
@@ -351,4 +356,53 @@
         function renderQuestion() {
             const q = questions[currentIdx];
             document.getElementById('question-number').innerText = `Question ${q.num || (currentIdx + 1)}`;
-            document.getElementById
+            document.getElementById('question-text').innerHTML = q.question;
+            const container = document.getElementById('options-container'); container.innerHTML = '';
+            Object.entries(q.options).forEach(([key, value]) => {
+                const active = userResponses[currentIdx] === key;
+                const card = document.createElement('div');
+                card.onclick = () => { userResponses[currentIdx] = key; renderQuestion(); updatePaletteStyles(); };
+                card.className = `option-card border rounded-xl p-4 flex items-center space-x-4 cursor-pointer transition-all bg-white ${active ? 'border-indigo-600 ring-2 ring-indigo-50 bg-indigo-50/10' : 'border-slate-200'}`;
+                card.innerHTML = `<div class="w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${active?'border-indigo-600 bg-indigo-600':'border-slate-300'}">${active?'<div class="w-1.5 h-1.5 bg-white rounded-full"></div>':''}</div><span class="text-xs font-bold text-slate-400">${key}.</span><span class="text-sm font-bold text-slate-800 option-text">${value}</span>`;
+                container.appendChild(card);
+            });
+            document.getElementById('btn-prev').disabled = (currentIdx === 0);
+            document.getElementById('btn-prev').style.opacity = (currentIdx === 0) ? '0.5' : '1';
+            document.getElementById('next-text').innerText = (currentIdx === questions.length - 1) ? "Finish" : "Save & Next";
+        }
+
+        function clearResponse() { delete userResponses[currentIdx]; renderQuestion(); updatePaletteStyles(); }
+        function navigateQuestion(dir) { if(dir===1 && currentIdx === questions.length-1) { triggerSubmit(); return; } currentIdx+=dir; renderQuestion(); updatePaletteStyles(); }
+        function toggleFullPalette() { document.getElementById('full-palette-drawer').classList.toggle('hidden'); }
+        function exitTest() { showCustomModal("Exit Portal", "Exit Session? Selection context state variables will be reset entirely.", "warning", true, () => window.location.reload()); }
+        function triggerSubmit() { showCustomModal("Confirm Submission", "Are you ready to submit your answers for evaluation?", "info", true, () => autoSubmitTest("User Final Submission")); }
+        
+        function autoSubmitTest(status) {
+            examSubmitted = true; clearInterval(countdownInterval);
+            document.getElementById('test-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('proctor-status-msg').innerText = `Session Status: ${status}`;
+            
+            let score = 0, stack = document.getElementById('review-cards-stack'); stack.innerHTML = '';
+            questions.forEach((q, i) => {
+                const ans = userResponses[i], correct = ans === q.answer;
+                if(correct) score++;
+                const item = document.createElement('div');
+                item.className = `bg-white border border-slate-200 border-l-4 ${ans===undefined?'border-l-slate-400':(correct?'border-l-emerald-500':'border-l-rose-500')} rounded-xl p-4 space-y-3`;
+                let opts = '';
+                Object.entries(q.options).forEach(([k,v]) => {
+                    let bg = k === q.answer ? "border-emerald-500 bg-emerald-50/50" : (ans === k ? "border-rose-300 bg-rose-50/50" : "border-slate-200");
+                    opts += `<div class="border ${bg} rounded-lg p-2.5 flex items-center space-x-2"><span class="text-xs font-bold">${k}.</span><span class="text-xs font-medium text-slate-700">${v}</span></div>`;
+                });
+                item.innerHTML = `<div class="flex justify-between text-xs font-bold text-slate-400"><span>Q. ${q.num || (i+1)}</span><span>${ans===undefined?'Unattempted':(correct?'Correct':'Incorrect')}</span></div><div class="text-sm font-bold text-slate-900">${q.question}</div><div class="space-y-1.5">${opts}</div>`;
+                stack.appendChild(item);
+            });
+            document.getElementById('result-score').innerText = score;
+            document.getElementById('result-percentage').innerText = `Accuracy: ${Math.round((score/questions.length)*100)}%`;
+        }
+
+        // Initialize script load sequence
+        loadwinding();
+    </script>
+</body>
+</html>
