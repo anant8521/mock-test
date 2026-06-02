@@ -223,6 +223,18 @@ answer:"D"
 },
 
 {
+num:119,
+question:"The reversal of current in a coil as the coil passes the brush axis is called:",
+options:{
+A:"generator action",
+B:"motoring action",
+C:"armature reaction",
+D:"commutation"
+},
+answer:"D"
+},
+
+{
 num:120,
 question:"______ is a hetero-polar structure with stationary poles and a rotating armature.",
 options:{
@@ -793,7 +805,7 @@ options:{
 A:"B is true but A is false.",
 B:"A and B are true, but B is not the correct explanation of A.",
 C:"A and B are true, and B is the correct explanation of A.",
-D:"A is true but B is false."
+自由D:"A is true but B is false."
 },
 answer:"D"
 },
@@ -1022,7 +1034,7 @@ question:"Which is the basic requirement of electrical machine foundation?",
 options:{
 A:"Foundation made up of cement concrete.",
 B:"Foundations should be designed considering the shocks and vibrations resulting from operation of machines.",
-自由C:"Foundation should resist attack from chemicals in soil.",
+C:"Foundation should resist attack from chemicals in soil.",
 D:"Foundation should be taken deep enough."
 },
 answer:"B"
