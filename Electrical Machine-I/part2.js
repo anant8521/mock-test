@@ -309,6 +309,23 @@ answer:"C"
 {
 num:126,
 question:"Consider the following figure for a 4-pole, 3-phase, 24-slots double layer winding. Find the pole pitch and the slot pitch angle.",
+
+<div style="text-align:center;">
+<img 
+src="../Images/q126.png"
+style="
+width:100%;
+max-width:500px;
+border:1px solid #ccc;
+border-radius:8px;
+padding:5px;
+background:white;
+display:block;
+margin:auto;
+">
+</div>
+
+<br>
 options:{
 A:"4 and 40 electrical degrees",
 B:"5 and 50 electrical degrees",
@@ -472,6 +489,24 @@ answer:"D"
 {
 num:138,
 question:"Which part of the DC machine is shown in the given figure.",
+
+<div style="text-align:center;">
+<img 
+src="../Images/q138.png"
+style="
+width:100%;
+max-width:500px;
+border:1px solid #ccc;
+border-radius:8px;
+padding:5px;
+background:white;
+display:block;
+margin:auto;
+">
+</div>
+
+<br>
+    
 options:{
 A:"Yoke",
 B:"Pole core",
