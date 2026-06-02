@@ -4,7 +4,7 @@ setWindingData({
         title: "General Concepts of Rotating Electrical Machine (Part 1)",
         range: "Question Range: 1 to 100",
         hours: 1,
-        minutes: 0
+        minutes: 30
     },
     questions: [
     {num:1,question:"How many parallel paths are there in a 6-pole simplex lap-wound DC machine?",options:{A:"6",B:"2",C:"12",D:"3"},answer:"A"},
