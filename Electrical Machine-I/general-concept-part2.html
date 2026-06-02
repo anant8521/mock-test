@@ -1,410 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Electrical Machine CBT Mock Test</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-font-family:Arial,sans-serif;
-background:#eef2f7;
-color:#222;
-}
-
-/* START SCREEN FIXED */
-
-#startScreen{
-position:fixed;
-inset:0;
-overflow-y:auto;
--webkit-overflow-scrolling:touch;
-padding:20px 10px 80px;
-background:#eef2f7;
-display:block;
-z-index:5000;
-}
-
-header{
-background:#0f172a;
-color:#fff;
-padding:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-position:sticky;
-top:0;
-z-index:1000;
-}
-
-.container{
-display:flex;
-min-height:100vh;
-}
-
-.sidebar{
-width:260px;
-background:#fff;
-padding:15px;
-overflow-y:auto;
-border-right:1px solid #ccc;
-}
-
-.palette{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:8px;
-}
-
-.palette button{
-padding:10px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-background:#d1d5db;
-font-weight:bold;
-}
-
-.palette .attempted{
-background:#22c55e;
-color:#fff;
-}
-
-.palette .current{
-background:#2563eb;
-color:#fff;
-}
-
-.main{
-flex:1;
-padding:20px;
-}
-
-.question-box{
-background:#fff;
-padding:20px;
-border-radius:12px;
-box-shadow:0 2px 8px rgba(0,0,0,.08);
-}
-
-.option{
-padding:14px;
-border:1px solid #ccc;
-border-radius:10px;
-margin-top:12px;
-cursor:pointer;
-transition:.2s;
-font-size:15px;
-}
-
-.option:hover{
-background:#f1f5f9;
-}
-
-.controls{
-margin-top:20px;
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.controls button{
-padding:12px 18px;
-border:none;
-border-radius:10px;
-background:#0f172a;
-color:#fff;
-cursor:pointer;
-font-size:15px;
-}
-
-.progress{
-margin-top:15px;
-height:10px;
-background:#ddd;
-border-radius:20px;
-overflow:hidden;
-}
-
-.progress-bar{
-height:100%;
-width:0%;
-background:#22c55e;
-}
-
-.result-card{
-background:#fff;
-padding:25px;
-border-radius:12px;
-margin-top:20px;
-}
-
-.correct{
-background:#bbf7d0 !important;
-}
-
-.wrong{
-background:#fecaca !important;
-}
-
-.fraction{
-display:inline-block;
-vertical-align:middle;
-text-align:center;
-line-height:1.2;
-}
-
-.fraction .top{
-display:block;
-border-bottom:2px solid #000;
-padding:0 4px;
-}
-
-.fraction .bottom{
-display:block;
-padding:0 4px;
-}
-
-.start-box{
-background:white;
-padding:20px;
-border-radius:15px;
-width:100%;
-max-width:420px;
-margin:20px auto 80px auto;
-box-shadow:0 4px 15px rgba(0,0,0,.2);
-text-align:center;
- }
-
-.info-box{
-text-align:left;
-background:#f8fafc;
-padding:15px;
-border-radius:10px;
-margin-bottom:20px;
-font-size:15px;
-line-height:1.5;
-}
-
-.instructions{
-text-align:left;
-background:#fff7ed;
-padding:15px;
-border-radius:10px;
-margin-bottom:20px;
-font-size:14px;
-line-height:1.5;
-border:1px solid #fdba74;
-}
-
-.start-input{
-width:100%;
-padding:12px;
-font-size:20px;
-font-weight:bold;
-border:1px solid #ccc;
-border-radius:8px;
-}
-
-.start-btn{
-width:100%;
-padding:14px;
-background:#0f172a;
-color:white;
-border:none;
-border-radius:10px;
-font-size:20px;
-font-weight:bold;
-cursor:pointer;
-}
-
-@media(max-width:768px){
-
-.container{
-flex-direction:column;
-}
-
-.sidebar{
-width:100%;
-border-right:none;
-border-bottom:1px solid #ccc;
-}
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Examination Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #f8fafc;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        #question-text {
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.5;
+            color: #0f172a;
+            letter-spacing: 0.1px;
+        }
+        #question-number {
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .option-text {
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #1e293b;
+        }
+        .math-fraction {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            line-height: 1.1;
+            padding: 0 4px;
+            font-weight: 800;
+        }
+        .math-numerator {
+            border-bottom: 2px solid #0f172a;
+            padding-bottom: 1px;
+        }
+        .math-denominator {
+            padding-top: 1px;
+        }
+        .option-card {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .option-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        @media print {
+            .no-print { display: none !important; }
+            #result-screen { display: block !important; }
+        }
+    </style>
 </head>
-
-<body>
-
-<header>
-
-<h2>General Concepts of Rotating Electrical Machine : Part - 2</h2>
-
-<div>
-⏳ <span id="timer">00:00:00</span>
-</div>
-
-</header>
-
-<!-- START SCREEN -->
-
-<div id="startScreen">
-
-<div class="start-box">
-
-<h2 style="margin-bottom:15px;">
-General Concepts of Rotating Electrical Machine : Part - 2
-</h2>
-
-<div style="font-size:80px;">👨‍🎓</div>
-
-<div class="info-box">
-<p>📘 <b>Total Questions :</b> <span id="startTotalQ"></span></p>
-
-<p>⏱ <b>Test Duration :</b> 30 minutes </p>
-
-<p>🎯 <b>Total Marks :</b> 100 Marks</p>
-
-<p>✅ <b>Marks Per Question :</b> 1 Mark</p>
-
-<p>❌ <b>Negative Marking :</b> No</p>
-
-<p>📚 <b>Subject :</b> Electrical Machine - I</p>
-
-<p>📖 <b>Topic :</b> General Concepts of Rotating Electrical Machine : Part - 1</p>
-
-<p>🔢 <b>Question Range :</b> 101 to 181</p>
-
-<p>📝 <b>Exam Type :</b> PYQ Youth Publication</p>
-
-<p>💻 <b>Mode :</b> Online CBT Examination</p>
-</div>
-
-<div class="instructions">
-
-<h3 style="margin-bottom:10px;">
-📌 Instructions
-</h3>
-
-<ul style="padding-left:20px;">
-
-<li>Each question carries 1 mark.</li>
-
-<li>No negative marking.</li>
-
-<li>Click Submit Test before timer ends.</li>
-
-<li>Questions can be changed anytime.</li>
-
-<li>Green palette indicates attempted questions.</li>
-
-<li>Test auto submits after timer completion.</li>
-
-</ul>
-
-</div>
-
-<label><b>Select Hours</b></label>
-
-<br><br>
-
-<input
-type="number"
-id="hourInput"
-min="0"
-max="10"
-value="0"
-class="start-input">
-
-<br><br>
-
-<label><b>Select Minutes</b></label>
-
-<br><br>
-
-<input
-type="number"
-id="minuteInput"
-min="0"
-max="59"
-value="30"
-class="start-input">
-
-<br><br>
-
-<button onclick="startTest()" class="start-btn">
-
-Start Test
-
-</button>
-
-</div>
-
-</div>
-
-<div class="container">
-
-<div class="sidebar">
-
-<h3>Question Palette</h3>
-
-<br>
-
-<div class="palette" id="palette"></div>
-
-<br>
-
-<p><b>Attempted:</b> <span id="attempted">0</span></p>
-
-<p><b>Total:</b> <span id="totalQuestions"></span></p>
-
-<div class="progress">
-
-<div class="progress-bar" id="progressBar"></div>
-
-</div>
-
-</div>
-
-<div class="main">
-
-<div class="question-box" id="questionBox"></div>
-
-<div class="controls">
-
-<button onclick="prevQ()">Previous</button>
-
-<button onclick="nextQ()">Next</button>
-
-<button onclick="clearAns()">Clear</button>
-
-<button onclick="clearAllAnswers()">Clear All</button>
-
-<button onclick="confirmSubmit()">Submit Test</button>
-
-</div>
-
-<div id="result"></div>
-
-</div>
-
-</div>
-
-<script>
-
-const questions = [
-
+<body class="text-slate-800 antialiased font-semibold" oncontextmenu="return false;">
+
+    <div id="custom-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-all duration-200">
+        <div class="bg-white rounded-2xl border border-slate-200 w-full max-w-sm p-6 space-y-4 shadow-xl transform scale-95 transition-transform duration-200" id="modal-card">
+            <div class="flex items-start space-x-3">
+                <div id="modal-icon-bg" class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-indigo-50 text-indigo-600">
+                    <i id="modal-icon" class="fa-solid fa-circle-info"></i>
+                </div>
+                <div class="space-y-1">
+                    <h3 id="modal-title" class="text-base font-bold text-slate-900">Notification</h3>
+                    <p id="modal-message" class="text-xs text-slate-500 font-medium leading-relaxed"></p>
+                </div>
+            </div>
+            <div class="flex items-center justify-end space-x-2 pt-2" id="modal-actions">
+                <button id="modal-btn-cancel" class="px-4 py-2 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-all">Cancel</button>
+                <button id="modal-btn-confirm" class="px-4 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition-all">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="welcome-screen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-md bg-white border border-slate-200 rounded-2xl shadow-sm p-5 space-y-6">
+            <div class="text-center space-y-2">
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">General Concepts of Rotating Electrical Machine</h1>
+                <p class="text-xs font-bold text-indigo-600 tracking-wide uppercase">Part - 2 • Question Range : 101 to 181</p>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-3">
+                <div class="border border-slate-200 rounded-xl p-3 flex items-center space-x-3">
+                    <div class="text-indigo-600 text-lg font-bold">📄</div>
+                    <div>
+                        <div class="text-xs text-slate-400 font-bold uppercase">Questions</div>
+                        <div class="text-sm font-bold text-slate-900"><span id="startTotalQ">81</span> Qs</div>
+                    </div>
+                </div>
+                <div class="border border-slate-200 rounded-xl p-3 flex items-center space-x-3">
+                    <div class="text-indigo-600 text-lg font-bold">⏱</div>
+                    <div>
+                        <div class="text-xs text-slate-400 font-bold uppercase">Duration</div>
+                        <div class="text-sm font-bold text-slate-900" id="display-duration">1h 00m</div>
+                    </div>
+                </div>
+                <div class="border border-slate-200 rounded-xl p-3 flex items-center space-x-3">
+                    <div class="text-indigo-600 text-lg font-bold">🎯</div>
+                    <div>
+                        <div class="text-xs text-slate-400 font-bold uppercase">Total Marks</div>
+                        <div class="text-sm font-bold text-slate-900"><span id="startTotalMarks">81</span> Marks</div>
+                    </div>
+                </div>
+                <div class="border border-slate-200 rounded-xl p-3 flex items-center space-x-3">
+                    <div class="text-indigo-600 text-lg font-bold">❌</div>
+                    <div>
+                        <div class="text-xs text-slate-400 font-bold uppercase">Negative</div>
+                        <div class="text-base font-bold text-slate-900">None</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-slate-200 rounded-xl p-3 space-y-2 bg-amber-50/50 border-amber-200">
+                <div class="flex items-center space-x-2 text-slate-900 font-bold text-sm">
+                    <i class="fa-solid fa-circle-info text-indigo-600"></i>
+                    <span>Important Rules</span>
+                </div>
+                <ul class="space-y-1 text-[11px] text-slate-600 font-semibold leading-4 list-disc list-inside">
+                    <li>Each question carries exactly 1 mark.</li>
+                    <li>You can change your responses anytime before final submission.</li>
+                    <li>The test auto-submits instantly when the countdown timer hits zero.</li>
+                    <li><span class="text-rose-600 font-bold">Warning:</span> Tab switching or window minimization is restricted. 3 violations will auto-submit your test.</li>
+                </ul>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-500 font-bold uppercase">Set Hours</label>
+                    <select id="select-hours" onchange="updateDurationUI()" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 font-bold focus:outline-none focus:border-indigo-500">
+                        <option value="0">00</option>
+                        <option value="1" selected>01</option>
+                        <option value="2">02</option>
+                        <option value="3">03</option>
+                    </select>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-500 font-bold uppercase">Set Minutes</label>
+                    <select id="select-minutes" onchange="updateDurationUI()" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 font-bold focus:outline-none focus:border-indigo-500">
+                        <option value="0" selected>00</option>
+                        <option value="10">10</option>
+                        <option value="30">30</option>
+                        <option value="45">45</option>
+                    </select>
+                </div>
+            </div>
+
+            <button onclick="startTest()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2 shadow-sm text-lg">
+                <span>Start Examination</span>
+                <i class="fa-solid fa-arrow-right text-sm"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="test-screen" class="hidden min-h-screen flex flex-col bg-white lg:bg-slate-50 relative w-full max-w-md lg:max-w-none mx-auto lg:border-none border-x border-slate-200">
+        
+        <header class="sticky top-0 bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between z-30 shadow-sm">
+            <div class="flex items-center space-x-3">
+                <button onclick="exitTest()" class="text-slate-500 hover:text-rose-600 font-bold text-xs bg-slate-100 hover:bg-rose-50 px-2.5 py-1.5 rounded-xl transition-all">
+                    <i class="fa-solid fa-arrow-left-long"></i> Exit
+                </button>
+                <h2 class="text-sm font-bold text-slate-900 border-l border-slate-200 pl-3 truncate max-w-[140px] sm:max-w-none">Rotating Machines (Part 2)</h2>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <div id="tab-warning-badge" class="hidden bg-amber-100 text-amber-800 border border-amber-200 text-[10px] px-2 py-1 rounded-lg font-bold animate-pulse">
+                    Tab Shifts: <span id="warning-count-text">0</span>/3
+                </div>
+                <div class="flex items-center space-x-1.5 bg-rose-50 text-rose-600 px-3 py-1.5 rounded-xl border border-rose-100 font-mono font-bold">
+                    <i class="fa-solid fa-hourglass-half text-xs animate-pulse"></i>
+                    <span id="countdown-timer" class="text-xs">00:00:00</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 w-full lg:max-w-7xl lg:mx-auto flex flex-col lg:flex-row p-0 lg:p-6 gap-4 lg:gap-6 overflow-hidden relative">
+            
+            <div class="flex-1 bg-white lg:border lg:border-slate-200 lg:rounded-2xl flex flex-col overflow-hidden lg:shadow-sm relative">
+                
+                <div class="bg-white border-b border-slate-200 px-4 py-3 flex items-center space-x-3 lg:hidden shrink-0">
+                    <div id="horizontal-palette" class="flex items-center space-x-2 overflow-x-auto no-scrollbar flex-1 py-0.5"></div>
+                    <button onclick="toggleFullPalette()" class="bg-slate-900 text-white w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shrink-0">
+                        ☰
+                    </button>
+                </div>
+
+                <div id="full-palette-drawer" class="hidden absolute top-[55px] left-0 right-0 bg-white border-b border-slate-200 shadow-xl z-40 p-4 lg:hidden">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Jump to Question</span>
+                        <span id="palette-summary-mobile" class="text-xs font-bold text-indigo-600">Attempted: 0/81</span>
+                    </div>
+                    <div id="drawer-grid" class="grid grid-cols-5 gap-2 max-h-48 overflow-y-auto p-1"></div>
+                </div>
+
+                <main class="flex-1 p-5 lg:p-8 overflow-y-auto space-y-5">
+                    <div class="space-y-2">
+                        <span id="question-number" class="inline-block text-[11px] font-bold bg-indigo-50 text-indigo-600 border border-indigo-100 px-2 py-0.5 rounded-md uppercase tracking-wider">Question 101</span>
+                        <div id="question-text" class="text-slate-900 font-medium text-base"></div>
+                    </div>
+
+                    <div id="question-image-container" class="hidden border border-slate-100 rounded-2xl overflow-hidden bg-slate-50 p-3 text-center">
+                        <img id="question-image" src="" alt="Technical Figure Diagram" class="max-h-48 mx-auto rounded-lg object-contain">
+                    </div>
+
+                    <div id="options-container" class="space-y-2.5 pt-1"></div>
+                </main>
+                
+                <footer class="bg-slate-50 border-t border-slate-200 p-4 lg:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+                    <div class="flex items-center justify-between w-full sm:w-auto sm:space-x-4">
+                        <button onclick="clearResponse()" class="text-xs font-bold text-slate-400 hover:text-rose-600 transition-colors flex items-center space-x-1 py-1">
+                            <i class="fa-solid fa-trash-can text-xs"></i> <span>Clear Response</span>
+                        </button>
+                        <span id="mobile-progress" class="text-xs font-bold text-slate-400 lg:hidden">Question 1 of 81</span>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto justify-end">
+                        <div class="flex items-center space-x-2.5 w-full sm:w-auto">
+                            <button id="btn-prev" onclick="navigateQuestion(-1)" class="bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold px-4 py-2.5 rounded-xl flex items-center justify-center space-x-1.5 active:bg-slate-50 transition-all text-xs w-full sm:w-auto shadow-sm">
+                                <i class="fa-solid fa-chevron-left text-xs"></i> <span>Previous</span>
+                            </button>
+                            <button id="btn-next" onclick="navigateQuestion(1)" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2.5 rounded-xl flex items-center justify-center space-x-1.5 shadow-md transition-all text-xs w-full sm:w-auto">
+                                <span id="next-text">Save & Next</span> <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                        </div>
+                        <button onclick="triggerSubmit()" class="lg:hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-sm">
+                            Submit Entire Examination
+                        </button>
+                    </div>
+                </footer>
+            </div>
+
+            <div class="hidden lg:flex w-[300px] flex-col gap-4 shrink-0">
+                <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-3 shadow-sm">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Metrics Monitoring</div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="bg-slate-50 border border-slate-100 rounded-xl p-2 text-center">
+                            <div class="text-[10px] text-slate-400 uppercase font-bold">Total</div>
+                            <div class="text-sm font-extrabold text-slate-900">81 Qs</div>
+                        </div>
+                        <div class="bg-indigo-50/60 border border-indigo-100/50 rounded-xl p-2 text-center">
+                            <div class="text-[10px] text-indigo-400 uppercase font-bold">Attempted</div>
+                            <div id="palette-summary-desktop" class="text-sm font-extrabold text-indigo-600">0 / 81</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 bg-white border border-slate-200 rounded-2xl p-4 flex flex-col shadow-sm min-h-0">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Question Navigation Matrix</div>
+                    <div id="desktop-grid" class="grid grid-cols-4 gap-2 overflow-y-auto pr-1 flex-1 no-scrollbar pb-1"></div>
+                </div>
+
+                <button onclick="triggerSubmit()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-2xl shadow-md transition-all text-xs uppercase tracking-wider">
+                    Submit Entire Examination
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="result-screen" class="hidden min-h-screen py-8 px-4 flex justify-center items-start">
+        <div class="w-full max-w-xl bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6">
+            <div class="text-center space-y-1 border-b border-slate-100 pb-4">
+                <h1 class="text-2xl font-bold text-slate-900">Examination Metrics</h1>
+                <p class="text-sm text-slate-500 font-semibold">General Concepts of Rotating Electrical Machine</p>
+                <p id="proctor-status-msg" class="text-xs text-slate-400 font-bold pt-1"></p>
+            </div>
+
+            <div class="flex flex-col items-center justify-center space-y-2 py-2">
+                <div class="relative w-28 h-28 flex items-center justify-center rounded-full border-4 border-indigo-600">
+                    <div class="text-center">
+                        <span id="result-score" class="text-3xl font-extrabold text-slate-900">0</span>
+                        <span class="text-slate-400 font-bold text-xs block border-t border-slate-100 mt-0.5 pt-0.5">out of <span class="total-q-placeholder">81</span></span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <span id="result-percentage" class="text-sm font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Accuracy: 0%</span>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Review Answers</h3>
+                <button onclick="window.print()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 border border-indigo-200 px-3 py-1.5 rounded-lg flex items-center space-x-1.5 active:bg-indigo-50 no-print">
+                    <i class="fa-solid fa-print"></i> <span>Print Report</span>
+                </button>
+            </div>
+
+            <div id="review-cards-stack" class="space-y-4"></div>
+
+            <button onclick="window.location.reload()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl transition-all no-print">
+                Restart New Test Mock
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
 {
 num:101,
 question:"Inter–poles are used in ..........",
@@ -1438,354 +1347,351 @@ D:"Foundation should be taken deep enough."
 },
 answer:"B"
 },
-];
-
-let current=0;
-
-let total=0;
-
-let timerStarted=false;
-
-let answers=JSON.parse(localStorage.getItem("cbtAnswers") || "{}");
-
-document.getElementById("totalQuestions").innerText =
-questions.length;
-
-document.getElementById("startTotalQ").innerText =
-questions.length;
-
-function renderPalette(){
-
-let html="";
-
-questions.forEach((q,i)=>{
-
-html += `
-<button
-class="${answers[q.num]?'attempted':''}
-${i===current?'current':''}"
-onclick="goQ(${i})">
-
-${q.num}
-
-</button>
-`;
-
-});
-
-document.getElementById("palette").innerHTML = html;
-
-document.getElementById("attempted").innerText =
-Object.keys(answers).length;
-
-document.getElementById("progressBar").style.width =
-((Object.keys(answers).length/questions.length)*100)+"%";
-
-}
-
-function renderQuestion(){
-
-let q = questions[current];
-
-let html = `
-<h3 style="font-size:16px;line-height:1.3;font-weight:600;">
-Q${q.num}. ${q.question}
-</h3>
-`;
-
-for(let key in q.options){
-
-html += `
-
-<div class="option">
-
-<label style="display:flex;align-items:center;gap:10px">
-
-<input
-type="radio"
-name="q${q.num}"
-value="${key}"
-
-${answers[q.num]===key?'checked':''}
-
-onchange="saveAns(${q.num},'${key}')">
-
-<div>
-
-<b>${key}.</b>
-
-${q.options[key]}
-
-</div>
-
-</label>
-
-</div>
-
-`;
-
-}
-
-document.getElementById("questionBox").innerHTML = html;
-
-renderPalette();
-
-}
-
-function saveAns(q,a){
-
-answers[q]=a;
-
-localStorage.setItem(
-"cbtAnswers",
-JSON.stringify(answers)
-);
-
-renderPalette();
-
-}
-
-function goQ(i){
-
-current=i;
-
-renderQuestion();
-
-}
-
-function nextQ(){
-
-if(current<questions.length-1){
-
-current++;
-
-}
-
-renderQuestion();
-
-}
-
-function prevQ(){
-
-if(current>0){
-
-current--;
-
-}
-
-renderQuestion();
-
-}
-
-function clearAns(){
-
-delete answers[questions[current].num];
-
-localStorage.setItem(
-"cbtAnswers",
-JSON.stringify(answers)
-);
-
-renderQuestion();
-
-}
-function clearAllAnswers(){
-
-let confirmClear =
-confirm("Are you sure you want to clear all attempted questions?");
-
-if(confirmClear){
-
-answers = {};
-
-localStorage.removeItem("cbtAnswers");
-
-renderQuestion();
-
-renderPalette();
-
-alert("All answers cleared successfully.");
-
-}
-
-}
-
-function confirmSubmit(){
-
-let confirmTest =
-confirm("Are you sure you want to submit the test?");
-
-if(confirmTest){
-
-submitTest();
-
-}
-
-}
-
-function submitTest(){
-
-let score=0;
-
-let resultHTML="";
-
-questions.forEach(q=>{
-
-let user=answers[q.num] || "Not Attempted";
-
-let correct=user===q.answer;
-
-if(correct){
-
-score++;
-
-}
-
-resultHTML += `
-
-<div style="
-margin-top:20px;
-padding:15px;
-border:1px solid #ddd;
-border-radius:10px;
-">
-
-<p style="font-size:18px">
-
-<b>Q${q.num}.</b>
-
-${q.question}
-
-</p>
-
-<p
-class="${correct?'correct':'wrong'}"
-style="
-padding:10px;
-border-radius:8px;
-margin-top:10px;
-font-size:15px;
-">
-
-<b>Your Answer:</b>
-
-${
-user==="Not Attempted"
-
-? "Not Attempted"
-
-: `${user}: ${q.options[user]}`
-}
-
-</p>
-
-<p style="margin-top:10px;font-size:15px">
-
-<b>Correct Answer:</b>
-
-${q.answer}: ${q.options[q.answer]}
-
-</p>
-
-</div>
-
-`;
-
-});
-
-let percent=
-((score/questions.length)*100).toFixed(2);
-
-resultHTML=`
-
-<div class="result-card">
-
-<h2>🎯 Final Result</h2>
-
-<br>
-
-<p><b>Score:</b> ${score}/${questions.length}</p>
-
-<p><b>Percentage:</b> ${percent}%</p>
-
-<p><b>Attempted:</b> ${Object.keys(answers).length}</p>
-
-<br>
-
-<button onclick="window.print()">
-
-🖨 Print Result
-
-</button>
-
-<hr><br>
-
-${resultHTML}
-
-</div>
-
-`;
-
-document.getElementById("result").innerHTML =
-resultHTML;
-
-}
-
-function startTest(){
-
-let hour =
-parseInt(document.getElementById("hourInput").value) || 0;
-
-let minute =
-parseInt(document.getElementById("minuteInput").value) || 0;
-
-total = (hour * 3600) + (minute * 60);
-
-timerStarted=true;
-
-document.getElementById("startScreen").style.display="none";
-
-}
-
-setInterval(()=>{
-
-if(!timerStarted) return;
-
-if(total > 0){
-
-total--;
-
-let h=Math.floor(total/3600);
-
-let m=Math.floor((total%3600)/60);
-
-let s=total%60;
-
-document.getElementById("timer").innerText =
-
-String(h).padStart(2,'0')
-+":"
-+
-String(m).padStart(2,'0')
-+":"
-+
-String(s).padStart(2,'0');
-
-}
-
-else{
-
-submitTest();
-
-timerStarted=false;
-
-}
-
-},1000);
-
-renderQuestion();
-
-</script>
-
+        ];
+
+        let currentIdx = 0;
+        let userResponses = {}; 
+        let totalSecondsLeft = 0;
+        let countdownInterval = null;
+        let tabViolations = 0;
+        let examSubmitted = false;
+
+        function showCustomModal(title, message, type, showCancel, onConfirm) {
+            const modal = document.getElementById('custom-modal');
+            const titleEl = document.getElementById('modal-title');
+            const msgEl = document.getElementById('modal-message');
+            const iconBg = document.getElementById('modal-icon-bg');
+            const icon = document.getElementById('modal-icon');
+            const btnCancel = document.getElementById('modal-btn-cancel');
+            const btnConfirm = document.getElementById('modal-btn-confirm');
+
+            titleEl.innerText = title;
+            msgEl.innerText = message;
+
+            if (type === 'danger') {
+                iconBg.className = "w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-rose-50 text-rose-600";
+                icon.className = "fa-solid fa-triangle-exclamation";
+            } else if (type === 'warning') {
+                iconBg.className = "w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-amber-50 text-amber-600";
+                icon.className = "fa-solid fa-circle-exclamation";
+            } else {
+                iconBg.className = "w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-indigo-50 text-indigo-600";
+                icon.className = "fa-solid fa-circle-info";
+            }
+
+            if (showCancel) btnCancel.classList.remove('hidden');
+            else btnCancel.classList.add('hidden');
+
+            btnConfirm.onclick = () => {
+                modal.classList.add('hidden');
+                if (onConfirm) onConfirm();
+            };
+            btnCancel.onclick = () => modal.classList.add('hidden');
+            modal.classList.remove('hidden');
+        }
+
+        function initDashboardMetrics() {
+            document.getElementById('startTotalQ').innerText = questions.length;
+            document.getElementById('startTotalMarks').innerText = questions.length;
+            document.querySelectorAll('.total-q-placeholder').forEach(el => el.innerText = questions.length);
+        }
+
+        function updateDurationUI() {
+            const h = document.getElementById('select-hours').value;
+            const m = document.getElementById('select-minutes').value;
+            document.getElementById('display-duration').innerText = `${h}h ${m}m`;
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'a' || e.key === 'x')) {
+                e.preventDefault();
+            }
+        });
+
+        window.addEventListener('blur', () => {
+            if (examSubmitted) return;
+            tabViolations++;
+            
+            const badge = document.getElementById('tab-warning-badge');
+            const txt = document.getElementById('warning-count-text');
+            if (badge) badge.classList.remove('hidden');
+            if (txt) txt.innerText = tabViolations;
+
+            if (tabViolations >= 3) {
+                showCustomModal("Security Force Submit", "Multi-window tab switching detected. Exam auto-submitting now.", "danger", false, () => {
+                    autoSubmitTest("Force Submitted via Security Violation Monitor");
+                });
+            } else {
+                showCustomModal("Security Warning", `Violation ${tabViolations}/3: Do not switch your screen tab layout context.`, "warning", false, null);
+            }
+        });
+
+        function startTest() {
+            const hrsElem = document.getElementById('select-hours');
+            const minsElem = document.getElementById('select-minutes');
+            
+            let hrs = hrsElem ? parseInt(hrsElem.value) : 1;
+            let mins = minsElem ? parseInt(minsElem.value) : 0;
+
+            totalSecondsLeft = (hrs * 3600) + (mins * 60);
+            if (totalSecondsLeft <= 0) totalSecondsLeft = 3600;
+
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('test-screen').classList.remove('hidden');
+
+            initPalettes();
+            renderQuestion();
+            startTimerEngine();
+        }
+
+        function startTimerEngine() {
+            if(countdownInterval) clearInterval(countdownInterval);
+            updateTimerDisplay();
+            countdownInterval = setInterval(() => {
+                totalSecondsLeft--;
+                updateTimerDisplay();
+                if (totalSecondsLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    autoSubmitTest("Time Expired");
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const h = Math.floor(totalSecondsLeft / 3600).toString().padStart(2, '0');
+            const m = Math.floor((totalSecondsLeft % 3600) / 60).toString().padStart(2, '0');
+            const s = (totalSecondsLeft % 60).toString().padStart(2, '0');
+            document.getElementById('countdown-timer').innerText = `${h}:${m}:${s}`;
+        }
+
+        function initPalettes() {
+            const row = document.getElementById('horizontal-palette');
+            const grid = document.getElementById('drawer-grid');
+            const deskGrid = document.getElementById('desktop-grid');
+            
+            row.innerHTML = '';
+            grid.innerHTML = '';
+            deskGrid.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const btnRow = document.createElement('button');
+                btnRow.id = `palette-row-${index}`;
+                btnRow.innerText = q.num;
+                btnRow.onclick = () => jumpToQuestion(index);
+                row.appendChild(btnRow);
+
+                const btnGrid = document.createElement('button');
+                btnGrid.id = `palette-grid-${index}`;
+                btnGrid.innerText = q.num;
+                btnGrid.onclick = () => jumpToQuestion(index);
+                grid.appendChild(btnGrid);
+
+                const btnDesk = document.createElement('button');
+                btnDesk.id = `palette-desk-${index}`;
+                btnDesk.innerText = q.num;
+                btnDesk.onclick = () => jumpToQuestion(index);
+                deskGrid.appendChild(btnDesk);
+            });
+            updatePaletteStyles();
+        }
+
+        function updatePaletteStyles() {
+            questions.forEach((q, index) => {
+                const rBtn = document.getElementById(`palette-row-${index}`);
+                const gBtn = document.getElementById(`palette-grid-${index}`);
+                const dBtn = document.getElementById(`palette-desk-${index}`);
+                
+                let baseStyle = "";
+                if (index === currentIdx) {
+                    baseStyle = "bg-indigo-600 text-white border-indigo-600 shadow-sm ring-2 ring-indigo-100";
+                } else if (userResponses[index] !== undefined) {
+                    baseStyle = "bg-emerald-50 text-emerald-600 border-emerald-200 font-bold";
+                } else {
+                    baseStyle = "bg-white text-slate-600 border-slate-200 hover:border-slate-300 font-medium";
+                }
+
+                const commonClass = `w-12 h-10 rounded-xl flex items-center justify-center text-xs shrink-0 border transition-all ${baseStyle}`;
+                if (rBtn) rBtn.className = commonClass;
+                if (gBtn) gBtn.className = `h-11 rounded-xl flex items-center justify-center text-xs border transition-all ${baseStyle}`;
+                if (dBtn) dBtn.className = `h-11 rounded-xl flex items-center justify-center text-xs border transition-all ${baseStyle}`;
+            });
+
+            const attemptedCount = Object.keys(userResponses).length;
+            document.getElementById('palette-summary-mobile').innerText = `Attempted: ${attemptedCount}/${questions.length}`;
+            document.getElementById('palette-summary-desktop').innerText = `${attemptedCount} / ${questions.length}`;
+            document.getElementById('mobile-progress').innerText = `Question ${currentIdx + 1} of ${questions.length}`;
+        }
+
+        function renderQuestion() {
+            const q = questions[currentIdx];
+            document.getElementById('question-number').innerText = `Question ${q.num}`;
+            document.getElementById('question-text').innerHTML = q.question;
+
+            const imgContainer = document.getElementById('question-image-container');
+            if (q.imageUrl) {
+                imgContainer.classList.remove('hidden');
+                document.getElementById('question-image').src = q.imageUrl;
+            } else {
+                imgContainer.classList.add('hidden');
+            }
+
+            const optContainer = document.getElementById('options-container');
+            optContainer.innerHTML = '';
+
+            Object.entries(q.options).forEach(([key, value]) => {
+                const isSelected = userResponses[currentIdx] === key;
+                const optDiv = document.createElement('div');
+                optDiv.onclick = () => selectOption(key);
+                optDiv.className = `option-card border rounded-xl p-4 flex items-center space-x-4 cursor-pointer transition-all bg-white ${
+                    isSelected ? 'border-indigo-600 ring-2 ring-indigo-50 bg-indigo-50/10' : 'border-slate-200 hover:border-slate-300'
+                }`;
+
+                optDiv.innerHTML = `
+                    <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                        isSelected ? 'border-indigo-600 bg-indigo-600' : 'border-slate-300 bg-white'
+                    }">
+                        ${isSelected ? '<div class="w-1.5 h-1.5 bg-white rounded-full"></div>' : ''}
+                    </div>
+                    <span class="text-sm font-bold text-slate-400 select-none">${key}.</span>
+                    <span class="text-sm font-bold text-slate-800 option-text">${value}</span>
+                `;
+                optContainer.appendChild(optDiv);
+            });
+
+            document.getElementById('btn-prev').disabled = (currentIdx === 0);
+            document.getElementById('btn-prev').style.opacity = (currentIdx === 0) ? '0.5' : '1';
+            document.getElementById('next-text').innerText = (currentIdx === questions.length - 1) ? "Finish" : "Save & Next";
+        }
+
+        function selectOption(key) {
+            userResponses[currentIdx] = key;
+            renderQuestion();
+            updatePaletteStyles();
+        }
+
+        function clearResponse() {
+            delete userResponses[currentIdx];
+            renderQuestion();
+            updatePaletteStyles();
+        }
+
+        function navigateQuestion(direction) {
+            document.getElementById('full-palette-drawer').classList.add('hidden');
+            if (direction === 1 && currentIdx === questions.length - 1) {
+                triggerSubmit();
+                return;
+            }
+            
+            currentIdx += direction;
+            if (currentIdx < 0) currentIdx = 0;
+            if (currentIdx >= questions.length) currentIdx = questions.length - 1;
+
+            renderQuestion();
+            updatePaletteStyles();
+            
+            const targetItem = document.getElementById(`palette-row-${currentIdx}`);
+            if(targetItem) targetItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            
+            const targetGridItem = document.getElementById(`palette-desk-${currentIdx}`);
+            if(targetGridItem) targetGridItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function jumpToQuestion(index) {
+            currentIdx = index;
+            document.getElementById('full-palette-drawer').classList.add('hidden');
+            renderQuestion();
+            updatePaletteStyles();
+        }
+
+        function toggleFullPalette() {
+            document.getElementById('full-palette-drawer').classList.toggle('hidden');
+        }
+
+        function exitTest() {
+            showCustomModal("Exit Examination", "Exit Test Session? Active selection variables will be lost completely.", "warning", true, () => {
+                window.location.reload();
+            });
+        }
+
+        function triggerSubmit() {
+            showCustomModal("Confirm Final Submission", "Are you ready to output answers for processing? This action cannot be undone.", "info", true, () => {
+                autoSubmitTest("Submitted Responsibly by Candidate");
+            });
+        }
+
+        function autoSubmitTest(reasonStatus = "Evaluation Completed") {
+            examSubmitted = true;
+            clearInterval(countdownInterval);
+            document.getElementById('test-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('proctor-status-msg').innerText = `Session State: ${reasonStatus}`;
+            calculateAndDisplayResults();
+        }
+
+        function calculateAndDisplayResults() {
+            let correctCount = 0;
+            const stack = document.getElementById('review-cards-stack');
+            stack.innerHTML = '';
+
+            questions.forEach((q, idx) => {
+                const userAns = userResponses[idx];
+                const isCorrect = userAns === q.answer;
+                if (isCorrect) correctCount++;
+
+                const card = document.createElement('div');
+                let cardBorderColor = "border-l-slate-400"; 
+                if (userAns !== undefined) {
+                    cardBorderColor = isCorrect ? "border-l-emerald-500" : "border-l-rose-500";
+                }
+
+                card.className = `bg-white border border-slate-200 border-l-4 ${cardBorderColor} rounded-xl p-4 space-y-3 break-inside-avoid`;
+
+                let choicesMarkup = "";
+                Object.entries(q.options).forEach(([key, val]) => {
+                    let optBg = "bg-white border-slate-200";
+                    let badge = "";
+
+                    if (key === q.answer) {
+                        optBg = "border-emerald-500 bg-emerald-50/50";
+                        badge = `<span class="ml-auto text-xs font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded">Correct Answer</span>`;
+                    } else if (userAns === key && !isCorrect) {
+                        optBg = "border-rose-300 bg-rose-50/50";
+                        badge = `<span class="ml-auto text-xs font-bold text-rose-600 bg-rose-100 px-2 py-0.5 rounded">Your Response</span>`;
+                    }
+
+                    choicesMarkup += `
+                        <div class="border ${optBg} rounded-lg p-2.5 flex items-center space-x-2">
+                            <span class="text-xs font-bold text-slate-900">${key}.</span>
+                            <span class="text-xs font-bold text-slate-700">${val}</span>
+                            ${badge}
+                        </div>
+                    `;
+                });
+
+                let statusBadge = `<span class="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded">Unattempted</span>`;
+                if (userAns !== undefined) {
+                    statusBadge = isCorrect 
+                        ? `<span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded">✓ Correct</span>`
+                        : `<span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded">✗ Incorrect</span>`;
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between space-x-2">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Q. ${q.num}</span>
+                        ${statusBadge}
+                    </div>
+                    <div class="text-sm font-bold text-slate-900">${q.question}</div>
+                    <div class="space-y-1.5">${choicesMarkup}</div>
+                `;
+                stack.appendChild(card);
+            });
+
+            document.getElementById('result-score').innerText = correctCount;
+            const percentage = Math.round((correctCount / questions.length) * 100);
+            document.getElementById('result-percentage').innerText = `Accuracy: ${percentage}%`;
+        }
+
+        initDashboardMetrics();
+    </script>
 </body>
 </html>
