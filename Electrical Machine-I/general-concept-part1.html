@@ -178,7 +178,7 @@
     <div id="test-screen" class="hidden min-h-screen flex flex-col bg-slate-50 relative w-full">
         
         <!-- Top Full-Width Sticky Navbar Header -->
-        <header class="sticky top-0 bg-white border-b border-slate-200 px-4 lg:px-8 py-4 flex items-center justify-between z-30 shadow-sm">
+        <header class="sticky top-0 bg-white border-b border-slate-200 px-4 py-3.5 flex items-center justify-between z-30 shadow-sm">
             <div class="flex items-center space-x-4">
                 <button onclick="exitTest()" class="text-slate-500 hover:text-rose-600 font-bold text-sm bg-slate-100 hover:bg-rose-50 px-3 py-2 rounded-xl transition-all flex items-center space-x-1.5">
                     <i class="fa-solid fa-arrow-left-long"></i> <span>Exit Portal</span>
@@ -198,21 +198,21 @@
         </header>
 
         <!-- Main Body Frame Layout Grid Logic Split Grid -->
-        <div class="flex-1 w-full max-w-7xl mx-auto flex flex-col md:flex-row p-4 lg:p-6 gap-6 overflow-hidden">
+        <div class="flex-1 w-full max-w-7xl mx-auto flex flex-col md:flex-row p-0 md:p-4 lg:p-6 gap-6 overflow-hidden relative">
             
             <!-- Left Main Block: Question Display Area Frame Window (75% on Desktop) -->
-            <div class="flex-1 bg-white border border-slate-200 rounded-2xl flex flex-col overflow-hidden shadow-sm">
+            <div class="flex-1 bg-white md:border md:border-slate-200 md:rounded-2xl flex flex-col overflow-hidden md:shadow-sm">
                 
                 <!-- Horizontal Track Tracker: Appears Only on Mobile Portports -->
                 <div class="bg-white border-b border-slate-200 px-4 py-3 flex items-center space-x-3 md:hidden shrink-0">
                     <div id="horizontal-palette" class="flex items-center space-x-2 overflow-x-auto no-scrollbar flex-1 py-0.5"></div>
-                    <button onclick="toggleFullPalette()" class="bg-slate-900 text-white w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold shrink-0">
+                    <button onclick="toggleFullPalette()" class="bg-slate-900 text-white w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shrink-0">
                         ☰
                     </button>
                 </div>
 
                 <!-- Horizontal Dropdown Menu Drawer Panel Frame: Mobile Only -->
-                <div id="full-palette-drawer" class="hidden absolute top-[135px] left-4 right-4 bg-white border border-slate-200 rounded-xl shadow-xl z-20 p-4 md:hidden">
+                <div id="full-palette-drawer" class="hidden absolute top-[55px] left-0 right-0 bg-white border-b border-slate-200 shadow-xl z-40 p-4 md:hidden">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Jump to Question</span>
                         <span id="palette-summary-mobile" class="text-xs font-bold text-indigo-600">Attempted: 0/100</span>
@@ -221,68 +221,73 @@
                 </div>
 
                 <!-- Main Active Content Scroll Panel Context Container -->
-                <main class="flex-1 p-6 lg:p-8 overflow-y-auto space-y-6">
-                    <div class="space-y-3">
-                        <span id="question-number" class="inline-block text-xs font-bold bg-indigo-50 text-indigo-600 border border-indigo-100 px-3 py-1 rounded-md uppercase tracking-wider">Question 01</span>
-                        <div id="question-text" class="text-slate-900 space-y-2 font-medium"></div>
+                <main class="flex-1 p-5 lg:p-8 overflow-y-auto space-y-5">
+                    <div class="space-y-2">
+                        <span id="question-number" class="inline-block text-[11px] font-bold bg-indigo-50 text-indigo-600 border border-indigo-100 px-2 py-0.5 rounded-md uppercase tracking-wider">Question 01</span>
+                        <div id="question-text" class="text-slate-900 font-medium text-base"></div>
                     </div>
 
-                    <!-- Contextual Vector Diagnostic Layout Figure Container -->
-                    <div id="question-image-container" class="hidden border border-slate-100 rounded-2xl overflow-hidden bg-slate-50 p-4 text-center">
-                        <img id="question-image" src="" alt="Technical Figure Diagram" class="max-h-56 mx-auto rounded-lg object-contain">
+                    <!-- Contextual Vector Layout Figure Container -->
+                    <div id="question-image-container" class="hidden border border-slate-100 rounded-2xl overflow-hidden bg-slate-50 p-3 text-center">
+                        <img id="question-image" src="" alt="Technical Figure Diagram" class="max-h-48 mx-auto rounded-lg object-contain">
                     </div>
 
                     <!-- Options Flex/Grid Stack Wrapper -->
-                    <div id="options-container" class="space-y-3 pt-2"></div>
+                    <div id="options-container" class="space-y-2.5 pt-1"></div>
                 </main>
                 
                 <!-- Lower Interactive Action Bar Deck Frame Footer Area -->
-                <footer class="bg-slate-50 border-t border-slate-200 p-4 lg:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
+                <footer class="bg-slate-50 border-t border-slate-200 p-4 lg:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
                     <div class="flex items-center justify-between w-full sm:w-auto sm:space-x-4">
-                        <button onclick="clearResponse()" class="text-sm font-bold text-slate-400 hover:text-rose-600 transition-colors flex items-center space-x-1.5 py-1">
+                        <button onclick="clearResponse()" class="text-xs font-bold text-slate-400 hover:text-rose-600 transition-colors flex items-center space-x-1 py-1">
                             <i class="fa-solid fa-trash-can text-xs"></i> <span>Clear Response</span>
                         </button>
-                        <span id="mobile-progress" class="text-xs font-bold text-slate-400 sm:hidden">Question 1 of 100</span>
+                        <span id="mobile-progress" class="text-xs font-bold text-slate-400 md:hidden">Question 1 of 100</span>
                     </div>
                     
-                    <div class="flex items-center space-x-3 w-full sm:w-auto justify-end">
-                        <button id="btn-prev" onclick="navigateQuestion(-1)" class="bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold px-6 py-3 rounded-xl flex items-center justify-center space-x-2 active:bg-slate-50 transition-all text-sm w-full sm:w-auto shadow-sm">
-                            <i class="fa-solid fa-chevron-left text-xs"></i> <span>Previous</span>
-                        </button>
-                        <button id="btn-next" onclick="navigateQuestion(1)" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-3 rounded-xl flex items-center justify-center space-x-2 shadow-md transition-all text-sm w-full sm:w-auto">
-                            <span id="next-text">Save & Next</span> <i class="fa-solid fa-chevron-right text-xs"></i>
+                    <div class="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto justify-end">
+                        <div class="flex items-center space-x-2.5 w-full sm:w-auto">
+                            <button id="btn-prev" onclick="navigateQuestion(-1)" class="bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold px-4 py-2.5 rounded-xl flex items-center justify-center space-x-1.5 active:bg-slate-50 transition-all text-xs w-full sm:w-auto shadow-sm">
+                                <i class="fa-solid fa-chevron-left text-xs"></i> <span>Previous</span>
+                            </button>
+                            <button id="btn-next" onclick="navigateQuestion(1)" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2.5 rounded-xl flex items-center justify-center space-x-1.5 shadow-md transition-all text-xs w-full sm:w-auto">
+                                <span id="next-text">Save & Next</span> <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                        </div>
+                        <!-- Explicit Operational Submission Button View For Mobile Layouts -->
+                        <button onclick="triggerSubmit()" class="md:hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-sm">
+                            Submit Entire Examination
                         </button>
                     </div>
                 </footer>
             </div>
 
-            <!-- Right Sidebar Panel Frame: Persistent Desktop Matrix Grid System (25% on Wide Screen View) -->
-            <div class="hidden md:flex w-[340px] flex-col gap-4 shrink-0">
+            <!-- Right Sidebar Panel Frame: Persistent Desktop Matrix Grid System -->
+            <div class="hidden md:flex w-[300px] flex-col gap-4 shrink-0">
                 
                 <!-- Status Metrics Box Window -->
                 <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-3 shadow-sm">
                     <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Metrics Monitoring</div>
                     <div class="grid grid-cols-2 gap-2">
-                        <div class="bg-slate-50 border border-slate-100 rounded-xl p-2.5 text-center">
-                            <div class="text-[11px] text-slate-400 uppercase font-bold">Total</div>
-                            <div class="text-base font-extrabold text-slate-900">100 Qs</div>
+                        <div class="bg-slate-50 border border-slate-100 rounded-xl p-2 text-center">
+                            <div class="text-[10px] text-slate-400 uppercase font-bold">Total</div>
+                            <div class="text-sm font-extrabold text-slate-900">100 Qs</div>
                         </div>
-                        <div class="bg-indigo-50/50 border border-indigo-100/60 rounded-xl p-2.5 text-center">
-                            <div class="text-[11px] text-indigo-400 uppercase font-bold">Attempted</div>
-                            <div id="palette-summary-desktop" class="text-base font-extrabold text-indigo-600">0 / 100</div>
+                        <div class="bg-indigo-50/60 border border-indigo-100/50 rounded-xl p-2 text-center">
+                            <div class="text-[10px] text-indigo-400 uppercase font-bold">Attempted</div>
+                            <div id="palette-summary-desktop" class="text-sm font-extrabold text-indigo-600">0 / 100</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Matrix Tracking Navigation Array Layout Frame Deck Container -->
                 <div class="flex-1 bg-white border border-slate-200 rounded-2xl p-4 flex flex-col shadow-sm min-h-0">
-                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Question Navigation Matrix</div>
-                    <!-- 4-Column Balanced Grid Array System Layout -->
-                    <div id="desktop-grid" class="grid grid-cols-4 gap-2 overflow-y-auto pr-1 flex-1 no-scrollbar pb-2"></div>
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Question Navigation Matrix</div>
+                    <div id="desktop-grid" class="grid grid-cols-4 gap-2 overflow-y-auto pr-1 flex-1 no-scrollbar pb-1"></div>
                 </div>
 
                 <!-- Permanent Root Submission Node Action Key -->
-                <button onclick="triggerSubmit()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-2xl shadow-md transition-all text-sm uppercase tracking-wider">
+                <button onclick="triggerSubmit()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-2xl shadow-md transition-all text-xs uppercase tracking-wider">
                     Submit Entire Examination
                 </button>
             </div>
@@ -292,7 +297,7 @@
 
     <!-- SCREEN 3: RESULTS ANALYTICS DASHBOARD -->
     <div id="result-screen" class="hidden min-h-screen py-8 px-4 flex justify-center items-start">
-        <div class="w-full max-w-2xl bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6">
+        <div class="w-full max-w-xl bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6">
             <div class="text-center space-y-1 border-b border-slate-100 pb-4">
                 <h1 class="text-2xl font-bold text-slate-900">Examination Metrics</h1>
                 <p class="text-sm text-slate-500 font-semibold">General Concepts of Rotating Electrical Machine</p>
@@ -635,7 +640,7 @@
                         ${isSelected ? '<div class="w-1.5 h-1.5 bg-white rounded-full"></div>' : ''}
                     </div>
                     <span class="text-sm font-bold text-slate-400 select-none">${key}.</span>
-                    <span class="text-base font-bold text-slate-800 option-text">${value}</span>
+                    <span class="text-sm font-bold text-slate-800 option-text">${value}</span>
                 `;
                 optContainer.appendChild(optDiv);
             });
@@ -759,7 +764,7 @@
 
                 card.innerHTML = `
                     <div class="flex items-start justify-between space-x-2">
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Q. ${q.num}</span>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Q. ${idx + 1}</span>
                         ${statusBadge}
                     </div>
                     <div class="text-sm font-bold text-slate-900">${q.question}</div>
