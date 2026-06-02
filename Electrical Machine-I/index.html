@@ -47,6 +47,12 @@ body{
     word-break:break-word;
 }
         @media print { .no-print { display: none !important; } #result-screen { display: block !important; } }
+        @media (max-width:768px){
+               #btn-prev,
+               #btn-next{
+               min-height:56px;
+               }
+        }
     </style>
 </head>
 <body class="text-slate-800 antialiased font-semibold" oncontextmenu="return false;">
