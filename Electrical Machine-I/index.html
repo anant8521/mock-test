@@ -22,7 +22,7 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         #question-text { font-size: 16px; font-weight: 700; line-height: 1.5; color: #0f172a; letter-spacing: 0.1px; }
         .option-text { font-size: 15px; font-weight: 600; line-height: 1.5; color: #1e293b; }
-        .math-fraction { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; line-height: 1.1; padding: 0 4px; }
+        .math-fraction { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; line-height: 1.1; padding: 0 4px; font-weight: 800; }
         .math-numerator { border-bottom: 2px solid #0f172a; padding-bottom: 1px; }
         .math-denominator { padding-top: 1px; }
         .option-card { box-shadow: 0 1px 3px rgba(0,0,0,0.04); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -67,7 +67,7 @@
                     <div class="text-indigo-600 text-lg font-bold">⏱</div>
                     <div>
                         <div class="text-xs text-slate-400 font-bold uppercase">Duration</div>
-                        <div class="text-base font-bold text-slate-900" id="display-duration">0h 00m</div>
+                        <div class="text-base font-bold text-slate-900" id="display-duration">1h 30m</div>
                     </div>
                 </div>
                 <div class="border border-slate-200 rounded-xl p-3 flex items-center space-x-3">
@@ -92,7 +92,6 @@
                     <li>Each question carries exactly 1 mark.</li>
                     <li>You can change your responses anytime before final submission.</li>
                     <li>The test auto-submits instantly when the countdown timer hits zero.</li>
-                    <li><span class="text-rose-600 font-bold">Warning:</span> Tab switching or window minimization is restricted. 3 violations will auto-submit your test.</li>
                 </ul>
             </div>
 
@@ -106,7 +105,7 @@
                 <div class="space-y-1">
                     <label class="text-xs text-slate-500 font-bold uppercase">Set Minutes</label>
                     <select id="select-minutes" onchange="updateDurationUI()" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 font-bold focus:outline-none focus:border-indigo-500">
-                        <option value="0" selected>00</option><option value="10">10</option><option value="30">30</option><option value="45">45</option>
+                        <option value="0">00</option><option value="10">10</option><option value="30" selected>30</option><option value="45">45</option>
                     </select>
                 </div>
             </div>
@@ -157,14 +156,14 @@
                 <footer class="bg-slate-50 border-t border-slate-200 p-4 lg:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
                     <div class="flex items-center justify-between w-full sm:w-auto sm:space-x-4">
                         <button onclick="clearResponse()" class="text-xs font-bold text-slate-400 hover:text-rose-600 transition-colors flex items-center space-x-1 py-1">🗑 <span>Clear Response</span></button>
-                        <span id="mobile-progress" class="text-xs font-bold text-slate-400 md:hidden">Question 1</span>
+                        <span id="mobile-progress" class="text-xs font-bold text-slate-400 lg:hidden">Question 1</span>
                     </div>
                     <div class="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto justify-end">
                         <div class="flex items-center space-x-2.5 w-full sm:w-auto">
                             <button id="btn-prev" onclick="navigateQuestion(-1)" class="bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold px-4 py-2.5 rounded-xl flex items-center justify-center text-xs w-full sm:w-auto shadow-sm">Previous</button>
                             <button id="btn-next" onclick="navigateQuestion(1)" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2.5 rounded-xl flex items-center justify-center text-xs w-full sm:w-auto shadow-md"><span id="next-text">Save & Next</span></button>
                         </div>
-                        <button onclick="triggerSubmit()" class="lg:hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-sm">Submit Entire Examination</button>
+                        <button onclick="triggerSubmit()" class="md:hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-sm">Submit Entire Examination</button>
                     </div>
                 </footer>
             </div>
@@ -218,46 +217,67 @@
     </div>
 
     <script>
-        let questions = [];
-        let metaConfig = { title: "Electrical Machine Exam", range: "Questions Overview" };
+        var questions = [];
+        var metaConfig = { title: "Exam Portal", range: "Questions Set" };
         let currentIdx = 0, userResponses = {}, totalSecondsLeft = 0, countdownInterval = null, tabViolations = 0, examSubmitted = false;
 
-        // Dynamic Data Extractor Engine
-        async function loadExamBundle() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const targetPart = urlParams.get('part') || '1'; // Default backup parameter to Part 1
-            
-            try {
-                // Dynamically fetch target JS module file based on parameters
-                const response = await fetch(`./part${targetPart}.js`);
-                if (!response.ok) throw new Error('Data file not found.');
-                
-                const scriptText = await response.text();
-                
-                // Controlled functional evaluation
-                const dataModule = new Function(scriptText + "\nreturn { questions, metaConfig };")();
-                questions = dataModule.questions;
-                metaConfig = dataModule.metaConfig;
-                
-                // Update configurations on UI
-                document.getElementById('exam-title-ui').innerText = metaConfig.title;
-                document.getElementById('exam-range-ui').innerText = metaConfig.range;
-                document.getElementById('active-title-header').innerText = metaConfig.title;
-                document.getElementById('result-meta-title').innerText = metaConfig.title;
-                
-                initDashboardMetrics();
-            } catch (err) {
-                document.getElementById('exam-title-ui').innerText = "Portal Load Error";
-                document.getElementById('exam-range-ui').innerText = "Please verify your file route configurations.";
-                console.error(err);
+        function showCustomModal(title, message, type, showCancel, onConfirm) {
+            const modal = document.getElementById('custom-modal');
+            const titleEl = document.getElementById('modal-title');
+            const msgEl = document.getElementById('modal-message');
+            const iconBg = document.getElementById('modal-icon-bg');
+            const icon = document.getElementById('modal-icon');
+            const btnCancel = document.getElementById('modal-btn-cancel');
+            const btnConfirm = document.getElementById('modal-btn-confirm');
+
+            titleEl.innerText = title; msgEl.innerText = message;
+            if (type === 'danger') {
+                iconBg.className = "w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-rose-50 text-rose-600";
+                icon.className = "fa-solid fa-triangle-exclamation";
+            } else if (type === 'warning') {
+                iconBg.className = "w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-amber-50 text-amber-600";
+                icon.className = "fa-solid fa-circle-exclamation";
+            } else {
+                iconBg.className = "w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-indigo-50 text-indigo-600";
+                icon.className = "fa-solid fa-circle-info";
             }
+            if (showCancel) btnCancel.classList.remove('hidden'); else btnCancel.classList.add('hidden');
+            btnConfirm.onclick = () => { modal.classList.add('hidden'); if (onConfirm) onConfirm(); };
+            btnCancel.onclick = () => modal.classList.add('hidden');
+            modal.classList.remove('hidden');
         }
 
-        function initDashboardMetrics() {
+        // Target Module Data Injector Callback Node Link
+        function setWindingData(payload) {
+            questions = payload.questions;
+            metaConfig = payload.metaConfig;
+
+            document.getElementById('exam-title-ui').innerText = metaConfig.title;
+            document.getElementById('exam-range-ui').innerText = metaConfig.range;
+            document.getElementById('active-title-header').innerText = metaConfig.title;
+            document.getElementById('result-meta-title').innerText = metaConfig.title;
+
             document.getElementById('startTotalQ').innerText = questions.length;
             document.getElementById('startTotalMarks').innerText = questions.length;
             document.getElementById('total-badge-desk').innerText = questions.length;
             document.querySelectorAll('.total-q-placeholder').forEach(el => el.innerText = questions.length);
+        }
+
+        // Fixed Cross-Folder Route Resolver Function 
+        function loadWindingScript() {
+            const params = new URLSearchParams(window.location.search);
+            const target = params.get('part') || '1';
+            const script = document.createElement('script');
+            
+            // Explicit URI mapping jumping down into your dynamic subfolder level
+            const folderRoute = "General Concepts of Rotating Electrical Machine";
+            script.src = `./${encodeURIComponent(folderRoute)}/part${target}.js`;
+            
+            script.onerror = () => {
+                document.getElementById('exam-title-ui').innerText = "Module Tracking Error";
+                document.getElementById('exam-range-ui').innerText = "Could not map nested script arrays.";
+            };
+            document.body.appendChild(script);
         }
 
         function updateDurationUI() {
@@ -266,16 +286,29 @@
             document.getElementById('display-duration').innerText = `${h}h ${m}m`;
         }
 
+        document.addEventListener('keydown', e => { if (e.ctrlKey && ['c','v','a','x'].includes(e.key)) e.preventDefault(); });
+
+        window.addEventListener('blur', () => {
+            if (examSubmitted) return;
+            tabViolations++;
+            const badge = document.getElementById('tab-warning-badge'), txt = document.getElementById('warning-count-text');
+            if (badge) badge.classList.remove('hidden'); if (txt) txt.innerText = tabViolations;
+            if (tabViolations >= 3) {
+                showCustomModal("Security Force Submit", "Multi-window tab switching detected. Exam auto-submitting now.", "danger", false, () => autoSubmitTest("Force Submitted via Security Violation Monitor"));
+            } else {
+                showCustomModal("Security Warning", `Violation ${tabViolations}/3: Do not switch tabs.`, "warning", false, null);
+            }
+        });
+
         function startTest() {
             const hrs = parseInt(document.getElementById('select-hours').value) || 1;
-            const mins = parseInt(document.getElementById('select-minutes').value) || 0;
+            const mins = parseInt(document.getElementById('select-minutes').value) || 30;
             totalSecondsLeft = (hrs * 3600) + (mins * 60);
 
             document.getElementById('welcome-screen').classList.add('hidden');
             document.getElementById('test-screen').classList.remove('hidden');
 
-            initPalettes();
-            renderQuestion();
+            initPalettes(); renderQuestion();
             if(countdownInterval) clearInterval(countdownInterval);
             countdownInterval = setInterval(() => {
                 totalSecondsLeft--;
@@ -293,8 +326,7 @@
             questions.forEach((q, i) => {
                 [row, grid, desk].forEach((container, mode) => {
                     const btn = document.createElement('button');
-                    btn.id = `p-${mode}-${i}`;
-                    btn.innerText = q.num || (i + 1);
+                    btn.id = `p-${mode}-${i}`; btn.innerText = q.num || (i + 1);
                     btn.onclick = () => { currentIdx = i; document.getElementById('full-palette-drawer').classList.add('hidden'); renderQuestion(); updatePaletteStyles(); };
                     container.appendChild(btn);
                 });
@@ -319,54 +351,4 @@
         function renderQuestion() {
             const q = questions[currentIdx];
             document.getElementById('question-number').innerText = `Question ${q.num || (currentIdx + 1)}`;
-            document.getElementById('question-text').innerHTML = q.question;
-            const container = document.getElementById('options-container');
-            container.innerHTML = '';
-            Object.entries(q.options).forEach(([key, value]) => {
-                const active = userResponses[currentIdx] === key;
-                const card = document.createElement('div');
-                card.onclick = () => { userResponses[currentIdx] = key; renderQuestion(); updatePaletteStyles(); };
-                card.className = `option-card border rounded-xl p-4 flex items-center space-x-4 cursor-pointer transition-all bg-white ${active ? 'border-indigo-600 ring-2 ring-indigo-50 bg-indigo-50/10' : 'border-slate-200'}`;
-                card.innerHTML = `<div class="w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${active?'border-indigo-600 bg-indigo-600':'border-slate-300'}">${active?'<div class="w-1.5 h-1.5 bg-white rounded-full"></div>':''}</div><span class="text-xs font-bold text-slate-400">${key}.</span><span class="text-sm font-bold text-slate-800 option-text">${value}</span>`;
-                container.appendChild(card);
-            });
-            document.getElementById('btn-prev').disabled = (currentIdx === 0);
-            document.getElementById('btn-prev').style.opacity = (currentIdx === 0) ? '0.5' : '1';
-            document.getElementById('next-text').innerText = (currentIdx === questions.length - 1) ? "Finish" : "Save & Next";
-        }
-
-        function clearResponse() { delete userResponses[currentIdx]; renderQuestion(); updatePaletteStyles(); }
-        function navigateQuestion(dir) { if(dir===1 && currentIdx === questions.length-1) { triggerSubmit(); return; } currentIdx+=dir; renderQuestion(); updatePaletteStyles(); }
-        function toggleFullPalette() { document.getElementById('full-palette-drawer').classList.toggle('hidden'); }
-        function exitTest() { showCustomModal("Exit Portal", "Exit Session? Selection context state variables will be reset entirely.", "warning", true, () => window.location.reload()); }
-        function triggerSubmit() { showCustomModal("Confirm Submission", "Are you ready to submit your answers for evaluation?", "info", true, () => autoSubmitTest("User Final Submission")); }
-        
-        function autoSubmitTest(status) {
-            examSubmitted = true; clearInterval(countdownInterval);
-            document.getElementById('test-screen').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
-            document.getElementById('proctor-status-msg').innerText = `Session Status: ${status}`;
-            
-            let score = 0, stack = document.getElementById('review-cards-stack');
-            stack.innerHTML = '';
-            questions.forEach((q, i) => {
-                const ans = userResponses[i], correct = ans === q.answer;
-                if(correct) score++;
-                const item = document.createElement('div');
-                item.className = `bg-white border border-slate-200 border-l-4 ${ans===undefined?'border-l-slate-400':(correct?'border-l-emerald-500':'border-l-rose-500')} rounded-xl p-4 space-y-3`;
-                let opts = '';
-                Object.entries(q.options).forEach(([k,v]) => {
-                    let bg = k === q.answer ? "border-emerald-500 bg-emerald-50/50" : (ans === k ? "border-rose-300 bg-rose-50/50" : "border-slate-200");
-                    opts += `<div class="border ${bg} rounded-lg p-2.5 flex items-center space-x-2"><span class="text-xs font-bold">${k}.</span><span class="text-xs font-medium text-slate-700">${v}</span></div>`;
-                });
-                item.innerHTML = `<div class="flex justify-between text-xs font-bold text-slate-400"><span>Q. ${q.num || (i+1)}</span><span>${ans===undefined?'Unattempted':(correct?'Correct':'Incorrect')}</span></div><div class="text-sm font-bold text-slate-900">${q.question}</div><div class="space-y-1.5">${opts}</div>`;
-                stack.appendChild(item);
-            });
-            document.getElementById('result-score').innerText = score;
-            document.getElementById('result-percentage').innerText = `Accuracy: ${Math.round((score/questions.length)*100)}%`;
-        }
-
-        window.onload = loadExamBundle;
-    </script>
-</body>
-</html>
+            document.getElementById
