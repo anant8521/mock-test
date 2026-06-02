@@ -1,8 +1,8 @@
-// Change the opening of part1.js to this:
+// Change the opening of part2.js to this:
 setWindingData({
     metaConfig: {
-        title: "General Concepts of Rotating Electrical Machine (Part 1)",
-        range: "Question Range: 1 to 100",
+        title: "General Concepts of Rotating Electrical Machine (Part 2)",
+        range: "Question Range: 101 to 181",
         hours: 1,
         minutes: 0
     },
