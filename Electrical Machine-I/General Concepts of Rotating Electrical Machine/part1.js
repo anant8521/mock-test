@@ -1,10 +1,12 @@
-// part1.js
-var metaConfig = {
-    title: "General Concepts of Rotating Electrical Machine (Part 1)",
-    range: "Question Range: 1 to 100"
-};
-
-var questions = [
+// Change the opening of part1.js to this:
+setWindingData({
+    metaConfig: {
+        title: "General Concepts of Rotating Electrical Machine (Part 1)",
+        range: "Question Range: 1 to 100",
+        hours: 1,
+        minutes: 0
+    },
+    questions: [
     {num:1,question:"How many parallel paths are there in a 6-pole simplex lap-wound DC machine?",options:{A:"6",B:"2",C:"12",D:"3"},answer:"A"},
     {num:2,question:"Wave winding is employed in a d.c. machine of:",options:{A:"High current and low voltage rating",B:"Low current and high voltage rating",C:"High current and high voltage rating",D:"Low current and low voltage rating"},answer:"B"},
     {num:3,question:"Which of the following machines do NOT use equalizer rings?",options:{A:"6-pole simplex lap-wound DC machine",B:"4-pole simplex wave-wound DC machine",C:"4-pole simplex lap-wound DC machine",D:"4-pole duplex wave-wound DC machine"},answer:"B"},
@@ -105,4 +107,5 @@ var questions = [
     {num:98,question:"In d.c. machines, the armature reaction m.m.f. is",options:{A:"stationary with respect to armature",B:"rotating with respect to stator",C:"stationary with respect to stator",D:"rotating with respect to brushes"},answer:"C"},
     {num:99,question:"Which of the following quantity maintains the same direction whether a D.C. machine runs as a generator or as a motor?",options:{A:"Induced e.m.f.",B:"Armature current",C:"Field current",D:"Supply current"},answer:"A"},
     {num:100,question:"NEMA standards rate motors according to ......",options:{A:"Frame number",B:"Horsepower",C:"Voltage",D:"Weight"},answer:"A"}
-];
+]
+}); // <-- Make sure it ends with }); to close the setWindingData block
