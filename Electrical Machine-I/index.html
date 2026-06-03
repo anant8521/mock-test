@@ -252,13 +252,29 @@ body{
             <button onclick="window.location.reload()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl transition-all no-print">Restart Test</button>
         </div>
     </div>
-
     <script>
-        var questions = [];
-        var metaConfig = { title: "Exam Portal", range: "Questions Set" };
-        let currentIdx = 0, userResponses = {}, totalSecondsLeft = 0, countdownInterval = null, tabViolations = 0, examSubmitted = false;
+    var questions = [];
+    var metaConfig = { title: "Exam Portal", range: "Questions Set" };
+    let currentIdx = 0, userResponses = {}, totalSecondsLeft = 0, countdownInterval = null, tabViolations = 0, examSubmitted = false;
 
-        function showCustomModal(title, message, type, showCancel, onConfirm) {
+    // Unified loader to handle both 'part' and 'file' parameters
+    function loadwinding() {
+        const params = new URLSearchParams(window.location.search);
+        const part = params.get('part'); // e.g., '1'
+        const file = params.get('file'); // e.g., 'DC-Generator/dc-gen-1.js'
+        
+        const script = document.createElement('script');
+        
+        // Logic: if 'file' exists, use it exactly. Else, use the 'part' naming convention.
+        script.src = file ? `./${file}` : `./part${part}.js`;
+        
+        script.onerror = function() {
+            document.getElementById('exam-title-ui').innerText = "Data File Not Found";
+            document.getElementById('exam-range-ui').innerText = "Looked for: " + script.src;
+        };
+        document.body.appendChild(script);
+    }
+                function showCustomModal(title, message, type, showCancel, onConfirm) {
             const modal = document.getElementById('custom-modal');
             const titleEl = document.getElementById('modal-title');
             const msgEl = document.getElementById('modal-message');
@@ -306,50 +322,6 @@ body{
             }
             updateDurationUI();
         }
-
-        function loadwinding() {
-            const params = new URLSearchParams(window.location.search);
-            const target = params.get('part') || '1';
-            const script = document.createElement('script');
-            
-            // Fixed clean direct path resolution strategy targeting local parameters 
-            script.src = `./part${target}.js`;
-            
-            script.onerror = function() {
-                document.getElementById('exam-title-ui').innerText = "Data File Not Found";
-                document.getElementById('exam-range-ui').innerText = "Verify part1.js or part2.js is inside this directory folder.";
-            };
-            document.body.appendChild(script);
-        }
-        function loadwinding() {
-    const params = new URLSearchParams(window.location.search);
-    const part = params.get('part'); // e.g., 'part1'
-    const folder = params.get('folder'); // e.g., 'DC-Generator'
-    
-    if (!part) {
-        document.getElementById('exam-title-ui').innerText = "No Part Selected";
-        return;
-    }
-
-    const script = document.createElement('script');
-
-    // Logic: If a folder is specified in the URL, use it, otherwise look in root
-    if (folder) {
-        script.src = `./${folder}/${part}.js`;
-    } else {
-        script.src = `./${part}.js`;
-    }
-
-    script.onerror = function() {
-        document.getElementById('exam-title-ui').innerText = "Data File Not Found";
-        document.getElementById('exam-range-ui').innerText = "Looked for: " + script.src;
-    };
-
-    document.body.appendChild(script);
-}
-
-
-
         function updateDurationUI() {
             const h = document.getElementById('select-hours').value;
             const m = document.getElementById('select-minutes').value;
@@ -466,8 +438,10 @@ body{
             document.getElementById('result-percentage').innerText = `Accuracy: ${Math.round((score/questions.length)*100)}%`;
         }
 
-        // Initialize script load sequence
-        loadwinding();
-    </script>
+    // [Keep all your other existing functions: showCustomModal, setWindingData, startTest, renderQuestion, etc. exactly as they are]
+
+    // Initialize
+    loadwinding();
+</script>
 </body>
 </html>
