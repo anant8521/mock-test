@@ -321,32 +321,34 @@ body{
             };
             document.body.appendChild(script);
         }
-
         function loadwinding() {
     const params = new URLSearchParams(window.location.search);
-    const file = params.get('file');
-
-    if (!file) {
-        document.getElementById('exam-title-ui').innerText =
-        "No Question File Selected";
+    const part = params.get('part'); // e.g., 'part1'
+    const folder = params.get('folder'); // e.g., 'DC-Generator'
+    
+    if (!part) {
+        document.getElementById('exam-title-ui').innerText = "No Part Selected";
         return;
     }
 
     const script = document.createElement('script');
 
-    script.src = file;
+    // Logic: If a folder is specified in the URL, use it, otherwise look in root
+    if (folder) {
+        script.src = `./${folder}/${part}.js`;
+    } else {
+        script.src = `./${part}.js`;
+    }
 
     script.onerror = function() {
-    document.getElementById('exam-title-ui').innerText =
-    "Data File Not Found";
-
-    document.getElementById('exam-range-ui').innerText =
-    script.src;
+        document.getElementById('exam-title-ui').innerText = "Data File Not Found";
+        document.getElementById('exam-range-ui').innerText = "Looked for: " + script.src;
     };
-
 
     document.body.appendChild(script);
 }
+
+
 
         function updateDurationUI() {
             const h = document.getElementById('select-hours').value;
