@@ -322,6 +322,29 @@ body{
             document.body.appendChild(script);
         }
 
+        function loadwinding() {
+    const params = new URLSearchParams(window.location.search);
+    const file = params.get('file');
+    
+    if (!file) {
+        document.getElementById('exam-title-ui').innerText = "No Question File Selected";
+        document.getElementById('exam-range-ui').innerText = "Please select a topic first.";
+        return;
+    }
+
+    const script = document.createElement('script');
+    
+    // Dynamic file loading from URL parameter
+    script.src = file;
+
+    script.onerror = function() {
+        document.getElementById('exam-title-ui').innerText = "Data File Not Found";
+        document.getElementById('exam-range-ui').innerText = file;
+    };
+
+    document.body.appendChild(script);
+        }
+
         function updateDurationUI() {
             const h = document.getElementById('select-hours').value;
             const m = document.getElementById('select-minutes').value;
