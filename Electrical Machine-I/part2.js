@@ -1,6 +1,3 @@
-console.log("Questions Loaded");
-console.log("Before setWindingData");
-console.log(typeof setWindingData);
 setWindingData({
     metaConfig: {
         title: "General Concepts of Rotating Electrical Machine (Part 2)",
@@ -1060,6 +1057,3 @@ answer:"B"
 }
 ]
 });
-
-console.log("After setWindingData");
-alert("Question file executed");
