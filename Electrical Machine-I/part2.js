@@ -308,24 +308,12 @@ answer:"C"
 
 {
 num:126,
-question:"Consider the following figure for a 4-pole, 3-phase, 24-slots double layer winding. Find the pole pitch and the slot pitch angle.",
+question:`Consider the following figure for a 4-pole, 3-phase, 24-slots double layer winding. Find the pole pitch and the slot pitch angle.
 
 <div style="text-align:center;">
-<img 
-src="../Images/q126.png"
-style="
-width:100%;
-max-width:500px;
-border:1px solid #ccc;
-border-radius:8px;
-padding:5px;
-background:white;
-display:block;
-margin:auto;
-">
-</div>
-
-<br>
+<img src="../Images/q126.png"
+style="width:100%;max-width:500px;border:1px solid #ccc;border-radius:8px;padding:5px;background:white;display:block;margin:auto;">
+</div><br>`,
 options:{
 A:"4 and 40 electrical degrees",
 B:"5 and 50 electrical degrees",
@@ -458,25 +446,30 @@ answer:"D"
 num:137,
 question:`Match column I with column II and choose the correct answer from options given below:<br><br>
 
-Column I (Type of winding conductor)<br>
+<table style="width:100%;border-collapse:collapse;">
+<tr>
+<td style="width:50%;vertical-align:top;">
+<b>Column I</b><br>
+(Type of winding conductor)<br><br>
 
 1. Cylindrical<br>
-
 2. Cross over<br>
-
 3. Helical<br>
+4. Continuous disk
+</td>
 
-4. Continuous disk<br><br>
-
-Column II (Max current per conductor)<br>
+<td style="width:50%;vertical-align:top;">
+<b>Column II</b><br>
+(Max current per conductor)<br><br>
 
 a. upto 40 A<br>
-
 b. upto 80 A<br>
-
 c. more than 300 A<br>
+d. 12 amp and more
+</td>
+</tr>
+</table>`,
 
-d. 12 amp and more`,
 options:{
 A:"1 - b, 2 - c, 3 - d, 4 - a",
 B:"1 - c, 2 - d, 3 - a, 4 - b",
@@ -485,29 +478,13 @@ D:"1 - b, 2 - a, 3 - c, 4 - d"
 },
 answer:"D"
 },
-
-{
-num:138,
-question:"Which part of the DC machine is shown in the given figure.",
+        
+question:`Which part of the DC machine is shown in the given figure.
 
 <div style="text-align:center;">
-<img 
-src="../Images/q138.png"
-style="
-width:100%;
-max-width:500px;
-border:1px solid #ccc;
-border-radius:8px;
-padding:5px;
-background:white;
-display:block;
-margin:auto;
-">
-</div>
-
-<br>
-    
-options:{
+<img src="../Images/q138.png"
+style="width:100%;max-width:500px;border:1px solid #ccc;border-radius:8px;padding:5px;background:white;display:block;margin:auto;">
+</div><br>`,
 A:"Yoke",
 B:"Pole core",
 C:"Armature",
