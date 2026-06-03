@@ -478,7 +478,9 @@ D:"1 - b, 2 - a, 3 - c, 4 - d"
 },
 answer:"D"
 },
-        
+    
+{
+num:138,        
 question:`Which part of the DC machine is shown in the given figure.
 
 <div style="text-align:center;">
@@ -817,7 +819,7 @@ options:{
 A:"B is true but A is false.",
 B:"A and B are true, but B is not the correct explanation of A.",
 C:"A and B are true, and B is the correct explanation of A.",
-自由D:"A is true but B is false."
+D:"A is true but B is false."
 },
 answer:"D"
 },
