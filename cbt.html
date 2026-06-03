@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CBT Examination Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #f8fafc;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        #question-text { font-size: 16px; font-weight: 700; line-height: 1.5; color: #0f172a; letter-spacing: 0.1px; }
+        .option-text { font-size: 15px; font-weight: 600; line-height: 1.5; color: #1e293b; }
+        .math-fraction { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; line-height: 1.1; padding: 0 4px; font-weight: 800; }
+        .math-numerator { border-bottom: 2px solid #0f172a; padding-bottom: 1px; }
+        .math-denominator { padding-top: 1px; }
+        .option-card { box-shadow: 0 1px 3px rgba(0,0,0,0.04); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .option-card:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+        html,
+body{
+    height:100%;
+    overflow:hidden;
+}
+
+#test-screen{
+    height:100dvh;
+}
+
+#question-scroll{
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+}
+
+#question-text{
+    word-break:break-word;
+}
+
+#btn-prev:disabled{
+    background:#e2e8f0 !important;
+    color:#64748b !important;
+    border:1px solid #cbd5e1 !important;
+    opacity:1 !important;
+    cursor:not-allowed;
+    box-shadow:none !important;
+}
+        @media print { .no-print { display: none !important; } #result-screen { display: block !important; } }
+        @media (max-width:768px){
+               #btn-prev,
+               #btn-next{
+               min-height:56px;
+               }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased font-semibold" oncontextmenu="return false;">
+
+    <div id="custom-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-all duration-200">
+        <div class="bg-white rounded-2xl border border-slate-200 w-full max-w-sm p-6 space-y-4 shadow-xl transform scale-95 transition-transform duration-200" id="modal-card">
+            <div class="flex items-start space-x-3">
+                <div id="modal-icon-bg" class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-indigo-50 text-indigo-600"><i id="modal-icon" class="fa-solid fa-circle-info"></i></div>
+                <div class="space-y-1">
+                    <h3 id="modal-title" class="text-base font-bold text-slate-900">Notification</h3>
+                    <p id="modal-message" class="text-xs text-slate-500 font-medium leading-relaxed"></p>
+                </div>
+            </div>
+            <div class="flex items-center justify-end space-x-2 pt-2">
+                <button id="modal-btn-cancel" class="px-4 py-2 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-all">Cancel</button>
+                <button id="modal-btn-confirm" class="px-4 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition-all">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="welcome-screen" class="min-h-screen flex items-center justify-center p-4 overflow-y-auto">
+        <div class="w-full max-w-xl bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6 my-auto">
+            <div class="text-center space-y-2">
+                <h1 id="exam-title-ui" class="text-2xl font-bold text-slate-900 tracking-tight">Loading Examination Details...</h1>
+                <p id="exam-range-ui" class="text-sm font-bold text-indigo-600 tracking-wide uppercase"></p>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-3">
+                <div class="border border-slate-200 rounded-xl p-3 flex items-center space-x-3">
+                    <div class="text-indigo-600 text-lg font-bold">📄</div>
+                    <div>
+                        <div class="text-xs text-slate-400 font-bold uppercase">Questions</div>
+                        <div class="text-base font-bold text-slate-900"><span id="startTotalQ">0</span> Qs</div>
+                    </div>
+                </div>
+                <div class="border border-slate-200 rounded-xl p-3 flex items-center space-x-3">
+                    <div class="text-indigo-600 text-lg font-bold">⏱</div>
+                    <div>
+                        <div class="text-xs text-slate-400 font-bold uppercase">Duration</div>
+                        <div class="text-base font-bold text-slate-900" id="display-duration">1h 00m</div>
+                    </div>
+                </div>
+                <div class="border border-slate-200 rounded-xl p-3 flex items-center space-x-3">
+                    <div class="text-indigo-600 text-lg font-bold">🎯</div>
+                    <div>
+                        <div class="text-xs text-slate-400 font-bold uppercase">Total Marks</div>
+                        <div class="text-base font-bold text-slate-900"><span id="startTotalMarks">0</span> Marks</div>
+                    </div>
+                </div>
+                <div class="border border-slate-200 rounded-xl p-3 flex items-center space-x-3">
+                    <div class="text-indigo-600 text-lg font-bold">❌</div>
+                    <div>
+                        <div class="text-xs text-slate-400 font-bold uppercase">Negative</div>
+                        <div class="text-base font-bold text-slate-900">None</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-slate-200 rounded-xl p-3 space-y-2 bg-amber-50/50 border-amber-200">
+                <div class="flex items-center space-x-2 text-slate-900 font-bold text-sm"><i class="fa-solid fa-circle-info text-indigo-600"></i><span>Important Rules</span></div>
+                <ul class="space-y-1 text-[11px] text-slate-600 font-semibold leading-4 list-disc list-inside">
+                    <li>Each question carries exactly 1 mark.</li>
+                    <li>You can change your responses anytime before final submission.</li>
+                    <li>The test auto-submits instantly when the countdown timer hits zero.</li>
+                </ul>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-500 font-bold uppercase">Set Hours</label>
+                    <select id="select-hours" onchange="updateDurationUI()" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 font-bold focus:outline-none focus:border-indigo-500">
+                        <option value="0">00</option><option value="1" selected>01</option><option value="2">02</option>
+                    </select>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-500 font-bold uppercase">Set Minutes</label>
+                    <select id="select-minutes" onchange="updateDurationUI()" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 font-bold focus:outline-none focus:border-indigo-500">
+                        <option value="0" selected>00</option><option value="10">10</option><option value="30">30</option><option value="45">45</option>
+                    </select>
+                </div>
+            </div>
+
+            <button onclick="startTest()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl transition-all flex items-center justify-center space-x-2 text-lg shadow-sm">
+                <span>Start Examination</span><i class="fa-solid fa-arrow-right text-sm"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="test-screen" class="hidden h-screen overflow-hidden flex flex-col bg-white lg:bg-slate-50 relative w-full max-w-md lg:max-w-none mx-auto lg:border-none border-x border-slate-200">
+        <header class="bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between z-30 shadow-sm shrink-0">
+            <div class="flex items-center space-x-3">
+                <button onclick="exitTest()" class="text-slate-500 hover:text-rose-600 font-bold text-xs bg-slate-100 hover:bg-rose-50 px-2.5 py-1.5 rounded-xl transition-all">← Exit</button>
+                <h2 id="active-title-header" class="text-sm font-bold text-slate-900 border-l border-slate-200 pl-3 truncate max-w-[140px] sm:max-w-none">Exam</h2>
+            </div>
+            <div class="flex items-center space-x-2">
+                <div id="tab-warning-badge" class="hidden bg-amber-100 text-amber-800 border border-amber-200 text-[10px] px-2 py-1 rounded-lg font-bold animate-pulse">Tab Shifts: <span id="warning-count-text">0</span>/3</div>
+                <div class="flex items-center space-x-1.5 bg-rose-50 text-rose-600 px-3 py-1.5 rounded-xl border border-rose-100 font-mono font-bold">
+                    <i class="fa-solid fa-hourglass-half text-xs animate-pulse"></i><span id="countdown-timer" class="text-xs">00:00:00</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 w-full lg:max-w-7xl lg:mx-auto flex flex-col lg:flex-row p-0 lg:p-6 gap-6 overflow-hidden min-h-0 relative">
+            <div class="flex-1 bg-white lg:border lg:border-slate-200 lg:rounded-2xl flex flex-col overflow-hidden lg:shadow-sm min-h-0 relative">
+                <div class="bg-white border-b border-slate-200 px-4 py-3 flex items-center space-x-3 lg:hidden shrink-0">
+                    <div id="horizontal-palette" class="flex items-center space-x-2 overflow-x-auto no-scrollbar flex-1 py-0.5"></div>
+                    <button onclick="toggleFullPalette()" class="bg-slate-900 text-white w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shrink-0">☰</button>
+                </div>
+
+                <div id="full-palette-drawer" class="hidden absolute top-[55px] left-0 right-0 bg-white border-b border-slate-200 shadow-xl z-40 p-4 lg:hidden">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Jump to Question</span>
+                        <span id="palette-summary-mobile" class="text-xs font-bold text-indigo-600">Attempted: 0/0</span>
+                    </div>
+                    <div id="drawer-grid" class="grid grid-cols-5 gap-2 max-h-48 overflow-y-auto p-1"></div>
+                </div>
+
+                <div class="flex-1 overflow-hidden">
+                <main id="question-scroll" class="h-full overflow-y-auto p-5 lg:p-8 space-y-5 pb-24">
+                    <div class="space-y-2">
+                        <span id="question-number" class="inline-block text-[11px] font-bold bg-indigo-50 text-indigo-600 border border-indigo-100 px-2 py-0.5 rounded-md uppercase tracking-wider">Q. 01</span>
+                        <div id="question-text" class="text-slate-900 font-medium text-base"></div>
+                    </div>
+                    <div id="options-container" class="space-y-2.5 pt-1"></div>
+                </main>
+                </main>
+                </div>
+            
+                <footer class="bg-white border-t border-slate-200 p-4 lg:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 flex-none shadow-lg">
+                    <div class="flex items-center justify-between w-full sm:w-auto sm:space-x-4">
+                        <button onclick="clearResponse()" class="text-xs font-bold text-slate-400 hover:text-rose-600 transition-colors flex items-center space-x-1 py-1">🗑 <span>Clear Response</span></button>
+                        <span id="mobile-progress" class="text-xs font-bold text-slate-400 lg:hidden">Question 1</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto justify-end">
+                        <div class="flex items-center space-x-2.5 w-full sm:w-auto">
+                            <button id="btn-prev" onclick="navigateQuestion(-1)" class="bg-slate-100 border border-slate-300 text-slate-700 font-bold px-8 py-4 rounded-2xl flex items-center justify-center text-base w-full sm:w-auto shadow-sm transition-all">Previous</button>
+                            <button id="btn-next" onclick="navigateQuestion(1)" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-8 py-4 rounded-2xl flex items-center justify-center text-base w-full sm:w-auto shadow-lg transition-all"><span id="next-text">Save & Next</span></button>
+                        </div>
+                        <button onclick="triggerSubmit()" class="lg:hidden w-full bg-green-600 hover:bg-green-700 text-white font-extrabold py-4 rounded-2xl text-base shadow-lg transition-all">Submit Entire Examination</button>
+                    </div>
+                </footer>
+            </div>
+
+            <div class="hidden lg:flex w-[300px] flex-col gap-4 shrink-0 min-h-0">
+                <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-3 shadow-sm">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Metrics Monitoring</div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="bg-slate-50 border border-slate-100 rounded-xl p-2 text-center">
+                            <div class="text-[10px] text-slate-400 uppercase font-bold">Total</div>
+                            <div id="total-badge-desk" class="text-sm font-extrabold text-slate-900">0</div>
+                        </div>
+                        <div class="bg-indigo-50/60 border border-indigo-100/50 rounded-xl p-2 text-center">
+                            <div class="text-[10px] text-indigo-400 uppercase font-bold">Attempted</div>
+                            <div id="palette-summary-desktop" class="text-sm font-extrabold text-indigo-600">0 / 0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-1 bg-white border border-slate-200 rounded-2xl p-4 flex flex-col shadow-sm min-h-0">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Question Navigation Matrix</div>
+                    <div id="desktop-grid" class="grid grid-cols-4 gap-2 overflow-y-auto pr-1 flex-1 no-scrollbar pb-1"></div>
+                </div>
+                <button onclick="triggerSubmit()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-2xl shadow-md transition-all text-xs uppercase tracking-wider">Submit Entire Examination</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="result-screen" class="hidden min-h-screen py-8 px-4 flex justify-center items-start overflow-y-auto">
+        <div class="w-full max-w-xl bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6 my-auto">
+            <div class="text-center space-y-1 border-b border-slate-100 pb-4">
+                <h1 class="text-2xl font-bold text-slate-900">Examination Metrics</h1>
+                <p id="result-meta-title" class="text-sm text-slate-500 font-semibold"></p>
+                <p id="proctor-status-msg" class="text-xs text-slate-400 font-bold pt-1"></p>
+            </div>
+            <div class="flex flex-col items-center justify-center space-y-2 py-2">
+                <div class="relative w-28 h-28 flex items-center justify-center rounded-full border-4 border-indigo-600">
+                    <div class="text-center">
+                        <span id="result-score" class="text-3xl font-extrabold text-slate-900">0</span>
+                        <span class="text-slate-400 font-bold text-xs block border-t border-slate-100 mt-0.5 pt-0.5">out of <span class="total-q-placeholder">0</span></span>
+                    </div>
+                </div>
+                <span id="result-percentage" class="text-sm font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Accuracy: 0%</span>
+            </div>
+            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Review Answers</h3>
+                <button onclick="window.print()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 border border-indigo-200 px-3 py-1.5 rounded-lg flex items-center space-x-1.5 no-print">Print Report</button>
+            </div>
+            <div id="review-cards-stack" class="space-y-4"></div>
+            <button onclick="window.location.reload()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl transition-all no-print">Restart Test</button>
+        </div>
+    </div>
+    <script>
+    var questions = [];
+    var metaConfig = { title: "Exam Portal", range: "Questions Set" };
+    let currentIdx = 0, userResponses = {}, totalSecondsLeft = 0, countdownInterval = null, tabViolations = 0, examSubmitted = false;
+
+    // Unified loader to handle both 'part' and 'file' parameters
+    function loadwinding() {
+        const params = new URLSearchParams(window.location.search);
+        const part = params.get('part'); // e.g., '1'
+        const file = params.get('file'); // e.g., 'DC-Generator/dc-gen-1.js'
+        
+        const script = document.createElement('script');
+        
+        // Logic: if 'file' exists, use it exactly. Else, use the 'part' naming convention.
+        script.src = file ? `./${file}` : `./part${part}.js`;
+        
+        script.onerror = function() {
+            document.getElementById('exam-title-ui').innerText = "Data File Not Found";
+            document.getElementById('exam-range-ui').innerText = "Looked for: " + script.src;
+        };
+        document.body.appendChild(script);
+    }
+                function showCustomModal(title, message, type, showCancel, onConfirm) {
+            const modal = document.getElementById('custom-modal');
+            const titleEl = document.getElementById('modal-title');
+            const msgEl = document.getElementById('modal-message');
+            const iconBg = document.getElementById('modal-icon-bg');
+            const icon = document.getElementById('modal-icon');
+            const btnCancel = document.getElementById('modal-btn-cancel');
+            const btnConfirm = document.getElementById('modal-btn-confirm');
+
+            titleEl.innerText = title; msgEl.innerText = message;
+            if (type === 'danger') {
+                iconBg.className = "w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-rose-50 text-rose-600";
+                icon.className = "fa-solid fa-triangle-exclamation";
+            } else if (type === 'warning') {
+                iconBg.className = "w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-amber-50 text-amber-600";
+                icon.className = "fa-solid fa-circle-exclamation";
+            } else {
+                iconBg.className = "w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-indigo-50 text-indigo-600";
+                icon.className = "fa-solid fa-circle-info";
+            }
+            if (showCancel) btnCancel.classList.remove('hidden'); else btnCancel.classList.add('hidden');
+            btnConfirm.onclick = () => { modal.classList.add('hidden'); if (onConfirm) onConfirm(); };
+            btnCancel.onclick = () => modal.classList.add('hidden');
+            modal.classList.remove('hidden');
+        }
+
+        function setWindingData(payload) {
+            questions = payload.questions;
+            metaConfig = payload.metaConfig;
+
+            document.getElementById('exam-title-ui').innerText = metaConfig.title;
+            document.getElementById('exam-range-ui').innerText = metaConfig.range;
+            document.getElementById('active-title-header').innerText = metaConfig.title;
+            document.getElementById('result-meta-title').innerText = metaConfig.title;
+
+            document.getElementById('startTotalQ').innerText = questions.length;
+            document.getElementById('startTotalMarks').innerText = questions.length;
+            document.getElementById('total-badge-desk').innerText = questions.length;
+            document.querySelectorAll('.total-q-placeholder').forEach(el => el.innerText = questions.length);
+
+            if (metaConfig.hours !== undefined) {
+                document.getElementById('select-hours').value = metaConfig.hours;
+            }
+            if (metaConfig.minutes !== undefined) {
+                document.getElementById('select-minutes').value = metaConfig.minutes;
+            }
+            updateDurationUI();
+        }
+        function updateDurationUI() {
+            const h = document.getElementById('select-hours').value;
+            const m = document.getElementById('select-minutes').value;
+            document.getElementById('display-duration').innerText = `${h}h ${m}m`;
+        }
+
+        document.addEventListener('keydown', e => { if (e.ctrlKey && ['c','v','a','x'].includes(e.key)) e.preventDefault(); });
+
+        window.addEventListener('blur', () => {
+            if (examSubmitted) return;
+            tabViolations++;
+            const badge = document.getElementById('tab-warning-badge'), txt = document.getElementById('warning-count-text');
+            if (badge) badge.classList.remove('hidden'); if (txt) txt.innerText = tabViolations;
+            if (tabViolations >= 3) {
+                showCustomModal("Security Force Submit", "Multi-window tab switching detected. Exam auto-submitting now.", "danger", false, () => autoSubmitTest("Force Submitted via Security Violation Monitor"));
+            } else {
+                showCustomModal("Security Warning", `Violation ${tabViolations}/3: Do not switch tabs.`, "warning", false, null);
+            }
+        });
+
+        function startTest() {
+            const hrs = parseInt(document.getElementById('select-hours').value) || 1;
+            const mins = parseInt(document.getElementById('select-minutes').value) || 0;
+            totalSecondsLeft = (hrs * 3600) + (mins * 60);
+
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('test-screen').classList.remove('hidden');
+
+            initPalettes(); renderQuestion();
+            if(countdownInterval) clearInterval(countdownInterval);
+            countdownInterval = setInterval(() => {
+                totalSecondsLeft--;
+                const h = Math.floor(totalSecondsLeft / 3600).toString().padStart(2, '0');
+                const m = Math.floor((totalSecondsLeft % 3600) / 60).toString().padStart(2, '0');
+                const s = (totalSecondsLeft % 60).toString().padStart(2, '0');
+                document.getElementById('countdown-timer').innerText = `${h}:${m}:${s}`;
+                if (totalSecondsLeft <= 0) { clearInterval(countdownInterval); autoSubmitTest("Time Expired"); }
+            }, 1000);
+        }
+
+        function initPalettes() {
+            const row = document.getElementById('horizontal-palette'), grid = document.getElementById('drawer-grid'), desk = document.getElementById('desktop-grid');
+            row.innerHTML = ''; grid.innerHTML = ''; desk.innerHTML = '';
+            questions.forEach((q, i) => {
+                [row, grid, desk].forEach((container, mode) => {
+                    const btn = document.createElement('button');
+                    btn.id = `p-${mode}-${i}`; btn.innerText = q.num || (i + 1);
+                    btn.onclick = () => { currentIdx = i; document.getElementById('full-palette-drawer').classList.add('hidden'); renderQuestion(); updatePaletteStyles(); };
+                    container.appendChild(btn);
+                });
+            });
+            updatePaletteStyles();
+        }
+
+        function updatePaletteStyles() {
+            questions.forEach((_, i) => {
+                let base = (i === currentIdx) ? "bg-indigo-600 text-white border-indigo-600" : (userResponses[i] !== undefined ? "bg-emerald-50 text-emerald-600 border-emerald-200 font-bold" : "bg-white text-slate-600 border-slate-200");
+                for(let m=0; m<3; m++) {
+                    const el = document.getElementById(`p-${m}-${i}`);
+                    if (el) el.className = `w-12 h-10 rounded-xl flex items-center justify-center text-xs border shrink-0 transition-all ${base}`;
+                }
+            });
+            const len = Object.keys(userResponses).length;
+            document.getElementById('palette-summary-mobile').innerText = `Attempted: ${len}/${questions.length}`;
+            document.getElementById('palette-summary-desktop').innerText = `${len} / ${questions.length}`;
+            document.getElementById('mobile-progress').innerText = `Question ${currentIdx + 1} of ${questions.length}`;
+        }
+
+        function renderQuestion() {
+            const q = questions[currentIdx];
+            document.getElementById('question-number').innerText = `Question ${q.num || (currentIdx + 1)}`;
+            document.getElementById('question-text').innerHTML = q.question;
+            const container = document.getElementById('options-container'); container.innerHTML = '';
+            Object.entries(q.options).forEach(([key, value]) => {
+                const active = userResponses[currentIdx] === key;
+                const card = document.createElement('div');
+                card.onclick = () => { userResponses[currentIdx] = key; renderQuestion(); updatePaletteStyles(); };
+                card.className = `option-card border rounded-xl p-4 flex items-center space-x-4 cursor-pointer transition-all bg-white ${active ? 'border-indigo-600 ring-2 ring-indigo-50 bg-indigo-50/10' : 'border-slate-200'}`;
+                card.innerHTML = `<div class="w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${active?'border-indigo-600 bg-indigo-600':'border-slate-300'}">${active?'<div class="w-1.5 h-1.5 bg-white rounded-full"></div>':''}</div><span class="text-xs font-bold text-slate-400">${key}.</span><span class="text-sm font-bold text-slate-800 option-text">${value}</span>`;
+                container.appendChild(card);
+            });
+            document.getElementById('btn-prev').disabled = (currentIdx === 0);
+            document.getElementById('btn-prev').style.opacity = '1';
+            document.getElementById('next-text').innerText = (currentIdx === questions.length - 1) ? "Finish" : "Save & Next";
+        }
+
+        function clearResponse() { delete userResponses[currentIdx]; renderQuestion(); updatePaletteStyles(); }
+        function navigateQuestion(dir) { if(dir===1 && currentIdx === questions.length-1) { triggerSubmit(); return; } currentIdx+=dir; renderQuestion(); updatePaletteStyles(); }
+        function toggleFullPalette() { document.getElementById('full-palette-drawer').classList.toggle('hidden'); }
+        function exitTest() { showCustomModal("Exit Portal", "Exit Session? Selection context state variables will be reset entirely.", "warning", true, () => window.location.reload()); }
+        function triggerSubmit() { showCustomModal("Confirm Submission", "Are you ready to submit your answers for evaluation?", "info", true, () => autoSubmitTest("User Final Submission")); }
+        
+        function autoSubmitTest(status) {
+            examSubmitted = true; clearInterval(countdownInterval);
+            document.getElementById('test-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('proctor-status-msg').innerText = `Session Status: ${status}`;
+            
+            let score = 0, stack = document.getElementById('review-cards-stack'); stack.innerHTML = '';
+            questions.forEach((q, i) => {
+                const ans = userResponses[i], correct = ans === q.answer;
+                if(correct) score++;
+                const item = document.createElement('div');
+                item.className = `bg-white border border-slate-200 border-l-4 ${ans===undefined?'border-l-slate-400':(correct?'border-l-emerald-500':'border-l-rose-500')} rounded-xl p-4 space-y-3`;
+                let opts = '';
+                Object.entries(q.options).forEach(([k,v]) => {
+                    let bg = k === q.answer ? "border-emerald-500 bg-emerald-50/50" : (ans === k ? "border-rose-300 bg-rose-50/50" : "border-slate-200");
+                    opts += `<div class="border ${bg} rounded-lg p-2.5 flex items-center space-x-2"><span class="text-xs font-bold">${k}.</span><span class="text-xs font-medium text-slate-700">${v}</span></div>`;
+                });
+                item.innerHTML = `<div class="flex justify-between text-xs font-bold text-slate-400"><span>Q. ${q.num || (i+1)}</span><span>${ans===undefined?'Unattempted':(correct?'Correct':'Incorrect')}</span></div><div class="text-sm font-bold text-slate-900">${q.question}</div><div class="space-y-1.5">${opts}</div>`;
+                stack.appendChild(item);
+            });
+            document.getElementById('result-score').innerText = score;
+            document.getElementById('result-percentage').innerText = `Accuracy: ${Math.round((score/questions.length)*100)}%`;
+        }
+
+    // [Keep all your other existing functions: showCustomModal, setWindingData, startTest, renderQuestion, etc. exactly as they are]
+
+    // Initialize
+    loadwinding();
+</script>
+</body>
+</html>
