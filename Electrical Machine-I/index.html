@@ -337,9 +337,13 @@ body{
     script.src = file;
 
     script.onerror = function() {
-        document.getElementById('exam-title-ui').innerText =
-        "Data File Not Found";
+    document.getElementById('exam-title-ui').innerText =
+    "Data File Not Found";
+
+    document.getElementById('exam-range-ui').innerText =
+    script.src;
     };
+
 
     document.body.appendChild(script);
 }
