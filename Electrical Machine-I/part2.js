@@ -480,7 +480,7 @@ answer:"D"
 },
     
 {
-num:138,        
+num:138,
 question:`Which part of the DC machine is shown in the given figure.
 
 <div style="text-align:center;">
