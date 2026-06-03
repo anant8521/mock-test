@@ -487,6 +487,8 @@ question:`Which part of the DC machine is shown in the given figure.
 <img src="../Images/q138.png"
 style="width:100%;max-width:500px;border:1px solid #ccc;border-radius:8px;padding:5px;background:white;display:block;margin:auto;">
 </div><br>`,
+
+options:{
 A:"Yoke",
 B:"Pole core",
 C:"Armature",
